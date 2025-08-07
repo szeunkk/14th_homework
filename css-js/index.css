@@ -1,0 +1,247 @@
+@font-face {
+	font-family: 'Pretendard Variable';
+	font-weight: 45 920;
+	font-style: normal;
+	font-display: swap;
+	src: url('./woff2/PretendardVariable.woff2') format('woff2-variations');
+}
+
+*{
+
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+
+    font-family: 'Pretendard Variable';
+
+}
+
+body{
+
+    width: 100vp;
+    height: 100vp;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+.background{
+
+    width: 1920px; /* 초기 너비 */
+    height: 1805px; /* 초기 높이 */
+    min-height: 894px; /* 최소 높이 */
+    max-height: 1726px; /* 최대 높이 */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+
+}
+
+.main{
+
+    width: 1920px;
+    height: 1605px;
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+
+}
+
+.main__header{
+
+    width: 1920px;
+    height: 60px;
+    padding: 0px 20px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+.main__header__title{
+
+    width: 1168px;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 16px;
+    letter-spacing: -1%;
+    color: #000000;
+
+}
+
+.main__frame{
+
+    width: 1920px;
+    height: 1521px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+
+}
+
+.main__frame__banner{
+
+    width: 1168px;
+    height: 240px;
+    border-radius: 24px;
+    background-image: url("./assets/images/banner.jpg") ;
+    background-position: center;
+    background-size: 100% auto; 
+
+}
+
+.main__frame__content{
+
+    width: 1920px;
+    height: 1257px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: center;
+    gap: 42px;
+
+}
+
+.frame__content__tab {
+
+    width: 1168px;
+    height: 48px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+
+}
+
+.content__tab__menu{
+
+    width: 119px;
+    height: 48px;
+    border-bottom: 2px solid #000000;
+    padding: 12px 8px;
+
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 24px;
+    letter-spacing: -1% ;
+    text-align: center;
+    color: #000000;
+    white-space: nowrap;
+
+}
+
+.frame__content__diary {
+
+    width: 1168px;
+    height: 1167px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 24px;
+    
+}
+
+.content__diary__list{
+
+    width: 784px;
+    height: 1167px;
+    border: 1px solid #000000;
+
+}
+
+.content__diary__form{
+
+    width: 360px;
+    height: 604px;
+    border: 1px solid #D4D3D3;
+    border-radius: 16px;
+    padding: 24px 24px;
+    background-color: #FFFFFF;
+
+}
+
+.page{
+
+
+
+}
+
+.footer{
+
+    width: 1920px;
+    height: 160px;
+    padding: 24px 20px;
+    background-color: #F2F2F2;
+
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+.footer__container{
+
+    width: 1168px;
+    height: 112px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 32px;
+
+}
+
+#footer__title {
+
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 16px;
+    letter-spacing: -1%;
+    color: #000000;
+
+}
+
+#footer__name {
+
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: -1%;
+    color: #5F5F5F;
+
+}
+
+#footer__copyright {
+
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: -1%;
+    color: #919191;
+
+}
