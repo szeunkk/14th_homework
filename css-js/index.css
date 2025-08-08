@@ -205,7 +205,7 @@ body{
 
 }
 
-.diary__list{
+.diary__card{
 
     width: 380px;
     height: 373px;
@@ -219,7 +219,7 @@ body{
 
 }
 
-.diary__list__image{
+.diary__card__image{
 
     width: 380px;
     height: 285px;
@@ -229,7 +229,7 @@ body{
 
 }
 
-.diary__list__text{
+.diary__card__text{
 
     width: 380px;
     height: 56px;
@@ -242,7 +242,7 @@ body{
 
 }
 
-.diary__list__date{
+.diary__card__date{
 
     width: 100%;
     height: 24px;
@@ -254,7 +254,7 @@ body{
 
 }
 
-#diary__list__feeling{
+#diary__card__feeling{
     font-weight: 600;
     font-size: 14px;
     line-height: 20px;
@@ -263,7 +263,7 @@ body{
     color: #28B4E1;
 }
 
-#diary__list__date{
+#diary__card__date{
     font-weight: 400;
     font-size: 14px;
     line-height: 24px;
@@ -272,7 +272,7 @@ body{
 }
 
 
-.diary__list__title{
+.diary__card__title{
 
     width: 100%;
     height: 24px;
@@ -478,7 +478,7 @@ body{
     border: 0px;
     border-radius: 8px;
     padding: 8px 10px;
-    background-color: #C7C7C7;
+    background-color: #000000;
 
     font-weight: 600;
     font-size: 18px;
@@ -487,6 +487,13 @@ body{
     color: #F2F2F2;
 
 }
+.diary__form__button:disabled{
+
+    background-color: #C7C7C7;
+
+}
+
+
 
 .page{
 

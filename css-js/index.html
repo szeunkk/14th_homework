@@ -27,38 +27,38 @@
                         <div class="frame__content__diary">
                             <div class="content__diary__list">
                                 <!-- 다이어리 상세 내용 이미지 -->
-                                <div class="diary__list">
-                                    <div class="diary__list__image"></div>
-                                    <div class="diary__list__text">
-                                        <div class="diary__list__date">
-                                            <div id="diary__list__feeling">슬퍼요</div>
-                                            <div id="diary__list__date">날짜</div>
+                                <div class="diary__card">
+                                    <div class="diary__card__image"></div>
+                                    <div class="diary__card__text">
+                                        <div class="diary__card__date">
+                                            <div id="diary__card__feeling">슬퍼요</div>
+                                            <div id="diary__card__date">날짜</div>
                                         </div>
-                                        <div class="diary__list__title">타이틀</div>
+                                        <div class="diary__card__title">타이틀</div>
                                     </div>
                                 </div>
                                 <!-- 여기까지 다이어리 상세 칸 리스트 -->
                                 <!-- 다이어리 상세 내용 이미지 -->
-                                <div class="diary__list">
-                                    <div class="diary__list__image"></div>
-                                    <div class="diary__list__text">
-                                        <div class="diary__list__date">
-                                            <div id="diary__list__feeling">슬퍼요</div>
-                                            <div id="diary__list__date">날짜</div>
+                                <div class="diary__card">
+                                    <div class="diary__card__image"></div>
+                                    <div class="diary__card__text">
+                                        <div class="diary__card__date">
+                                            <div id="diary__card__feeling">슬퍼요</div>
+                                            <div id="diary__card__date">날짜</div>
                                         </div>
-                                        <div class="diary__list__title">타이틀</div>
+                                        <div class="diary__card__title">타이틀</div>
                                     </div>
                                 </div>
                                 <!-- 여기까지 다이어리 상세 칸 리스트 -->
                                 <!-- 다이어리 상세 내용 이미지 -->
-                                <div class="diary__list">
-                                    <div class="diary__list__image"></div>
-                                    <div class="diary__list__text">
-                                        <div class="diary__list__date">
-                                            <div id="diary__list__feeling">슬퍼요</div>
-                                            <div id="diary__list__date">날짜</div>
+                                <div class="diary__card">
+                                    <div class="diary__card__image"></div>
+                                    <div class="diary__card__text">
+                                        <div class="diary__card__date">
+                                            <div id="diary__card__feeling">슬퍼요</div>
+                                            <div id="diary__card__date">날짜</div>
                                         </div>
-                                        <div class="diary__list__title">타이틀</div>
+                                        <div class="diary__card__title">타이틀</div>
                                     </div>
                                 </div>
                                 <!-- 여기까지 다이어리 상세 칸 리스트 -->
@@ -70,34 +70,34 @@
                                         오늘 기분은 어땟나요?
                                         <div class="input__feeling__radio">
                                             <div class="feeling" >
-                                                <input id="happy" type="radio" name="radio__feeling" />행복해요
+                                                <input id="happy" type="radio" name="radio__feeling" oninput="isDiaryWritten()" />행복해요
                                             </div>
                                             <div class="feeling" >
-                                                <input id="sad" type="radio" name="radio__feeling" />슬퍼요
+                                                <input id="sad" type="radio" name="radio__feeling" oninput="isDiaryWritten()" />슬퍼요
                                             </div>
                                             <div class="feeling" >
-                                                <input id="surprise" type="radio" name="radio__feeling" />놀랐어요
+                                                <input id="surprise" type="radio" name="radio__feeling" oninput="isDiaryWritten()" />놀랐어요
                                             </div>
                                             <div class="feeling" >
-                                                <input id="angry" type="radio" name="radio__feeling" />화나요
+                                                <input id="angry" type="radio" name="radio__feeling" oninput="isDiaryWritten()" />화나요
                                             </div>
                                             <div class="feeling" >
-                                                <input id="etc" type="radio" name="radio__feeling" />기타
+                                                <input id="etc" type="radio" name="radio__feeling" oninput="isDiaryWritten()" />기타
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form__input__text">
                                         <div class="input__text__title">
                                             제목
-                                            <input type="text" placeholder="제목을 입력해 주세요." id="title__feeling"/>
+                                            <input type="text" placeholder="제목을 입력해 주세요." id="title__feeling" oninput="isDiaryWritten()" />
                                         </div>
                                         <div class="input__text__context">
                                             내용
-                                            <textarea placeholder="내용을 입력해 주세요." id="context__feeling"></textarea>
+                                            <textarea placeholder="내용을 입력해 주세요." id="context__feeling" oninput="isDiaryWritten()"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <button class="diary__form__button">등록하기</button>
+                                <button id="diary__write__button" class="diary__form__button" disabled onclick="getDiaryCard()">등록하기</button>
                             </div>
                         </div>
                     </div>
