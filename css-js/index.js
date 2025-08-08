@@ -2,7 +2,7 @@
 // selectedFeeling: 기분 선택
 let selectedFeeling;
 
-// diarytitle: 입력된 타이틀
+// diaryTitle: 입력된 타이틀
 let diaryTitle;
 
 // diaryContext: 입력된 일기 내용
@@ -77,8 +77,12 @@ function getDiaryCard() {
 
         ${diaryContext}
 
-`)
 
+        `)
+
+
+
+    /* 변수 초기화 하기 */
     function clearDiaryForm() {
         
         const feeling = document.getElementsByName("radio__feeling")
@@ -97,9 +101,39 @@ function getDiaryCard() {
 
     // 등록하기 버튼을 다시 비활성화 시키기 위해 입력된 내용들 클리어하기
     clearDiaryForm()
-    writeDate = undefined;
     selectedFeeling = undefined;
     diaryTitle = undefined;
     diaryContext = undefined;
+
+    // 등록하기 버튼 비활성화 하기
+    document.getElementById("diary__write__button").disabled = true
+
+    // 다이어리 카드 배열이 1개 이상일 때, 다이어리 카드 표시
+    function addDiaryCard(){
+
+        if (diaryCard >= 1){    
+        } else {
+        
+            const diaryCard_HTML = diaryCard.map((el,index)=>`
+            <div class="diary__card">
+                <img class="diary__card__image" src="./assets/images/${diaryCard[index].feeling}_M.svg" />
+                <div class="diary__card__text">
+                    <div class="diary__card__date">
+                        <div class="diary__card__feeling ${diaryCard[index].feeling}">${diaryCard[index].feeling_title}</div>
+                        <div id="diary__card__date">${diaryCard[index].date}</div>
+                    </div>
+                    <div class="diary__card__title">${diaryCard[index].card_title}</div>
+                </div>
+            </div>    
+        `).join("")
+        
+        document.getElementById("card__list").innerHTML = diaryCard_HTML
+        }
+
+    }    
+
+    // 카드 추가하기
+    addDiaryCard()
+
 
 }

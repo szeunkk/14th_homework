@@ -26,11 +26,9 @@
 */
 
 @font-face {
-	font-family: 'Pretendard Variable';
-	font-weight: 45 920;
-	font-style: normal;
-	font-display: swap;
-	src: url('./woff2/PretendardVariable.woff2') format('woff2-variations');
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-style: normal;
 }
 
 *{
@@ -254,13 +252,33 @@ body{
 
 }
 
-#diary__card__feeling{
+.diary__card__feeling{
     font-weight: 600;
     font-size: 14px;
     line-height: 20px;
     letter-spacing: -1%;
 
+}
+
+.sad
+{
     color: #28B4E1;
+}
+
+.surprise{
+    color: #D59029;
+}
+
+.angry{
+    color: #777777;
+}
+
+.happy{
+    color: #EA5757;
+}
+
+.etc{
+    color: #A229ED;
 }
 
 #diary__card__date{
@@ -435,15 +453,16 @@ body{
     padding: 12px 16px;
     background-color: #FFFFFF;
 
-    color: #ABABAB;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -1%;
+    color: #333333;
 
 }
 
 #title__feeling::placeholder{
 
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
     color: #ABABAB;
 
 }
@@ -458,15 +477,16 @@ body{
     padding: 12px 16px;
     background-color: #FFFFFF;
 
-    color: #ABABAB;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -1%;
+    color: #333333;
 
 }
 
 #context__feeling::placeholder{
 
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
     color: #ABABAB;
 
 }
