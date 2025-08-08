@@ -1,3 +1,30 @@
+/* 
+.클래스명 {
+    width: ;
+    height: ;
+    border: ;
+    border-radius: ;
+    outline: none;
+    padding: ;
+    background-color: ;
+
+
+    display: ;
+    flex-direction: ;
+    justify-content: ;
+    align-items: ;
+    gap: ;
+
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 56px;
+    letter-spacing: ;
+    text-align: ;
+    color: ;
+
+}
+*/
+
 @font-face {
 	font-family: 'Pretendard Variable';
 	font-weight: 45 920;
@@ -168,7 +195,93 @@ body{
 
     width: 784px;
     height: 1167px;
-    border: 1px solid #000000;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: baseline;
+    align-content: flex-start;
+    gap: 24px;
+
+}
+
+.diary__list{
+
+    width: 380px;
+    height: 373px;
+    padding-bottom: 16px;
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    gap: 16px;
+
+}
+
+.diary__list__image{
+
+    width: 380px;
+    height: 285px;
+    border-radius: 16px;
+    background-image: url("./assets/images/sad_M.svg");
+    background-size: 100% 100%;
+
+}
+
+.diary__list__text{
+
+    width: 380px;
+    height: 56px;
+    padding: 0px 8px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+
+}
+
+.diary__list__date{
+
+    width: 100%;
+    height: 24px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+#diary__list__feeling{
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -1%;
+
+    color: #28B4E1;
+}
+
+#diary__list__date{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: -1%;
+    color: #919191;
+}
+
+
+.diary__list__title{
+
+    width: 100%;
+    height: 24px;
+
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: -1%;
+    color: #000000; 
 
 }
 
@@ -249,7 +362,7 @@ body{
 
 }
 
-#feeling{
+.feeling{
 
     height: 24px;
 
@@ -286,6 +399,12 @@ body{
     justify-content: space-between;
     gap: 8px;
 
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -1%;
+    color: #333333;
+
 }
 
 .input__text__context{
@@ -298,6 +417,12 @@ body{
     justify-content: space-between;
     gap: 8px;
 
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -1%;
+    color: #333333;
+
 }
 
 #title__feeling{
@@ -306,8 +431,11 @@ body{
     height: 48px;
     border: 1px solid #D4D3D3;
     border-radius: 8px;
+    outline: none;
     padding: 12px 16px;
     background-color: #FFFFFF;
+
+    color: #ABABAB;
 
 }
 
@@ -326,8 +454,11 @@ body{
     height: 128px;
     border: 1px solid #D4D3D3;
     border-radius: 8px;
+    outline: none;
     padding: 12px 16px;
     background-color: #FFFFFF;
+
+    color: #ABABAB;
 
 }
 
