@@ -115,16 +115,18 @@ function getDiaryCard() {
         } else {
         
             const diaryCard_HTML = diaryCard.map((el,index)=>`
+            <a href="./detail.html?number=${index}">
             <div class="diary__card">
                 <img class="diary__card__image" src="./assets/images/${diaryCard[index].feeling}_M.svg" />
                 <div class="diary__card__text">
-                    <div class="diary__card__date">
+                    <div class="diary__card__subtitle">
                         <div class="diary__card__feeling ${diaryCard[index].feeling}">${diaryCard[index].feeling_title}</div>
                         <div id="diary__card__date">${diaryCard[index].date}</div>
                     </div>
                     <div class="diary__card__title">${diaryCard[index].card_title}</div>
                 </div>
-            </div>    
+            </div>
+            </a>    
         `).join("")
         
         document.getElementById("card__list").innerHTML = diaryCard_HTML
