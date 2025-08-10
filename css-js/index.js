@@ -67,6 +67,8 @@ function getDiaryCard() {
     }
 
     diaryCard.push(submitcard)
+    localStorage.setItem("diaryCardList",JSON.stringify(diaryCard))
+
     alert(`
         일기 제출 완료!
 
