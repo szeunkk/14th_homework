@@ -148,6 +148,8 @@ body{
 
     display: flex;
     flex-direction: row;
+    justify-content: baseline;
+    align-items: center;
     gap: 8px;
 
     font-weight: 500;
@@ -155,6 +157,15 @@ body{
     line-height: 20px;
     letter-spacing: -1%;
     color: #333333;
+
+}
+
+.feeling input[type="radio"]{
+
+    width: 24px;
+    height: 24px;
+    border: 2px solid #777777;
+    accent-color: #000000; /* 라디오 버튼이 선택되었을 때 색상 */
 
 }
 
