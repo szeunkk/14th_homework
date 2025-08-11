@@ -3,7 +3,7 @@
 <head>
     <title>일기 수정 페이지</title>
     <link rel = "stylesheet" href = "./css/edit.css" />
-    <script src="./js/detail.js"></script>
+    <script src="./js/edit.js"></script>
 </head>
 <body>
     <div class="background">
@@ -17,35 +17,37 @@
                 <div class="main__frame__edit">
                     <div class="frame__edit__feeling">
                         오늘 기분은 어땟나요?
+                        <!-- 라디오 버튼 -->
                         <div class="edit__feeling__radio">
                             <div class="feeling">
-                                <input type="radio" />행복해요
+                                <input id="happy" type="radio" name="radio__feeling"/>행복해요
                             </div>
                             <div class="feeling">
-                                <input type="radio" />슬퍼요
+                                <input id="sad" type="radio" name="radio__feeling"/>슬퍼요
                             </div>
                             <div class="feeling">
-                                <input type="radio" />놀랐어요
+                                <input id="surprise" type="radio" name="radio__feeling"/>놀랐어요
                             </div>
                             <div class="feeling">
-                                <input type="radio" />화나요
+                                <input id="angry" type="radio" name="radio__feeling"/>화나요
                             </div>
                             <div class="feeling">
-                                <input type="radio" />기타
+                                <input id="etc" type="radio" name="radio__feeling"/>기타
                             </div>
                         </div>
+                        <!--  -->
                     </div>
-                    <div class="frame__edit__title">
-                        제목
-                        <input type="text" class="edit__title__form" value="이것은 타이틀 입니다."/>
+                    <div class="frame__edit__title" id="title">
+                        <!-- 제목
+                        <input type="text" class="edit__title__form" value="이것은 제목입니다."/> -->
                     </div>
-                    <div class="frame__edit__context">
-                        내용
-                        <textarea class="edit__context__form">미리 작성된 내용</textarea>
+                    <div class="frame__edit__context" id="context">
+                        <!-- 내용
+                        <textarea class="edit__context__form"></textarea> -->
                     </div>
                     <div class="frame__edit__button">
                         <button id="cancel__button">취소</button>
-                        <button id="edit__button">수정 하기</button>
+                        <button id="edit__button" onclick="editDiaryCard()">수정 하기</button>
                     </div>
                 </div>
                 <div class="main__frame__comment">
