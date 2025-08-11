@@ -300,3 +300,9 @@ window.onload = () => {
     })
 
 }
+
+function scrollpage () {
+
+    document.getElementById("frame__diary__list").scrollTo({ top: 0, behavior: "smooth" })
+
+}
