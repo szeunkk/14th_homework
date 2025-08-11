@@ -226,3 +226,77 @@ function addDiaryCard() {
 }
 
 window.addEventListener("load",addDiaryCard)
+
+
+
+const viewFiltering = (event) => {
+
+    const selectFilter = event.target.value
+    let select_filter;
+    console.log(selectFilter)
+    if (selectFilter === "happy"){
+        select_filter = diaryCard.filter ((el) => el.feeling === "happy")
+        console.log(select_filter);
+    } else if (selectFilter === "sad"){
+        select_filter = diaryCard.filter ((el) => el.feeling === "sad")
+        console.log(select_filter);
+    } else if (selectFilter === "surprise"){
+        select_filter = diaryCard.filter ((el) => el.feeling === "surprise")
+        console.log(select_filter);
+    } else if (selectFilter === "angry"){
+        select_filter = diaryCard.filter ((el) => el.feeling === "angry")
+        console.log(select_filter);
+    } else if (selectFilter === "etc"){
+        select_filter = diaryCard.filter ((el) => el.feeling === "etc")
+        console.log(select_filter);
+    } else {
+        console.log(diaryCard)
+    }
+
+    function filterDiaryCard() {
+
+        if (select_filter.length >= 1){
+            const select_filter_HTML = select_filter.map((el,index)=>`
+                <a href="./detail.html?number=${index}">
+                <div class="diary__card">
+                    <img class="diary__card__image" src="./assets/images/${select_filter[index].feeling}_M.svg" />
+                    <div class="diary__card__text">
+                        <div class="diary__card__subtitle">
+                            <div class="diary__card__feeling ${select_filter[index].feeling}">${select_filter[index].feeling_title}</div>
+                            <div id="diary__card__date">${select_filter[index].date}</div>
+                        </div>
+                        <div class="diary__card__title">${select_filter[index].card_title}</div>
+                    </div>
+                </div>
+                </a>    
+            `).join("")
+        
+            document.getElementById("card__list").innerHTML = select_filter_HTML
+        } else {
+            document.getElementById("card__list").innerText = "선택한 기분으로 작성된 일기가 없습니다."
+        }
+    
+    
+    }
+
+    filterDiaryCard()
+
+}
+
+window.onload = () => {
+
+    document.getElementById("frame__diary__list").addEventListener("scroll", () => {
+
+        const scrolling = document.getElementById("frame__diary__list").scrollTop
+
+        if (scrolling > 0) {
+            document.getElementById("filter").style = "background-color: #1C1C1C; color: #FFFFFF; border: none;"
+        } else {
+            document.getElementById("filter").style = "background-color: #FFFFFF; color:  #1C1C1C; border: 1px solid #C7C7C7;"
+        }
+
+
+
+    })
+
+}
