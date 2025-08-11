@@ -295,6 +295,35 @@ a{
     text-decoration: none;
 }
 
+#delete__button{
+
+    width: 24px;
+    height: 24px;
+
+    position: relative;
+    top: -255px;
+    left: -40px;
+
+    transition: 
+    width 0.5s,
+    height 0.5s,
+    top 0.5s,
+    left 0.5s;
+
+}
+
+.diary__card:hover #delete__button{
+
+    width: 27px;
+    height: 27px;
+
+    position: relative;
+    top: -275px;
+    left: -45px;
+
+}
+
+
 .diary__card{
 
     width: 380px;

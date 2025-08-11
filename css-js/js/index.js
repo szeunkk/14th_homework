@@ -80,7 +80,6 @@ function getDiaryCard() {
 
         ${diaryContext}
 
-
         `)
 
 
@@ -111,101 +110,21 @@ function getDiaryCard() {
     // 등록하기 버튼 비활성화 하기
     document.getElementById("diary__write__button").disabled = true
 
-    // 다이어리 카드 배열이 1개 이상일 때, 다이어리 카드 표시
-    // function addDiaryCard(){
-
-    //     if (diaryCard >= 1){    
-    //     } else {
-        
-        //     const diaryCard_HTML = diaryCard.map((el,index)=>`
-        //     <a href="./detail.html?number=${index}">
-        //     <div class="diary__card">
-        //         <img class="diary__card__image" src="./assets/images/${diaryCard[index].feeling}_M.svg" />
-        //         <div class="diary__card__text">
-        //             <div class="diary__card__subtitle">
-        //                 <div class="diary__card__feeling ${diaryCard[index].feeling}">${diaryCard[index].feeling_title}</div>
-        //                 <div id="diary__card__date">${diaryCard[index].date}</div>
-        //             </div>
-        //             <div class="diary__card__title">${diaryCard[index].card_title}</div>
-        //         </div>
-        //     </div>
-        //     </a>    
-        // `).join("")
-        
-        // document.getElementById("card__list").innerHTML = diaryCard_HTML
-    //     }
-
-    // }    
-
-    // // 카드 추가하기
     addDiaryCard()
 
 }
 
-
-
-
-
-// localStorage에 저장되어있는 카드 배열이 1개 이상일 때, 다이어리 카드 표시
-// 밑에 있는 대로 실행하니, 중간에 local storage를 삭제하였을 때, 다이어리 등록하기 버튼을 사용하였을 때, 바로바로 적용이 되지 않음
-
-// window.onload = () => {
-
-//     if (diaryCard.length >= 1){
-//         const diaryCard_HTML = diaryCard.map((el,index)=>`
-//             <a href="./detail.html?number=${index}">
-//             <div class="diary__card">
-//                 <img class="diary__card__image" src="./assets/images/${diaryCard[index].feeling}_M.svg" />
-//                 <div class="diary__card__text">
-//                     <div class="diary__card__subtitle">
-//                         <div class="diary__card__feeling ${diaryCard[index].feeling}">${diaryCard[index].feeling_title}</div>
-//                         <div id="diary__card__date">${diaryCard[index].date}</div>
-//                     </div>
-//                     <div class="diary__card__title">${diaryCard[index].card_title}</div>
-//                 </div>
-//             </div>
-//             </a>    
-//         `).join("")
-    
-//         document.getElementById("card__list").innerHTML = diaryCard_HTML
-//     } else {
-//         document.getElementById("card__list").innerText = "등록된 일기가 없습니다."
-//     }
-
-// }
-// 밑에 있는 대로 실행하면, 새로고침을 했을 때, 적용이 되긴함
-// window.addEventListener("load", () => {
-
-//     if (diaryCard.length >= 1){
-//         const diaryCard_HTML = diaryCard.map((el,index)=>`
-//             <a href="./detail.html?number=${index}">
-//             <div class="diary__card">
-//                 <img class="diary__card__image" src="./assets/images/${diaryCard[index].feeling}_M.svg" />
-//                 <div class="diary__card__text">
-//                     <div class="diary__card__subtitle">
-//                         <div class="diary__card__feeling ${diaryCard[index].feeling}">${diaryCard[index].feeling_title}</div>
-//                         <div id="diary__card__date">${diaryCard[index].date}</div>
-//                     </div>
-//                     <div class="diary__card__title">${diaryCard[index].card_title}</div>
-//                 </div>
-//             </div>
-//             </a>    
-//         `).join("")
-    
-//         document.getElementById("card__list").innerHTML = diaryCard_HTML
-//     } else {
-//         document.getElementById("card__list").innerText = "등록된 일기가 없습니다."
-//     }
-
-// })
-
+/* 다이어리 카드 리스트가 1개 이상일 때, 카드 추가하기 */
 function addDiaryCard() {
 
     if (diaryCard.length >= 1){
         const diaryCard_HTML = diaryCard.map((el,index)=>`
-            <a href="./detail.html?number=${index}">
+        <a href="./detail.html?number=${index}">
             <div class="diary__card">
-                <img class="diary__card__image" src="./assets/images/${diaryCard[index].feeling}_M.svg" />
+                <div id="card__image__icon">
+                    <img class="diary__card__image" src="./assets/images/${diaryCard[index].feeling}_M.svg" />
+                    <img id="delete__button" src="./assets/icons/close_outline_light_m.svg" onclick="deleteDiaryCard(event, ${index})" />
+                </div>
                 <div class="diary__card__text">
                     <div class="diary__card__subtitle">
                         <div class="diary__card__feeling ${diaryCard[index].feeling}">${diaryCard[index].feeling_title}</div>
@@ -214,7 +133,8 @@ function addDiaryCard() {
                     <div class="diary__card__title">${diaryCard[index].card_title}</div>
                 </div>
             </div>
-            </a>    
+            </a>
+            
         `).join("")
     
         document.getElementById("card__list").innerHTML = diaryCard_HTML
@@ -225,41 +145,41 @@ function addDiaryCard() {
 
 }
 
+// 페이지가 로드될 때 마다, 카드 추가하기 함수 실행
 window.addEventListener("load",addDiaryCard)
 
 
-
+// 드롭다운에서 필터링 기능 추가하기
 const viewFiltering = (event) => {
 
+    // 드롭다운에서 선택한 기분이 XX일때, 배열에서 기분이 XX인 객체만 골라 배열로 만들기
     const selectFilter = event.target.value
     let select_filter;
-    console.log(selectFilter)
     if (selectFilter === "happy"){
         select_filter = diaryCard.filter ((el) => el.feeling === "happy")
-        console.log(select_filter);
     } else if (selectFilter === "sad"){
         select_filter = diaryCard.filter ((el) => el.feeling === "sad")
-        console.log(select_filter);
     } else if (selectFilter === "surprise"){
         select_filter = diaryCard.filter ((el) => el.feeling === "surprise")
-        console.log(select_filter);
     } else if (selectFilter === "angry"){
         select_filter = diaryCard.filter ((el) => el.feeling === "angry")
-        console.log(select_filter);
     } else if (selectFilter === "etc"){
         select_filter = diaryCard.filter ((el) => el.feeling === "etc")
-        console.log(select_filter);
     } else {
         console.log(diaryCard)
     }
 
+    // 필터된 배열을 기반으로 카드리스트HTML 만들어넣는 함수
     function filterDiaryCard() {
 
         if (select_filter.length >= 1){
             const select_filter_HTML = select_filter.map((el,index)=>`
                 <a href="./detail.html?number=${index}">
                 <div class="diary__card">
-                    <img class="diary__card__image" src="./assets/images/${select_filter[index].feeling}_M.svg" />
+                    <div>
+                        <img class="diary__card__image" src="./assets/images/${select_filter[index].feeling}_M.svg" />
+                        <img id="delete__button" src="./assets/icons/close_outline_light_m.svg" />
+                    </div>
                     <div class="diary__card__text">
                         <div class="diary__card__subtitle">
                             <div class="diary__card__feeling ${select_filter[index].feeling}">${select_filter[index].feeling_title}</div>
@@ -273,16 +193,18 @@ const viewFiltering = (event) => {
         
             document.getElementById("card__list").innerHTML = select_filter_HTML
         } else {
+            // 기존 배열 중 드롭다운에서 선택하지 않은 기분을 골랐을 때는 배열이 0이므로, 안내 문구 노출
             document.getElementById("card__list").innerText = "선택한 기분으로 작성된 일기가 없습니다."
-        }
-    
+        } 
     
     }
 
+    // 위에서 만든 필터된 카드 배열 넣는 함수 실행
     filterDiaryCard()
 
 }
 
+// 스크롤 내릴 시, 필터 드롭다운 배경색 반전
 window.onload = () => {
 
     document.getElementById("frame__diary__list").addEventListener("scroll", () => {
@@ -295,14 +217,33 @@ window.onload = () => {
             document.getElementById("filter").style = "background-color: #FFFFFF; color:  #1C1C1C; border: 1px solid #C7C7C7;"
         }
 
-
-
     })
 
 }
 
+// 플로팅 버튼 선택 시, 요소 맨 위로 이동
 function scrollpage () {
 
     document.getElementById("frame__diary__list").scrollTo({ top: 0, behavior: "smooth" })
+
+}
+
+
+// 다이어리 카드 삭제 함수
+function deleteDiaryCard (event, index) {
+
+    // 이벤트 버블링 방지
+    event.preventDefault();
+
+    // 현재 카드 배열에서 삭제 버튼 누른 카드 삭제
+    diaryCard.splice(index, 1);
+    
+    // 삭제 후 카드 재배치를 위한 localstorage 업데이트
+    localStorage.setItem("diaryCardList",JSON.stringify(diaryCard))
+
+    alert("선택한 일기가 삭제되었습니다.");
+    
+    // 다이어리 카드 만들기 함수 실행
+    addDiaryCard();
 
 }
