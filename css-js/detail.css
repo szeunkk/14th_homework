@@ -167,8 +167,31 @@ body{
     font-size: 20px;
     line-height: 24px;
     letter-spacing: -1%;
+
+}
+
+.sad
+{
+    color: #28B4E1;
+}
+
+.surprise{
+    color: #D59029;
+}
+
+.angry{
+    color: #777777;
+}
+
+.happy{
     color: #EA5757;
 }
+
+.etc{
+    color: #A229ED;
+}
+
+
 
 .diary__subtitle__date{
 

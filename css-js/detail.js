@@ -9,7 +9,7 @@ window.onload = () => {
 document.getElementById("title").innerHTML = `
 <div class="diary__title">${diaryCardList[cardIndex].card_title}</div>
 <div class="diary__subtitle">
-    <div class="diary__subtitle__feeling">
+    <div class="diary__subtitle__feeling ${diaryCardList[cardIndex].feeling}">
         <img src="./assets/images/${diaryCardList[cardIndex].feeling}_S.svg" width="32px" height="32px" />
         ${diaryCardList[cardIndex].feeling_title}
     </div>
