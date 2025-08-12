@@ -90,7 +90,17 @@ function getDiaryComment () {
     addDiaryComment()
 
     document.getElementById("comment__button").disabled = true
+    scrollToComment()
+
+
 }
+
+const scrollToComment = () => {
+
+    window.scrollTo({ top: 460, behavior: "smooth"})
+
+}
+
 
 function addDiaryComment() {
 
