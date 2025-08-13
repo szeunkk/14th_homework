@@ -219,6 +219,9 @@ window.onload = () => {
     })
 
 }
+window.addEventListener("scroll", floatingButton)
+window.addEventListener("resize", floatingButton)
+window.addEventListener("load", floatingButton)
 
 // 플로팅 버튼 선택 시, 요소 맨 위로 이동
 function scrollpage () {
@@ -226,7 +229,6 @@ function scrollpage () {
     document.getElementById("frame__diary__list").scrollTo({ top: 0, behavior: "smooth" })
 
 }
-
 
 // 다이어리 카드 삭제 함수
 function deleteDiaryCard (event, index) {
@@ -247,10 +249,7 @@ function deleteDiaryCard (event, index) {
 
 }
 
-
-
-
-window.addEventListener("scroll", () => {
+function floatingButton(){
     const innerHeight = window.innerHeight
     const innerWidth = window.innerWidth
 
@@ -261,4 +260,4 @@ window.addEventListener("scroll", () => {
 
         z-index: 99;
     `
-})
+}

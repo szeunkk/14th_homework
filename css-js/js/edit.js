@@ -37,6 +37,14 @@ window.onload = () => {
     addDiaryComment()
 
 }
+window.addEventListener("scroll", floatingButton)
+window.addEventListener("load", () => {
+    addDiaryComment()
+    floatingButton()
+})
+window.addEventListener("resize", floatingButton)
+
+
 let selectedFeeling;
 function editDiaryCard() {
 
@@ -110,7 +118,7 @@ function addDiaryComment() {
 
 }
 
-window.addEventListener("scroll", () => {
+function floatingButton(){
     const innerHeight = window.innerHeight
     const innerWidth = window.innerWidth
 
@@ -121,4 +129,4 @@ window.addEventListener("scroll", () => {
 
         z-index: 99;
     `
-})
+}

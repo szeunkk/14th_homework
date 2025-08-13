@@ -21,6 +21,13 @@ document.getElementById("title").innerHTML = `
 
 document.getElementById("context").innerText = diaryCardList[cardIndex].card_context}
 
+window.addEventListener("scroll", floatingButton)
+window.addEventListener("load", () => {
+    addDiaryComment()
+    floatingButton()
+
+})
+window.addEventListener("resize", floatingButton)
 
 function diaryEdit() {
 
@@ -124,9 +131,7 @@ function addDiaryComment() {
 
 }
 
-window.addEventListener("load", addDiaryComment)
-
-window.addEventListener("scroll", () => {
+function floatingButton(){
     const innerHeight = window.innerHeight
     const innerWidth = window.innerWidth
 
@@ -137,4 +142,4 @@ window.addEventListener("scroll", () => {
 
         z-index: 99;
     `
-})
+}
