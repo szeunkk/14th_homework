@@ -246,3 +246,19 @@ function deleteDiaryCard (event, index) {
     addDiaryCard();
 
 }
+
+
+
+
+window.addEventListener("scroll", () => {
+    const innerHeight = window.innerHeight
+    const innerWidth = window.innerWidth
+
+    document.getElementById("floating__button").style = `
+        position: fixed;
+        top: ${innerHeight*0.9}px;
+        left: ${innerWidth*0.9}px;
+
+        z-index: 99;
+    `
+})

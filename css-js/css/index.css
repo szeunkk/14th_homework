@@ -94,6 +94,8 @@ body{
     justify-content: space-between;
     align-items: center;
     gap: 1.5rem;
+
+    position: relative;
 }
 
 .main__header{
@@ -624,8 +626,6 @@ a{
     width: 2.5rem;
     height: 2.5rem;
 
-    position: relative;
-    left: 35rem;
 }
 
 
@@ -730,6 +730,10 @@ a{
     }
     .main{
         height: 146.8125rem;
+    }
+    #floating__button{
+        top: 144rem;
+        left: 18.75rem;
     }
     .main__frame{
         height: 141.5625rem;
