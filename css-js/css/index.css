@@ -128,7 +128,7 @@ body{
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: baseline;
     align-items: center;
     gap: 1.5rem;
 }
@@ -247,7 +247,7 @@ body{
 
 .content__diary__list{
     width: var(--width-diary-list);
-    height: var(--width-content-main);
+    height: 1167px;
 
     display: flex;
     flex-direction: row;
@@ -683,6 +683,8 @@ a{
         --width-full: 75.5rem;
     }
 } */
+
+/* 뷰포트가 75.5rem 이상일 때만 hover 기능 작동 - 사유: 정신사나움 ..  */
 @media (min-width: 75.5rem){
 
     .frame__content__diary:has(.diary__card:hover){
@@ -714,6 +716,7 @@ a{
     }
 }
 
+/* 뷰포트가 75.5rem 이하 일 때 */
 @media (max-width: 75.5rem){
     :root{
         --width-full: 22.5rem; /* 최상위 컨테이너 너비 */
@@ -722,39 +725,41 @@ a{
         --width-diary-card: 9.25rem; /* 일기 카드 너비 */
         --width-diary-form: 20rem; /* 일기 작성 폼 너비 */ 
     }
+    .background{
+        height: 156.3125rem;
+    }
+    .main{
+        height: 146.8125rem;
+    }
+    .main__frame{
+        height: 141.5625rem;
+    }
     .frame__content__diary{
+        overflow: visible;
+        height: 117.4375rem;
         flex-direction: column;
     }
-
-    
-
     .content__diary__list{
+        overflow-y: scroll;
         display: grid;
         grid-template-columns: 1fr 1fr;
         place-items: center;
         order: 2;
     }
-
     .diary__card__image{
         object-fit: cover;
     }
-
     #delete__button{
         left:7rem
     }
-
     .content__diary__form{
         height: 40.5rem;
         order: 1;
     }
-
     .form__input__feeling{
         height: 9.5rem;
     }
-
     .diary__form__input{
         height: 28rem;
     }
-
-
 }
