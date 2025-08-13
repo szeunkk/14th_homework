@@ -122,10 +122,8 @@ function addDiaryCard() {
         const diaryCard_HTML = diaryCard.map((el,index)=>`
         <a href="./detail.html?number=${index}">
             <div class="diary__card">
-                <div id="card__image__icon">
-                    <img class="diary__card__image" src="./assets/images/${diaryCard[index].feeling}_M.svg" />
-                    <img id="delete__button" src="./assets/icons/close_outline_light_m.svg" onclick="deleteDiaryCard(event, ${index})" />
-                </div>
+                <img class="diary__card__image" src="./assets/images/${diaryCard[index].feeling}_M.svg" />
+                <img id="delete__button" src="./assets/icons/close_outline_light_m.svg" onclick="deleteDiaryCard(event, ${index})" />
                 <div class="diary__card__text">
                     <div class="diary__card__subtitle">
                         <div class="diary__card__feeling ${diaryCard[index].feeling}">${diaryCard[index].feeling_title}</div>
