@@ -143,3 +143,19 @@ function floatingButton(){
         z-index: 99;
     `
 }
+
+function deleteDiaryCard(){
+
+    // 현재 카드 배열에서 현재 페이지 다이어리 삭제
+    diaryCardList.splice(cardIndex,1);
+
+    // 삭제 후 localStorage업데이트
+    localStorage.setItem("diaryCardList",JSON.stringify(diaryCardList))
+
+    // 삭제 안내 알럿
+    alert("삭제되었습니다.");
+
+    // 현재 일기가 삭제되었으므로, index.html로 넘어가게끔 설정
+    location.href = `./index.html`;
+
+}

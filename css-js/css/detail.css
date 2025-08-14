@@ -423,6 +423,7 @@
     :root{
         --width-full: 22.5rem; /* 최상위 컨테이너 너비 */
         --width-content-main: 20rem; /* 메인 콘텐츠 영역 너비 */
+        --width-frame-detail: 20rem;
         --width-diary-list: 20rem; /* 일기 목록 너비 */
         --width-diary-card: 9.25rem; /* 일기 카드 너비 */
         --width-diary-form: 20rem; /* 일기 작성 폼 너비 */ 
