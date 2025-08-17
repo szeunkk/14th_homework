@@ -59,6 +59,33 @@ const closeModal = (modal__name) => {
     clearDiaryForm()
 }
 
+/* 취소모달에서 계속 작성 클릭 시, 해당 모달만 꺼지게끔하기? */
+const keepWrite = () => {
+    document.getElementById('write__close__modal').style = "display: none"
+}
+
+/* 등록화면 모달에서 여백 클릭 시, 모달 종료 */
+
+document.addEventListener("click", (event) => {
+    const bgModal = document.getElementById('write__modal__background')
+    const writeModal = document.getElementById('write__form__modal').style.display
+
+    const isbgModal = bgModal.contains(event.target);
+
+    if(writeModal === "block" && isbgModal){
+        closeModal('write__form__modal')
+    }
+})
+
+
+/* 등록화면 모달에서 ESC 키 입력 시, 모달 종료 */
+window.addEventListener("keydown", (event) => {
+    if(event.key === "Escape" && writeModal === "block"){
+        closeModal('write__form__modal')
+    }
+})
+
+
 /* 등록하기 버튼이 클릭되면, 배열에 추가 */
 const diaryCard_list = localStorage.getItem("diaryCardList")
 const diaryCard = JSON.parse(diaryCard_list === null ? "[]" : diaryCard_list)
@@ -83,17 +110,8 @@ function getDiaryCard() {
     diaryCard.push(submitcard)
     localStorage.setItem("diaryCardList",JSON.stringify(diaryCard))
 
-    alert(`
-        일기 제출 완료!
-
-        입력일: ${writeDate}
-
-        오늘의 기분은? ${selectedFeeling[1]}
-        제목: ${diaryTitle}
-
-        ${diaryContext}
-
-        `)
+    
+    viewModal('write__submit__modal')
 
 
 

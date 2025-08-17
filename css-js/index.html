@@ -112,7 +112,7 @@
             <div>
                 <!-- 일기 등록 폼 모달 -->
                 <div id="write__form__modal" class="modal__group__write">
-                    <div class="modal__background"></div>
+                    <div id="write__modal__background" class="modal__background"></div>
                     <form class="modal__write__diary"  onsubmit="getDiaryCard()"> 
                         <div class="modal__form__title">일기 쓰기</div>
                         <div class="modal__form__input">
@@ -148,10 +148,39 @@
                             </div>
                         </div>
                         <div class="form__input__button">
-                            <button id="cancel__button" type="reset" class="modal__form__button" onclick="closeModal('write__form__modal')">닫기</button>
+                            <button id="cancel__button" type="button" class="modal__form__button" onclick="viewModal('write__close__modal')">닫기</button>
                             <button id="diary__write__button" type="submit" class="modal__form__button" disabled onclick="getDiaryCard()">등록하기</button>
                         </div>
                     </form>
+                </div>
+                <!-- 일기 등록 후 완료 모달 -->
+                <div>
+                    <div id="write__submit__modal" class="modal__group__submit">
+                        <div class="modal__background"></div>
+                        <form class="modal__submit__write" onsubmit="closeModal('write__submit__modal')">
+                            <div class="modal__text">
+                                <div class="modal__title">일기 등록 완료</div>
+                                등록이 완료 되었습니다.
+                            </div>
+                            <button class="submit__modal__button" type="submit" onclick="closeModal('write__submit__modal')">확인</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- 일기 등록 취소 모달 -->
+                <div>
+                    <div id="write__close__modal" class="modal__group__close">
+                        <div class="modal__background"></div>
+                        <form class="modal__close__write">
+                            <div class="modal__text">
+                                <div class="modal__title">일기 등록 취소</div>
+                                일기 등록을 취소 하시겠어요?
+                            </div>
+                            <div class="modal__close__button">
+                                <button id="keep__button" class="modal__form__button" type="button" onclick="keepWrite()">계속 작성</button>
+                            <button id="close__button" class="modal__form__button" type="submit" onclick="closeModal('write__close__modal')">등록 취소</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
     </div>
