@@ -47,6 +47,18 @@ function isDiaryWritten() {
 }
 
 
+
+/* 버튼 클릭 시, 모달 on */
+const viewModal = (modal__name) => {
+    document.getElementById(modal__name).style = "display: block"
+}
+
+/* 버튼 클릭 시, 모달 off */
+const closeModal = (modal__name) => {
+    document.getElementById(modal__name).style = "display: none"
+    clearDiaryForm()
+}
+
 /* 등록하기 버튼이 클릭되면, 배열에 추가 */
 const diaryCard_list = localStorage.getItem("diaryCardList")
 const diaryCard = JSON.parse(diaryCard_list === null ? "[]" : diaryCard_list)
@@ -65,7 +77,7 @@ function getDiaryCard() {
         feeling_title: selectedFeeling[1],
         card_title: diaryTitle,
         card_context: diaryContext,
-        comment: []
+        comment: [] // 상세 화면에서 코멘트를 위한 빈 배열
     }
 
     diaryCard.push(submitcard)
@@ -85,22 +97,6 @@ function getDiaryCard() {
 
 
 
-    /* 변수 초기화 하기 */
-    function clearDiaryForm() {
-        
-        const feeling = document.getElementsByName("radio__feeling")
-        
-        for (let i = 0; i < feeling.length ; i++) {
-            feeling[i].checked = false;
-        }
-
-        const title = document.getElementById("title__feeling")
-        const context = document.getElementById("context__feeling")
-
-        title.value = '';
-        context.value = '';
-
-    }
 
     // 등록하기 버튼을 다시 비활성화 시키기 위해 입력된 내용들 클리어하기
     clearDiaryForm()
@@ -114,6 +110,25 @@ function getDiaryCard() {
     addDiaryCard()
 
 }
+
+/* 변수 초기화 하기 */
+function clearDiaryForm() {
+    
+    const feeling = document.getElementsByName("radio__feeling")
+    
+    for (let i = 0; i < feeling.length ; i++) {
+        feeling[i].checked = false;
+    }
+
+    const title = document.getElementById("title__feeling")
+    const context = document.getElementById("context__feeling")
+
+    title.value = '';
+    context.value = '';
+
+}
+
+
 
 /* 다이어리 카드 리스트가 1개 이상일 때, 카드 추가하기 */
 function addDiaryCard() {
