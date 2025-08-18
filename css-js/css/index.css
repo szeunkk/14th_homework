@@ -540,6 +540,7 @@ a{
 
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 
     gap: 2.5rem;
     
@@ -558,6 +559,7 @@ a{
 .modal__form__input{
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 2.5rem;
 }
 
@@ -591,6 +593,7 @@ a{
 .form__input__text{
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     height: 16rem;
 
     gap: 1.5rem;
@@ -869,6 +872,7 @@ a{
         flex-direction: column;
     }
     .content__diary__list{
+        height: 100%;
         overflow-y: scroll;
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -885,10 +889,87 @@ a{
         height: 40.5rem;
         order: 1;
     }
-    .form__input__feeling{
-        height: 9.5rem;
-    }
     .diary__form__input{
         height: 28rem;
+    }
+    .modal__write__diary{
+        width: var(--width-content-main);
+        height: 30rem;
+
+        gap: 1.5rem;
+
+        top: calc(50% - 30rem/2);
+        left: calc(50% - 20rem/2);
+    }
+    .modal__form__title{
+        font-size: 1.25rem;   
+    }
+    .modal__form__input{
+        gap: 1.5rem;
+        overflow: scroll;
+    }
+    .form__input__feeling{
+        height: 12.75rem;
+
+        gap: 1rem;
+
+        font-size: var(--font-size-text-md);
+        font-weight: var(--font-weight-semi-bold);
+        line-height: 1.25rem;
+    }
+    .input__feeling__radio{
+        flex-direction: column;
+        gap: 0.75rem;
+
+        font-size: var(--font-size-text-md);
+    }
+    .form__input__text{
+        height: 14.5rem;
+        gap: 1rem;
+    }
+    .input__text__title{
+        font-size: 0.75rem;
+    }
+    #title__feeling{
+        height: 2.5rem;
+        padding: 0.5rem 1rem;
+        font-size: var(--font-size-text-sm);
+    }
+    .input__text__context{
+        font-size: 0.75rem;
+    }
+    #context__feeling{
+        padding: 0.5rem 1rem;
+        font-size: var(--font-size-text-sm);
+    }
+    .modal__form__button{
+        height: 2.5rem;
+        font-size: var(--font-size-text-md);
+    }
+    .modal__submit__write{
+        width: var(--width-content-main);
+        height: 9.75rem;
+
+        gap: 1.5rem;
+        left: calc(50% - 20rem/2);
+    }
+    .submit__modal__button{
+        height: 2.5rem;
+        font-size: var(--font-size-text-md);
+    }
+    .modal__close__write{
+        width: var(--width-content-main);
+        height: 9.75rem;
+
+        gap: 1.5rem;
+        left: calc(50% - 20rem/2);
+    }
+    .modal__title{
+        font-size: var(--font-size-text-md);
+        line-height: 1.25rem;
+    }
+    .modal__text{
+        font-size: var(--font-size-text-sm);
+        line-height: 1rem;
     }
 }
