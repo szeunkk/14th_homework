@@ -994,4 +994,7 @@ a{
         font-size: var(--font-size-text-sm);
         line-height: 1rem;
     }
+    .dog__list img{
+        width: 17.5rem;
+    }
 }
