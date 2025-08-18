@@ -1,3 +1,28 @@
+/* 메뉴 이동 */
+const changeMenu = (clicked) => {
+    switch(clicked){
+        case "click__diary__list":{
+            document.getElementById("frame__diary__list").innerHTML = diary__list
+            document.getElementById("click__diary__list").classList.remove("tab__menu__disabled")
+            document.getElementById("click__diary__list").classList.add("content__tab__menu")
+            document.getElementById("click__image__list").classList.remove("content__tab__menu")
+            document.getElementById("click__image__list").classList.add("tab__menu__disabled")
+            addDiaryCard()
+            break;
+        }
+        case "click__image__list":{
+            document.getElementById("frame__diary__list").innerHTML = `<div class=dog__list>${image__list}</div>`
+            document.getElementById("click__image__list").classList.remove("tab__menu__disabled")
+            document.getElementById("click__image__list").classList.add("content__tab__menu")
+            document.getElementById("click__diary__list").classList.remove("content__tab__menu")
+            document.getElementById("click__diary__list").classList.add("tab__menu__disabled")
+            break;
+        }
+    }
+}
+
+
+
 /* 다이어리 입력 폼을 다 채우면 버튼 활성화 */
 // selectedFeeling: 기분 선택
 let selectedFeeling;
@@ -161,8 +186,6 @@ function clearDiaryForm() {
     context.value = '';
 
 }
-
-
 
 /* 다이어리 카드 리스트가 1개 이상일 때, 카드 추가하기 */
 function addDiaryCard() {
