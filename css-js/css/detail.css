@@ -66,6 +66,8 @@
     flex-direction: column;
     justify-content: space-between;
     gap: var(--gap-medium);
+
+    position: relative;
   }
   
   .main {
@@ -417,6 +419,39 @@
     letter-spacing: -0.01em;
     text-align: center;
     color: #777777;
+  }
+
+  .copy__message{
+    width: 47.5rem;
+    height: 3.5rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: #000000;
+    opacity: 90%;
+
+    font-size: var(--font-size-text-md);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5rem;
+    letter-spacing: -1%;
+    color: #FFFFFF;
+
+    display: none;
+    position: fixed;
+    bottom: 2.5rem;
+    left: calc(50% - 47.5rem/2);
+  }
+
+  @keyframes copy__toast__animation{
+    from{
+      opacity: 0;
+    }
+    to{
+      opacity: 1;
+    }
+  }
+
+  .copy__animated{
+    animation: copy__toast__animation 1s;
   }
 
   @media (max-width: 75.5rem){

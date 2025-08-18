@@ -162,6 +162,8 @@ function deleteDiaryCard(){
 
 const copyDiary = () => {
 
+    copyToastMessage()
+
     const diaryTitle = document.getElementById("diary__title").innerText
     const diaryFeeling = document.getElementById("diary__feeling").innerText
     const textDiary = document.getElementById("context").innerText
@@ -173,5 +175,19 @@ const copyDiary = () => {
 기분: ${diaryFeeling}
 내용: ${textDiary}`)
 
-    alert("내용이 복사되었습니다.")
+
+
+}
+
+const copyToastMessage = () => {
+    
+    document.getElementById("copy__toast").style = "display: block;"
+    document.getElementById("copy__toast").classList.add('copy__animated');
+
+    setTimeout(() => {
+        document.getElementById("copy__toast").style = "display: none;"
+        document.getElementById("copy__toast").classList.remove('copy__animated');
+    },1000)
+
+
 }
