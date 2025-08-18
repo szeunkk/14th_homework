@@ -46,17 +46,28 @@ function isDiaryWritten() {
     }
 }
 
+/* 스크롤 막기 */
+const disabledScroll = () => {
+    document.body.style.overflow = "hidden";
+}
+
+/* 스크롤 활성화 */
+const enableScroll = () => {
+    document.body.style.overflow = "auto";
+}
 
 
 /* 버튼 클릭 시, 모달 on */
 const viewModal = (modal__name) => {
     document.getElementById(modal__name).style = "display: block"
+    disabledScroll()
 }
 
 /* 버튼 클릭 시, 모달 off */
 const closeModal = (modal__name) => {
     document.getElementById(modal__name).style = "display: none"
     clearDiaryForm()
+    enableScroll()
 }
 
 /* 취소모달에서 계속 작성 클릭 시, 해당 모달만 꺼지게끔하기? */
@@ -80,6 +91,9 @@ document.addEventListener("click", (event) => {
 
 /* 등록화면 모달에서 ESC 키 입력 시, 모달 종료 */
 window.addEventListener("keydown", (event) => {
+
+    const writeModal = document.getElementById('write__form__modal').style.display
+
     if(event.key === "Escape" && writeModal === "block"){
         closeModal('write__form__modal')
     }
