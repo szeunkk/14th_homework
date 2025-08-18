@@ -152,11 +152,11 @@ function deleteDiaryCard(){
     // 삭제 후 localStorage업데이트
     localStorage.setItem("diaryCardList",JSON.stringify(diaryCardList))
 
-    // 삭제 안내 알럿
-    alert("삭제되었습니다.");
 
     // 현재 일기가 삭제되었으므로, index.html로 넘어가게끔 설정
-    location.href = `./index.html`;
+    location.href = `./index.html`; 
+    // 삭제 안내 알럿
+    alert("삭제되었습니다.");
 
 }
 
@@ -190,4 +190,14 @@ const copyToastMessage = () => {
     },1000)
 
 
+}
+
+/* 버튼 클릭 시, 모달 on */
+const viewModal = (modal__name) => {
+    document.getElementById(modal__name).style = "display: block"
+}
+
+/* 취소모달에서 계속 작성 클릭 시, 해당 모달만 꺼지게끔하기? */
+const keepWrite = () => {
+    document.getElementById('delete__modal').style = "display: none"
 }
