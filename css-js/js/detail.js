@@ -202,6 +202,7 @@ const enableScroll = () => {
 
 /* 버튼 클릭 시, 모달 on */
 const viewModal = (modal__name) => {
+    window.scrollTo({ top: 0, behavior: "smooth"})
     document.getElementById(modal__name).style = "display: block"
     disabledScroll()
 }
