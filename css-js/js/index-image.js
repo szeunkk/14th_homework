@@ -1,18 +1,27 @@
-let image__list ;
+let image__list;
 
 /* 강아지 사진 불러오는 함수 */
-const addImageCard = () => {
-    fetch("https://dog.ceo/api/breeds/image/random/10").then((result) => {
-        result.json().then((resultJSON) => {
-            console.log(resultJSON)
-            
-            const imageURL = resultJSON.message
-            
-            image__list = imageURL.map(el => `
-            <img id="dog__image" class="dog__image ratio__basic" src="${el}"/>
-            `).join("")
-        })
-    })
+async function addImageCard() {
+
+    const skeleton__list = new Array(10).fill(`<div class="skeleton__background ratio__basic"></div>`).join("")
+    document.getElementById("frame__diary__list").innerHTML = `<div id=dog__list>${skeleton__list}</div>`
+
+    const result = await fetch('https://dog.ceo/api/breeds/image/random/10');
+    console.log(result);
+
+    const resultJSON = await result.json();
+
+    console.log(resultJSON);
+
+    const imageURL = resultJSON.message;
+    console.log(imageURL);
+
+    image__list = imageURL.map(el => `
+    <img id="dog__image" class="dog__image ratio__basic" src="${el}"/>
+    `).join("")
+
+    document.getElementById("dog__list").innerHTML = image__list
+
 }
 
 const image__filter = `

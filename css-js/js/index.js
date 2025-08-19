@@ -336,7 +336,7 @@ window.onload = () => {
 
     document.getElementById("filter__menu").innerHTML = diary__filter;
     addDiaryCard()
-    addImageCard()
+    // addImageCard()
 }
 
 

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>Document</title>
+    <style>
+        .skeleton__background{
+            width: 40rem;
+            height: 40rem;
+            border-radius: 1.5rem;
+            border: 1px solid lightgray;
+
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.00) 0%, rgba(255, 255, 255, 0.60) 48.5%, rgba(255, 255, 255, 0.00) 100%);
+        
+            background-color: lightblue;
+
+            background-size: 300% auto;
+
+            animation-name: skeleton;
+            animation-duration: 2s;
+            animation-direction: alternate;
+            animation-iteration-count: infinite;
+        }
+        @keyframes skeleton{
+            from{
+                background-position: 100% 0%;
+            }
+            to{
+                background-position: 0% 100%;
+            }
+        }
+        .dog__image{
+            width: 40rem;
+            border-radius: 1.5rem;
+            object-fit: cover;
+        }
+    </style>
+    <script>
+        // window.onload = () => {
+        //     const skeleton__list = new Array(10).fill(`<div class=skeleton__background></div>`).join("")
+        //     document.getElementById("newbox").innerHTML = skeleton__list
+        // }
+
+        let image__list = [];
+        async function get_data(){
+
+            const skeleton__list = new Array(10).fill(`<div class=skeleton__background></div>`).join("")
+            document.getElementById("newbox").innerHTML = image__list + skeleton__list
+
+            const result = await fetch('https://dog.ceo/api/breeds/image/random/10');
+            console.log(result);
+        
+            const resultJSON = await result.json();
+        
+            console.log(resultJSON);
+
+            const imageURL = resultJSON.message;
+            console.log(imageURL);
+
+            image__list.push(imageURL.map(el => `
+            <img id="dog__image" class="dog__image ratio__basic" src="${el}"/>
+            `).join(""))
+
+            document.getElementById("newbox").innerHTML = image__list            
+        }
+    </script>
+</head>
+<body>
+<div id="newbox"></div>
+</body>
+</html>
