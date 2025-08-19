@@ -1,26 +1,60 @@
 /* 메뉴 이동 */
+// const changeMenu = (clicked) => {
+//     switch(clicked){
+//         case "click__diary__list":{
+//             document.getElementById("frame__diary__list").innerHTML = diary__list
+//             document.getElementById("click__diary__list").classList.remove("tab__menu__disabled")
+//             document.getElementById("click__diary__list").classList.add("content__tab__menu")
+//             document.getElementById("click__image__list").classList.remove("content__tab__menu")
+//             document.getElementById("click__image__list").classList.add("tab__menu__disabled")
+//             addDiaryCard()
+//             break;
+//         }
+//         case "click__image__list":{
+//             document.getElementById("frame__diary__list").innerHTML = `<div class=dog__list>${image__list}</div>`
+//             document.getElementById("click__image__list").classList.remove("tab__menu__disabled")
+//             document.getElementById("click__image__list").classList.add("content__tab__menu")
+//             document.getElementById("click__diary__list").classList.remove("content__tab__menu")
+//             document.getElementById("click__diary__list").classList.add("tab__menu__disabled")
+//             break;
+//         }
+//     }
+// }
+
 const changeMenu = (clicked) => {
-    switch(clicked){
-        case "click__diary__list":{
-            document.getElementById("frame__diary__list").innerHTML = diary__list
-            document.getElementById("click__diary__list").classList.remove("tab__menu__disabled")
-            document.getElementById("click__diary__list").classList.add("content__tab__menu")
-            document.getElementById("click__image__list").classList.remove("content__tab__menu")
-            document.getElementById("click__image__list").classList.add("tab__menu__disabled")
-            addDiaryCard()
-            break;
-        }
-        case "click__image__list":{
-            document.getElementById("frame__diary__list").innerHTML = `<div class=dog__list>${image__list}</div>`
-            document.getElementById("click__image__list").classList.remove("tab__menu__disabled")
-            document.getElementById("click__image__list").classList.add("content__tab__menu")
-            document.getElementById("click__diary__list").classList.remove("content__tab__menu")
-            document.getElementById("click__diary__list").classList.add("tab__menu__disabled")
-            break;
+    // 선택된 메뉴 객체
+    // 비활성화할 메뉴, 불러올 변수, 불러올 함수
+    const targetMenu = {
+        "click__diary__list":{
+            disabledID: "click__image__list",
+            content: diary__list,
+            callback: addDiaryCard
+        },
+        "click__image__list":{
+            disabledID: "click__diary__list",
+            content: `<div class=dog__list>${image__list}</div>`,
+            callback: addImageCard
         }
     }
-}
 
+    const selected = targetMenu[clicked];
+    if (!selected) return
+
+    // 선택된 탭 활성화
+    document.getElementById(clicked).classList.remove("tab__menu__disabled")
+    document.getElementById(clicked).classList.add("content__tab__menu")
+
+    // 다른 탭 비활성화
+    document.getElementById(selected.disabledID).classList.remove("content__tab__menu")
+    document.getElementById(selected.disabledID).classList.add("tab__menu__disabled")    
+
+    // HTML추가
+    document.getElementById("frame__diary__list").innerHTML = selected.content;
+
+    // 함수 실행
+    selected.callback();
+
+}
 
 
 /* 다이어리 입력 폼을 다 채우면 버튼 활성화 */
