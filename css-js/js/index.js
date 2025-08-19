@@ -6,12 +6,14 @@ const changeMenu = (clicked) => {
             disabledID: "click__image__list",
             content: diary__list,
             filter: diary__filter,
+            filter_title: "전체",
             callback: addDiaryCard
         },
         "click__image__list":{
             disabledID: "click__diary__list",
             content: `<div class=dog__list>${image__list}</div>`,
             filter: image__filter,
+            filter_title: "기본",
             callback: addImageCard
         }
     }
@@ -36,6 +38,9 @@ const changeMenu = (clicked) => {
 
     // 함수 실행
     selected.callback();
+
+    // 드롭박스 제목
+    document.getElementById("dropdown__title").style = `--filter-title: "${selected.filter_title}"`
 }
 
 
@@ -238,20 +243,20 @@ function addDiaryCard() {
 const viewFiltering = (event) => {
 
     // 드롭다운에서 선택한 기분이 XX일때, 배열에서 기분이 XX인 객체만 골라 배열로 만들기
-    const selectFilter = event.target.value
+    const selectFilter = event.target.id
     let select_filter;
-    if (selectFilter === "happy"){
+    if (selectFilter === "행복해요"){
         select_filter = diaryCard.filter ((el) => el.feeling === "happy")
-    } else if (selectFilter === "sad"){
+    } else if (selectFilter === "슬퍼요"){
         select_filter = diaryCard.filter ((el) => el.feeling === "sad")
-    } else if (selectFilter === "surprise"){
+    } else if (selectFilter === "놀랐어요"){
         select_filter = diaryCard.filter ((el) => el.feeling === "surprise")
-    } else if (selectFilter === "angry"){
+    } else if (selectFilter === "화나요"){
         select_filter = diaryCard.filter ((el) => el.feeling === "angry")
-    } else if (selectFilter === "etc"){
+    } else if (selectFilter === "기타"){
         select_filter = diaryCard.filter ((el) => el.feeling === "etc")
     } else {
-        console.log(diaryCard)
+        select_filter = diaryCard
     }
 
     // 필터된 배열을 기반으로 카드리스트HTML 만들어넣는 함수
@@ -289,20 +294,45 @@ const viewFiltering = (event) => {
 
 }
 
+const imageRatio = (event) => {
+
+    switch(event.target.id){
+        case "기본":{
+            document.getElementById("dog__image").classList.add("ratio__basic")
+            document.getElementById("dog__image").classList.remove("ratio__horizontal")
+            document.getElementById("dog__image").classList.remove("ratio__vertical")
+            break
+        }
+        case "가로형":{
+            document.getElementById("dog__image").classList.add("ratio__horizontal")
+            document.getElementById("dog__image").classList.remove("ratio__basic")
+            document.getElementById("dog__image").classList.remove("ratio__vertical")
+            break
+        }
+        case "세로형":{
+            document.getElementById("dog__image").classList.add("ratio__vertical")
+            document.getElementById("dog__image").classList.remove("ratio__basic")
+            document.getElementById("dog__image").classList.remove("ratio__horizontal")
+            break
+        }
+    }
+}
+
 // 스크롤 내릴 시, 필터 드롭다운 배경색 반전
 window.onload = () => {
 
-    document.getElementById("frame__diary__list").addEventListener("scroll", () => {
+    // 삭제 ^ㅡ^
+    // document.getElementById("frame__diary__list").addEventListener("scroll", () => {
 
-        const scrolling = document.getElementById("frame__diary__list").scrollTop
+    //     const scrolling = document.getElementById("frame__diary__list").scrollTop
 
-        if (scrolling > 0) {
-            document.getElementById("feeling__filter").style = "background-color: #1C1C1C; color: #FFFFFF; border: none;"
-        } else {
-            document.getElementById("feeling__filter").style = "background-color: #FFFFFF; color:  #1C1C1C; border: 1px solid #C7C7C7;"
-        }
+    //     if (scrolling > 0) {
+    //         document.getElementById("feeling__filter").style = "background-color: #1C1C1C; color: #FFFFFF; border: none;"
+    //     } else {
+    //         document.getElementById("feeling__filter").style = "background-color: #FFFFFF; color:  #1C1C1C; border: 1px solid #C7C7C7;"
+    //     }
 
-    })
+    // })
 
     document.getElementById("filter__menu").innerHTML = diary__filter;
     addDiaryCard()
@@ -356,4 +386,9 @@ function floatingButton(){
 
         z-index: 99;
     `
+}
+
+const selectDropDown = (event) => {
+    document.getElementById("dropdown__title").style = `--filter-title: "${event.target.id}"`
+    document.getElementById("dropdown__title").click()
 }

@@ -3,17 +3,37 @@ const diary__list = `
     </div>
 `
 const diary__filter = `
-    <select id="feeling__filter" class="feeling__filter" onchange="viewFiltering(event)">
-        <option selected disabled>전체</option>
-        <option value="happy">행복해요</option>
-        <option value="sad">슬퍼요</option>
-        <option value="surprise">놀랐어요</option>
-        <option value="angry">화나요</option>
-        <option value="etc">기타</option>
-    </select>
+    <div class="dropdown__group">
+        <input type="checkbox" id="dropdown__title" class="dropdown__title"/>
+        <ul class="dropdown__list">
+            <li>
+                <input type="radio" id="전체" name="dropdown" onclick="selectDropDown(event);viewFiltering(event);"/>
+                <label for="전체">전체</label>
+            </li>
+            <li>
+                <input type="radio" id="행복해요" name="dropdown" onclick="selectDropDown(event);viewFiltering(event);"/>
+                <label for="행복해요">행복해요</label>
+            </li>
+            <li>
+                <input type="radio" id="슬퍼요" name="dropdown" onclick="selectDropDown(event);viewFiltering(event);"/>
+                <label for="슬퍼요">슬퍼요</label>
+            </li>
+            <li>
+                <input type="radio" id="놀랐어요" name="dropdown" onclick="selectDropDown(event);viewFiltering(event);"/>
+                <label for="놀랐어요">놀랐어요</label>
+            </li>
+            <li>
+                <input type="radio" id="화나요" name="dropdown" onclick="selectDropDown(event);viewFiltering(event);"/>
+                <label for="화나요">화나요</label>
+            </li>
+            <li>
+                <input type="radio" id="기타" name="dropdown" onclick="selectDropDown(event);viewFiltering(event);"/>
+                <label for="기타">기타</label>
+            </li>
+        </ul>
+    </div>
     <button class="add__diary__button" onclick="viewModal('write__form__modal')">
         <img src="./assets/icons/plus_outline_light_m.svg" />
         일기쓰기
     </button>
-
 `

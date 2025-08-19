@@ -154,7 +154,7 @@ body{
     flex-direction: column;
     justify-content: baseline;
     align-items: center;
-    gap: 2.625rem;
+    gap: 2rem;
 }
 
 .frame__content__navigator {
@@ -220,7 +220,6 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
 }
 
 .feeling__filter {
@@ -260,6 +259,74 @@ body{
     color: #FFFFFF;
 }
 
+.dropdown__group{
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+
+    overflow: visible;
+
+    position: relative;
+    z-index: 1;
+}
+
+.dropdown__title{
+    appearance: none;
+    width: 7.5rem;
+    height: 3rem;
+    padding: 0.75rem 0.625rem;
+    border-radius: 0.5rem;
+    border: 0.06rem solid #C7C7C7;
+    margin-bottom: 0.5rem;
+
+    --filter-title: "전체";
+
+    font-size: var(--font-size-text-md);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5rem;
+    letter-spacing: -1%;
+    color: #1C1C1C;
+}
+
+.dropdown__title::after{
+    content: var(--filter-title);
+}
+
+.dropdown__title:checked + ul{
+    display: block;
+}
+
+.dropdown__list{
+    display: none;
+    list-style-type: none;
+    background-color: #FFFFFF;
+
+    width: 7.5rem;
+    border-radius: 0.5rem;
+    border: 0.06rem solid #C7C7C7;
+
+    color: #5F5F5F;
+
+    overflow: hidden;
+
+    position: absolute;
+    top: 3.5rem;
+}
+
+.dropdown__list input{
+    display: none;
+}
+
+.dropdown__list label{
+    display: block;
+    padding: 0.75rem;
+}
+
+.dropdown__list label:hover{
+    background-color: rgba(58, 181, 15, 0.05); 
+}
+
+
 .frame__content__diary {
     width: var(--width-content-main);
     min-height: 73rem;
@@ -273,10 +340,7 @@ body{
 
     overflow: scroll;
 }
-/* 
-.frame__content__diary:has(.diary__card:hover){
-    width: 75rem;
-} */
+
 
 .content__diary__list{
     width: var(--width-content-main);
@@ -301,10 +365,6 @@ body{
 }
 
 
-/* .content__diary__list:has(.diary__card:hover){
-    width: 53.75rem;
-} */
-
 a{
     text-decoration: none;
     position: relative;
@@ -324,15 +384,6 @@ a{
     top 0.5s,
     left 0.5s;
 }
-
-/* .diary__card:hover #delete__button{
-    width: 1.688rem;
-    height: 1.688rem;
-
-    position: absolute;
-    top: 0.75rem;
-    left: 23rem;
-} */
 
 
 .diary__card{
@@ -355,18 +406,6 @@ a{
 
     transition-timing-function: linear;
 }
-
-
-/* .diary__card:hover{
-    width: 25.75rem;
-    height: 24.75rem;
-    
-    box-shadow: 0 0.125rem 1.875rem 0 rgba(0, 0, 0, 0.16);
-} */
-
-/* .diary__card:hover .diary__card__subtitle{
-    width: 110%;
-} */
 
 
 .diary__card__image{
@@ -476,12 +515,22 @@ a{
     gap: 2.5rem;
 }
 
-.dog__list img{
+.dog__image{
     width: 40rem;
-    /* height: 40rem; */
-    aspect-ratio: 1 / 1 ;
     border-radius: 1.5rem;
     object-fit: cover;
+}
+
+.ratio__basic{
+    aspect-ratio: 1 / 1 ;
+}
+
+.ratio__horizontal{
+    aspect-ratio: 4 / 3 ;
+}
+
+.ratio__vertical{
+    aspect-ratio: 3 / 4 ;
 }
 
 
