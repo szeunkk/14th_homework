@@ -159,7 +159,6 @@ body{
 
 .frame__content__navigator {
     width: var(--width-full);
-    height: 7rem;
 
     display: flex;
     flex-direction: column;
@@ -216,11 +215,12 @@ body{
 
 .frame__content__filter{
     width: var(--width-content-main);
-    height: 2rem;
+    height: 3rem;
 
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 .feeling__filter {

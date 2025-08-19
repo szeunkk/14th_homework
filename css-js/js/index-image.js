@@ -14,3 +14,12 @@ const addImageCard = () => {
         })
     })
 }
+
+const image__filter = `
+    <input type="checkbox" />
+    <ul>
+        <li>기본</li>
+        <li>가로형</li>
+        <li>세로형</li>
+    </ul>
+`
