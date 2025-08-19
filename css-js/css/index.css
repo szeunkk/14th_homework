@@ -413,7 +413,8 @@ a{
     height: 100%;
     border-radius: 1rem;
     /* background-image: url("./assets/images/sad_M.svg"); */
-    background-size: 100% 100%;
+    /* background-size: 100% 100%; */
+    object-fit: cover;
 
     transition: 
     width 0.5s,
