@@ -286,6 +286,9 @@ body{
     line-height: 1.5rem;
     letter-spacing: -1%;
     color: #1C1C1C;
+
+    position: relative;
+    z-index: 2;
 }
 
 .dropdown__title::after{
@@ -294,6 +297,14 @@ body{
 
 .dropdown__title:checked + ul{
     display: block;
+}
+
+.dropdown__img{
+    width: 1.5rem;
+    height: 1.5rem;
+    position: absolute;
+    top: 0.75rem;
+    right: 0.625rem;
 }
 
 .dropdown__list{
@@ -317,9 +328,25 @@ body{
     display: none;
 }
 
-.dropdown__list label{
+.dropdown__list input[type="radio"]:checked + label{
+    color: #299C00;
+    font-weight: var(--font-weight-bold);
+    background-color: rgba(58, 181, 15, 0.05); 
+}
+
+.dropdown__list input[type="radio"]:checked + label img{
     display: block;
+}
+
+.dropdown__list label{
+    display: flex;
     padding: 0.75rem;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.dropdown__list label img{
+    display: none;
 }
 
 .dropdown__list label:hover{

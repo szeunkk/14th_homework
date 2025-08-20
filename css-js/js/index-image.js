@@ -26,19 +26,20 @@ async function addImageCard() {
 
 const image__filter = `
     <div class="dropdown__group">
+        <img class="dropdown__img" src="./assets/icons/down_fill_light_m.svg"/>
         <input type="checkbox" id="dropdown__title" class="dropdown__title"/>
         <ul class="dropdown__list">
             <li>
-                <input type="radio" id="기본" name="dropdown" onclick="selectDropDown(event);imageRatio(event);"/>
-                <label for="기본">기본</label>
+                <input type="radio" id="기본" name="dropdown" onclick="selectDropDown(event);imageRatio(event);" checked="true"/>
+                <label for="기본">기본<img src="./assets/icons/check_outline_light_xs.svg"/></label>
             </li>
             <li>
                 <input type="radio" id="가로형" name="dropdown" onclick="selectDropDown(event);imageRatio(event);"/>
-                <label for="가로형">가로형</label>
+                <label for="가로형">가로형<img src="./assets/icons/check_outline_light_xs.svg"/></label>
             </li>
             <li>
                 <input type="radio" id="세로형" name="dropdown" onclick="selectDropDown(event);imageRatio(event);"/>
-                <label for="세로형">세로형</label>
+                <label for="세로형">세로형<img src="./assets/icons/check_outline_light_xs.svg"/></label>
             </li>
         </ul>
     </div>
