@@ -122,8 +122,8 @@ const closeModal = (modal__name) => {
 }
 
 /* 취소모달에서 계속 작성 클릭 시, 해당 모달만 꺼지게끔하기? */
-const keepWrite = () => {
-    document.getElementById('write__close__modal').style = "display: none"
+const keepWrite = (modal__name) => {
+    document.getElementById(modal__name).style = "display: none"
 }
 
 /* 등록화면 모달에서 여백 클릭 시, 모달 종료 */
@@ -307,21 +307,28 @@ function findCommonCard(arr1, arr2){
 function filterDiaryCard(result) {
     
 
-
     if (result.length >= 1){
-        const result_HTML = result.map((el,index)=>`
-            <a href="./detail.html?number=${index}">
+        // 로컬스토리지에서 불러온 다이어리 카드 값의 인덱스를 뽑기 위한 빈 배열 생성
+        const resultOfCard = [];
+
+        // 필터링(검색, 드롭다운)된 다이어리 카드의 인덱스를 뽑아오기
+        result.map(el => {
+            const indexResult = diaryCard.indexOf(el)
+            resultOfCard.push(indexResult)
+        })
+        const result_HTML = resultOfCard.map((el)=>`
+            <a href="./detail.html?number=${el}">
             <div class="diary__card">
                 <div>
-                    <img class="diary__card__image" src="./assets/images/${result[index].feeling}_M.svg" />
-                    <img id="delete__button" src="./assets/icons/close_outline_light_m.svg" />
+                    <img class="diary__card__image" src="./assets/images/${diaryCard[el].feeling}_M.svg" />
+                    <img id="delete__button" src="./assets/icons/close_outline_light_m.svg" onclick="deleteDiaryCard(event, ${el})" />
                 </div>
                 <div class="diary__card__text">
                     <div class="diary__card__subtitle">
-                        <div class="diary__card__feeling ${result[index].feeling}">${result[index].feeling_title}</div>
-                        <div id="diary__card__date">${result[index].date}</div>
+                        <div class="diary__card__feeling ${diaryCard[el].feeling}">${diaryCard[el].feeling_title}</div>
+                        <div id="diary__card__date">${diaryCard[el].date}</div>
                     </div>
-                    <div class="diary__card__title">${result[index].card_title}</div>
+                    <div class="diary__card__title">${diaryCard[el].card_title}</div>
                 </div>
             </div>
             </a>    
@@ -335,94 +342,6 @@ function filterDiaryCard(result) {
 
 }
 
-
-// 드롭다운에서 필터링 기능 추가하기
-const viewFiltering = (event) => {
-
-    
-    
-    // 1. 드롭다운에서 이벤트가 발생했을 때 필터 함수 실행
-    // 드롭다운에서 선택한 기분이 XX일때, 배열에서 기분이 XX인 객체만 골라 배열로 만들기
-
-    const dropdownEvent = (event) => {
-        const selectFilter = event.target.id
-    
-        if (selectFilter === "행복해요"){
-            select_filter = diaryCard.filter ((el) => el.feeling === "happy")
-        } else if (selectFilter === "슬퍼요"){
-            select_filter = diaryCard.filter ((el) => el.feeling === "sad")
-        } else if (selectFilter === "놀랐어요"){
-            select_filter = diaryCard.filter ((el) => el.feeling === "surprise")
-        } else if (selectFilter === "화나요"){
-            select_filter = diaryCard.filter ((el) => el.feeling === "angry")
-        } else if (selectFilter === "기타"){
-            select_filter = diaryCard.filter ((el) => el.feeling === "etc")
-        } else {
-            select_filter = diaryCard
-        }
-    }
-
-    // 2. 검색어 입력 시 검색어 함수 실행
-    // 카드 제목 중 XX가 포함된 내용 배열로 만들기
-
-
-    // const inputSearch = (event) => {
-
-    //     // 이전 설정된 타이머 취소
-    //     clearTimeout(searchTimer);
-
-    //     // 새로운 setTimeout 설정 => 입력 멈춘 후 1초 후 실행
-    //     searchTimer = setTimeout(() => {
-
-    //         const searchTitle = event.target.value
-    //         select_filter = diaryCard.filter(el => el.card_title.includes(searchTitle))
-
-    //         console.log(select_filter)
-    //     },1000)
-    // }
-
-    // 3. 필터된 배열을 기반으로 카드리스트HTML 만들어넣는 함수
-    // function filterDiaryCard() {
-    //     console.log(select_filter)
-    //     if (select_filter.length >= 1){
-    //         const select_filter_HTML = select_filter.map((el,index)=>`
-    //             <a href="./detail.html?number=${index}">
-    //             <div class="diary__card">
-    //                 <div>
-    //                     <img class="diary__card__image" src="./assets/images/${select_filter[index].feeling}_M.svg" />
-    //                     <img id="delete__button" src="./assets/icons/close_outline_light_m.svg" />
-    //                 </div>
-    //                 <div class="diary__card__text">
-    //                     <div class="diary__card__subtitle">
-    //                         <div class="diary__card__feeling ${select_filter[index].feeling}">${select_filter[index].feeling_title}</div>
-    //                         <div id="diary__card__date">${select_filter[index].date}</div>
-    //                     </div>
-    //                     <div class="diary__card__title">${select_filter[index].card_title}</div>
-    //                 </div>
-    //             </div>
-    //             </a>    
-    //         `).join("")
-        
-    //         document.getElementById("card__list").innerHTML = select_filter_HTML
-    //     } else {
-    //         // 기존 배열 중 드롭다운에서 선택하지 않은 기분을 골랐을 때는 배열이 0이므로, 안내 문구 노출
-    //         document.getElementById("card__list").innerText = "선택한 기분으로 작성된 일기가 없습니다."
-    //     }
-    
-    // }
-
-    // // event 타입을 확인해서 함수 실행
-    // switch(event.type){
-    //     case "input":{inputSearch(event);}
-    //     case "change":{dropdownEvent(event);}
-    // }
-
-    inputSearch(event)
-    dropdownEvent(event)
-    // 위에서 만든 필터된 카드 배열 넣는 함수 실행
-    filterDiaryCard()
-
-}
 
 const imageRatio = (event) => {
 
@@ -438,19 +357,6 @@ const imageRatio = (event) => {
 
 // 스크롤 내릴 시, 필터 드롭다운 배경색 반전
 window.onload = () => {
-
-    // 삭제 ^ㅡ^
-    // document.getElementById("frame__diary__list").addEventListener("scroll", () => {
-
-    //     const scrolling = document.getElementById("frame__diary__list").scrollTop
-
-    //     if (scrolling > 0) {
-    //         document.getElementById("feeling__filter").style = "background-color: #1C1C1C; color: #FFFFFF; border: none;"
-    //     } else {
-    //         document.getElementById("feeling__filter").style = "background-color: #FFFFFF; color:  #1C1C1C; border: 1px solid #C7C7C7;"
-    //     }
-
-    // })
 
     document.getElementById("filter__menu").innerHTML = diary__filter;
     addDiaryCard()
@@ -479,13 +385,19 @@ function deleteDiaryCard (event, index) {
     // 이벤트 버블링 방지
     event.preventDefault();
 
-    // 현재 카드 배열에서 삭제 버튼 누른 카드 삭제
-    diaryCard.splice(index, 1);
-    
-    // 삭제 후 카드 재배치를 위한 localstorage 업데이트
-    localStorage.setItem("diaryCardList",JSON.stringify(diaryCard))
+    // 카드 삭제 모달 두두둥장
+    viewModal('delete__modal')
 
-    alert("선택한 일기가 삭제되었습니다.");
+    const button = document.getElementById("delete__card");
+    button.addEventListener('click', () => {
+        
+        // 현재 카드 배열에서 삭제 버튼 누른 카드 삭제
+        diaryCard.splice(index, 1);
+        
+        // 삭제 후 카드 재배치를 위한 localstorage 업데이트
+        localStorage.setItem("diaryCardList",JSON.stringify(diaryCard))
+
+    })
     
     // 다이어리 카드 만들기 함수 실행
     addDiaryCard();

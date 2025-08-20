@@ -850,6 +850,24 @@ a{
     white-space: nowrap;
 }
 
+#close__button{
+    background-color: #FFFFFF;
+    border: 0.0625rem solid #000000; 
+    color: #1C1C1C;
+  }
+
+  #not__delete{
+    background-color: #FFFFFF;
+    border: 0.0625rem solid #000000; 
+    color: #1C1C1C;
+  }
+  
+  #delete__card{
+    background-color: #000000;
+    color: #F2F2F2;
+  }
+
+
 #cancel__button{
     background-color: #FFFFFF;
     border: 0.0625rem solid #000000; 
@@ -955,6 +973,41 @@ a{
 	left: calc(50% - 30rem/2);
 }
 
+#delete__modal{
+    display: none;
+}
+
+.modal__group__delete{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.modal__delete{
+width: 30rem;
+height: 12.5rem;
+border-radius: 1.5rem;
+padding: 1.5rem;
+background-color: #FFFFFF;
+
+
+display: flex;
+flex-direction: column;
+gap: 2.5rem;
+
+position: absolute;
+top: calc(50% - 12.5rem/2);
+left: calc(50% - 30rem/2);
+}
+
+.modal__delete__button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1.31rem;
+}
+
 .modal__close__button{
     display: flex;
     flex-direction: row;
@@ -972,6 +1025,8 @@ a{
     background-color: #000000;
     color: #F2F2F2;
 }
+
+
 
 /* 미디어 쿼리 부분 */
 /* 1280px
@@ -1133,6 +1188,7 @@ a{
         gap: 1.5rem;
         left: calc(50% - 20rem/2);
     }
+
     .modal__title{
         font-size: var(--font-size-text-md);
         line-height: 1.25rem;
