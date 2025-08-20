@@ -240,14 +240,42 @@ function addDiaryCard() {
 
 }
 
+// 드롭다운 선택 함수
+const selectDropDown = (event) => {
+    document.getElementById("dropdown__title").style = `--filter-title: "${event.target.id}"`
+    document.getElementById("dropdown__title").click()
+}
 
+// 필터 메뉴 함수
+// 1. 필터될 변수 설정
+let select_filter = diaryCard;
+let search_filter = diaryCard;
 
-// 드롭다운에서 필터링 기능 추가하기
-const viewFiltering = (event) => {
+// 2. 1초 후 다이어리 제목 검색 후 select_filter로 반환
+let searchTimer = "";
+const inputSearch = (event) => {
 
-    // 드롭다운에서 선택한 기분이 XX일때, 배열에서 기분이 XX인 객체만 골라 배열로 만들기
+    // 이전 설정된 타이머 취소
+    clearTimeout(searchTimer);
+
+    // 새로운 setTimeout 설정 => 입력 멈춘 후 1초 후 실행
+    searchTimer = setTimeout(() => {
+
+        const searchTitle = event.target.value
+        search_filter = diaryCard.filter(el => el.card_title.includes(searchTitle))
+        
+        // 공통배열 검색
+        const result = findCommonCard(search_filter, select_filter)
+        // 검색한 카드 반환
+        filterDiaryCard(result)
+    },1000)
+    
+}
+
+// 3. 드롭다운에서 이벤트 발생 시 필터 함수 실행
+const dropdownEvent = (event) => {
     const selectFilter = event.target.id
-    let select_filter;
+    
     if (selectFilter === "행복해요"){
         select_filter = diaryCard.filter ((el) => el.feeling === "happy")
     } else if (selectFilter === "슬퍼요"){
@@ -262,36 +290,135 @@ const viewFiltering = (event) => {
         select_filter = diaryCard
     }
 
-    // 필터된 배열을 기반으로 카드리스트HTML 만들어넣는 함수
-    function filterDiaryCard() {
+    // 공통배열 검색
+    const result = findCommonCard(search_filter, select_filter)
+    // 필터된 카드 반환
+    filterDiaryCard(result)
+}
 
-        if (select_filter.length >= 1){
-            const select_filter_HTML = select_filter.map((el,index)=>`
-                <a href="./detail.html?number=${index}">
-                <div class="diary__card">
-                    <div>
-                        <img class="diary__card__image" src="./assets/images/${select_filter[index].feeling}_M.svg" />
-                        <img id="delete__button" src="./assets/icons/close_outline_light_m.svg" />
-                    </div>
-                    <div class="diary__card__text">
-                        <div class="diary__card__subtitle">
-                            <div class="diary__card__feeling ${select_filter[index].feeling}">${select_filter[index].feeling_title}</div>
-                            <div id="diary__card__date">${select_filter[index].date}</div>
-                        </div>
-                        <div class="diary__card__title">${select_filter[index].card_title}</div>
-                    </div>
-                </div>
-                </a>    
-            `).join("")
-        
-            document.getElementById("card__list").innerHTML = select_filter_HTML
-        } else {
-            // 기존 배열 중 드롭다운에서 선택하지 않은 기분을 골랐을 때는 배열이 0이므로, 안내 문구 노출
-            document.getElementById("card__list").innerText = "선택한 기분으로 작성된 일기가 없습니다."
-        }
+// 공통으로 포함된 배열 찾기
+function findCommonCard(arr1, arr2){
+    const commonCard = arr1.filter( el => arr2.includes(el));
+
+    return commonCard
+}
+
+// select_filter가 1개 이상일 때 다이어리 카드로 변환
+function filterDiaryCard(result) {
     
+
+
+    if (result.length >= 1){
+        const result_HTML = result.map((el,index)=>`
+            <a href="./detail.html?number=${index}">
+            <div class="diary__card">
+                <div>
+                    <img class="diary__card__image" src="./assets/images/${result[index].feeling}_M.svg" />
+                    <img id="delete__button" src="./assets/icons/close_outline_light_m.svg" />
+                </div>
+                <div class="diary__card__text">
+                    <div class="diary__card__subtitle">
+                        <div class="diary__card__feeling ${result[index].feeling}">${result[index].feeling_title}</div>
+                        <div id="diary__card__date">${result[index].date}</div>
+                    </div>
+                    <div class="diary__card__title">${result[index].card_title}</div>
+                </div>
+            </div>
+            </a>    
+        `).join("")
+    
+        document.getElementById("card__list").innerHTML = result_HTML
+    } else {
+        // 기존 배열 중 드롭다운에서 선택하지 않은 기분을 골랐을 때는 배열이 0이므로, 안내 문구 노출
+        document.getElementById("card__list").innerText = "검색한 내용으로 작성된 일기가 없습니다."
     }
 
+}
+
+
+// 드롭다운에서 필터링 기능 추가하기
+const viewFiltering = (event) => {
+
+    
+    
+    // 1. 드롭다운에서 이벤트가 발생했을 때 필터 함수 실행
+    // 드롭다운에서 선택한 기분이 XX일때, 배열에서 기분이 XX인 객체만 골라 배열로 만들기
+
+    const dropdownEvent = (event) => {
+        const selectFilter = event.target.id
+    
+        if (selectFilter === "행복해요"){
+            select_filter = diaryCard.filter ((el) => el.feeling === "happy")
+        } else if (selectFilter === "슬퍼요"){
+            select_filter = diaryCard.filter ((el) => el.feeling === "sad")
+        } else if (selectFilter === "놀랐어요"){
+            select_filter = diaryCard.filter ((el) => el.feeling === "surprise")
+        } else if (selectFilter === "화나요"){
+            select_filter = diaryCard.filter ((el) => el.feeling === "angry")
+        } else if (selectFilter === "기타"){
+            select_filter = diaryCard.filter ((el) => el.feeling === "etc")
+        } else {
+            select_filter = diaryCard
+        }
+    }
+
+    // 2. 검색어 입력 시 검색어 함수 실행
+    // 카드 제목 중 XX가 포함된 내용 배열로 만들기
+
+
+    // const inputSearch = (event) => {
+
+    //     // 이전 설정된 타이머 취소
+    //     clearTimeout(searchTimer);
+
+    //     // 새로운 setTimeout 설정 => 입력 멈춘 후 1초 후 실행
+    //     searchTimer = setTimeout(() => {
+
+    //         const searchTitle = event.target.value
+    //         select_filter = diaryCard.filter(el => el.card_title.includes(searchTitle))
+
+    //         console.log(select_filter)
+    //     },1000)
+    // }
+
+    // 3. 필터된 배열을 기반으로 카드리스트HTML 만들어넣는 함수
+    // function filterDiaryCard() {
+    //     console.log(select_filter)
+    //     if (select_filter.length >= 1){
+    //         const select_filter_HTML = select_filter.map((el,index)=>`
+    //             <a href="./detail.html?number=${index}">
+    //             <div class="diary__card">
+    //                 <div>
+    //                     <img class="diary__card__image" src="./assets/images/${select_filter[index].feeling}_M.svg" />
+    //                     <img id="delete__button" src="./assets/icons/close_outline_light_m.svg" />
+    //                 </div>
+    //                 <div class="diary__card__text">
+    //                     <div class="diary__card__subtitle">
+    //                         <div class="diary__card__feeling ${select_filter[index].feeling}">${select_filter[index].feeling_title}</div>
+    //                         <div id="diary__card__date">${select_filter[index].date}</div>
+    //                     </div>
+    //                     <div class="diary__card__title">${select_filter[index].card_title}</div>
+    //                 </div>
+    //             </div>
+    //             </a>    
+    //         `).join("")
+        
+    //         document.getElementById("card__list").innerHTML = select_filter_HTML
+    //     } else {
+    //         // 기존 배열 중 드롭다운에서 선택하지 않은 기분을 골랐을 때는 배열이 0이므로, 안내 문구 노출
+    //         document.getElementById("card__list").innerText = "선택한 기분으로 작성된 일기가 없습니다."
+    //     }
+    
+    // }
+
+    // // event 타입을 확인해서 함수 실행
+    // switch(event.type){
+    //     case "input":{inputSearch(event);}
+    //     case "change":{dropdownEvent(event);}
+    // }
+
+    inputSearch(event)
+    dropdownEvent(event)
     // 위에서 만든 필터된 카드 배열 넣는 함수 실행
     filterDiaryCard()
 
@@ -376,9 +503,4 @@ function floatingButton(){
 
         z-index: 99;
     `
-}
-
-const selectDropDown = (event) => {
-    document.getElementById("dropdown__title").style = `--filter-title: "${event.target.id}"`
-    document.getElementById("dropdown__title").click()
 }

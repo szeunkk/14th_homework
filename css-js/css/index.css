@@ -325,7 +325,6 @@ body{
     padding: var(--dropdown-padding);
     border-radius: 0.5rem;
     border: 0.06rem solid #C7C7C7;
-    margin-bottom: 0.5rem;
 
     --filter-title: "전체";
 
