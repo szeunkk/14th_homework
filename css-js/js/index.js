@@ -22,8 +22,6 @@ const changeMenu = (clicked) => {
 
     if (!selected) return
 
-
-
     // 선택된 탭 활성화
     document.getElementById(clicked).classList.remove("tab__menu__disabled")
     document.getElementById(clicked).classList.add("content__tab__menu")
@@ -41,6 +39,11 @@ const changeMenu = (clicked) => {
 
     // 드롭박스 제목
     document.getElementById("dropdown__title").style = `--filter-title: "${selected.filter_title}"`
+
+    // 이미지 박스 선택 시, 기본 비율로 변경
+    document.documentElement.style.setProperty('--image-ratio','1 / 1');
+
+
 }
 
 
@@ -324,7 +327,6 @@ window.onload = () => {
 
     document.getElementById("filter__menu").innerHTML = diary__filter;
     addDiaryCard()
-    // addImageCard()
 }
 
 

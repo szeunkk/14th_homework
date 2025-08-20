@@ -225,6 +225,45 @@ body{
     justify-content: space-between;
 }
 
+.filter__main{
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: center;
+    gap: 1rem;
+}
+
+.searchbar__group{
+    width: 20rem;
+    height: 3rem;
+    border-radius: 6.25rem;
+    border: 0.06rem solid #C7C7C7;
+    padding: 0.75rem 1rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.searchbar__group input[type="text"]{
+    height: 100%;
+    border: none;
+    outline: none;
+
+
+    font-size: var(--font-size-text-md);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5rem;
+    letter-spacing: -1%;
+    color: #000000;
+}
+
+.searchbar__group input[type="text"]::placeholder{
+    color:  #ABABAB;
+}
+
 .feeling__filter {
     width: 7.5rem;
     height: 2rem;
@@ -271,13 +310,19 @@ body{
 
     position: relative;
     z-index: 1;
+
+    --dropdown-width:7.5rem;
+    --dropdown-height: 3rem;
+    --dropdown-padding: 0.75rem 0.625rem;
+    --dropdown-list-padding: 0.75rem;
+     
 }
 
 .dropdown__title{
     appearance: none;
-    width: 7.5rem;
-    height: 3rem;
-    padding: 0.75rem 0.625rem;
+    width: var(--dropdown-width);
+    height: var(--dropdown-height);
+    padding: var(--dropdown-padding);
     border-radius: 0.5rem;
     border: 0.06rem solid #C7C7C7;
     margin-bottom: 0.5rem;
@@ -315,7 +360,7 @@ body{
     list-style-type: none;
     background-color: #FFFFFF;
 
-    width: 7.5rem;
+    width: var(--dropdown-width);
     border-radius: 0.5rem;
     border: 0.06rem solid #C7C7C7;
 
@@ -343,12 +388,13 @@ body{
 
 .dropdown__list label{
     display: flex;
-    padding: 0.75rem;
+    padding: var(--dropdown-list-padding);
     flex-direction: row;
     justify-content: space-between;
 }
 
 .dropdown__list label img{
+    width: 1rem;
     display: none;
 }
 
@@ -557,18 +603,6 @@ a{
     --ratio-vertical : 3 / 4 ;  */
     aspect-ratio: var(--image-ratio);
 }
-
-/* .ratio__basic{
-    aspect-ratio: 1 / 1 ;
-}
-
-.ratio__horizontal{
-    aspect-ratio: 4 / 3 ;
-}
-
-.ratio__vertical{
-    aspect-ratio: 3 / 4 ;
-} */
 
 .skeleton__background{
     width: 40rem;
@@ -1108,5 +1142,18 @@ a{
     }
     .dog__image{
         width: 17.5rem;
+    }
+    .dropdown__group{
+        --dropdown-width: 6.375rem;
+        --dropdown-height: 2.5rem;
+        --dropdown-padding: 0.5rem 0.625rem;
+        --dropdown-list-padding: 0.5rem 0.75rem;
+    }
+    .dropdown__title,
+    .dropdown__list{
+        font-size: var(--font-size-text-sm);
+    }
+    .dropdown__img{
+        top: 0.5rem;
     }
 }
