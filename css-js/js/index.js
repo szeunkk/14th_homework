@@ -11,7 +11,7 @@ const changeMenu = (clicked) => {
         },
         "click__image__list":{
             disabledID: "click__diary__list",
-            content: `<div class=dog__list>${image__list}</div>`,
+            content: image__list,
             filter: image__filter,
             filter_title: "기본",
             callback: addImageCard
@@ -469,7 +469,7 @@ window.addEventListener("load", floatingButton)
 // 플로팅 버튼 선택 시, 요소 맨 위로 이동
 function scrollpage () {
 
-    document.getElementById("frame__diary__list").scrollTo({ top: 0, behavior: "smooth" })
+    window.scrollTo({ top: 0, behavior: "smooth" })
 
 }
 
