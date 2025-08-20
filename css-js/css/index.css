@@ -281,7 +281,7 @@ body{
 }
 
 .add__diary__button {
-
+    width: 6.875rem;
     height: 3rem;
     padding: 0.5rem 0.62rem;
     border-radius: 0.5rem;
@@ -299,6 +299,7 @@ body{
     line-height: 1.5rem;
     letter-spacing: -1%;
     color: #FFFFFF;
+    white-space: nowrap;
 }
 
 .dropdown__group{
@@ -527,7 +528,7 @@ a{
 }
 
 .diary__card__feeling{
-    width: 3.75rem;
+    /* width: 3.75rem; */
 
     font-weight: var(--font-weight-semi-bold);
     font-size: var(--font-size-text-sm);
@@ -558,7 +559,7 @@ a{
 }
 
 #diary__card__date{
-    width: 6.25rem;
+    /* width: 6.25rem; */
 
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-text-sm);
@@ -1001,14 +1002,8 @@ top: calc(50% - 12.5rem/2);
 left: calc(50% - 30rem/2);
 }
 
+.modal__close__button,
 .modal__delete__button{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 1.31rem;
-}
-
-.modal__close__button{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -1077,24 +1072,30 @@ left: calc(50% - 30rem/2);
         --width-diary-card: 9.25rem; /* 일기 카드 너비 */
         --width-diary-form: 20rem; /* 일기 작성 폼 너비 */ 
     }
-    .background{
-        height: 156.3125rem;
-    }
-    .main{
-        height: 146.8125rem;
-    }
+
     #floating__button{
         top: 144rem;
         left: 18.75rem;
     }
-    .main__frame{
-        height: 141.5625rem;
-    }
+
     .frame__content__diary{
         overflow: visible;
-        height: 117.4375rem;
         flex-direction: column;
     }
+    .frame__content__tab{
+        gap: 0.5rem;
+    }
+
+    .content__tab__menu,
+    .tab__menu__disabled{
+        width: 4.8125rem;
+        height: 2.75rem;
+        padding: 0.75rem 0.25rem;
+
+        font-size: var(--font-size-text-md);
+        line-height: 1.25rem;
+    }
+
     .content__diary__list{
         height: 100%;
         overflow-y: scroll;
@@ -1103,8 +1104,21 @@ left: calc(50% - 30rem/2);
         place-items: center;
         order: 2;
     }
+    .diary__card{
+        height: 12rem;
+    }
     .diary__card__image{
         object-fit: cover;
+    }
+    .diary__card__text{
+        gap: 0.25rem;
+    }
+    #diary__card__date,
+    .diary__card__feeling{
+        font-size: 0.75rem;
+    }
+    .diary__card__title{
+        font-size: var(--font-size-text-sm);
     }
     #delete__button{
         left:7rem
@@ -1181,7 +1195,8 @@ left: calc(50% - 30rem/2);
         height: 2.5rem;
         font-size: var(--font-size-text-md);
     }
-    .modal__close__write{
+    .modal__close__write,
+    .modal__delete{
         width: var(--width-content-main);
         height: 9.75rem;
 
@@ -1200,11 +1215,21 @@ left: calc(50% - 30rem/2);
     .dog__image{
         width: 17.5rem;
     }
+
+    .frame__content__filter{
+
+        height: 6rem;
+        position: relative;
+    }
+
     .dropdown__group{
         --dropdown-width: 6.375rem;
         --dropdown-height: 2.5rem;
         --dropdown-padding: 0.5rem 0.625rem;
         --dropdown-list-padding: 0.5rem 0.75rem;
+
+        position: absolute;
+        bottom: 0;
     }
     .dropdown__title,
     .dropdown__list{
@@ -1212,5 +1237,23 @@ left: calc(50% - 30rem/2);
     }
     .dropdown__img{
         top: 0.5rem;
+    }
+
+    .searchbar__group{
+        height: 2.5rem;
+
+        position: absolute;
+        top: 0;
+    }
+
+    .add__diary__button{
+        width: 6.4375rem;
+        height: 2.5rem;
+
+        position: absolute;
+        bottom: 0;
+        right: 0;
+
+        font-size: var(--font-size-text-md);
     }
 }

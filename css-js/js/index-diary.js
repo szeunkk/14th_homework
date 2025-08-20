@@ -41,7 +41,5 @@ const diary__filter = `
     </div>    
 
     <button class="add__diary__button" onclick="viewModal('write__form__modal')">
-        <img src="./assets/icons/plus_outline_light_m.svg" />
-        일기쓰기
-    </button>
+        <img src="./assets/icons/plus_outline_light_m.svg" />일기쓰기</button>
 `
