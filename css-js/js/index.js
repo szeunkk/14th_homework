@@ -296,25 +296,13 @@ const viewFiltering = (event) => {
 
 const imageRatio = (event) => {
 
-    switch(event.target.id){
-        case "기본":{
-            document.getElementById("dog__image").classList.add("ratio__basic")
-            document.getElementById("dog__image").classList.remove("ratio__horizontal")
-            document.getElementById("dog__image").classList.remove("ratio__vertical")
-            break
-        }
-        case "가로형":{
-            document.getElementById("dog__image").classList.add("ratio__horizontal")
-            document.getElementById("dog__image").classList.remove("ratio__basic")
-            document.getElementById("dog__image").classList.remove("ratio__vertical")
-            break
-        }
-        case "세로형":{
-            document.getElementById("dog__image").classList.add("ratio__vertical")
-            document.getElementById("dog__image").classList.remove("ratio__basic")
-            document.getElementById("dog__image").classList.remove("ratio__horizontal")
-            break
-        }
+    const root = document.documentElement;
+    if(event.target.id === "기본"){
+        root.style.setProperty('--image-ratio','1 / 1');
+    } else if(event.target.id === "가로형"){
+        root.style.setProperty('--image-ratio','4 / 3');
+    } else if(event.target.id === "세로형"){
+        root.style.setProperty('--image-ratio','3 / 4');
     }
 }
 

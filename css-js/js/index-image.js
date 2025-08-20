@@ -3,7 +3,7 @@ let image__list;
 /* 강아지 사진 불러오는 함수 */
 async function addImageCard() {
 
-    const skeleton__list = new Array(10).fill(`<div class="skeleton__background ratio__basic"></div>`).join("")
+    const skeleton__list = new Array(10).fill(`<div class="skeleton__background"></div>`).join("")
     document.getElementById("frame__diary__list").innerHTML = `<div id=dog__list>${skeleton__list}</div>`
 
     const result = await fetch('https://dog.ceo/api/breeds/image/random/10');
@@ -17,7 +17,7 @@ async function addImageCard() {
     console.log(imageURL);
 
     image__list = imageURL.map(el => `
-    <img id="dog__image" class="dog__image ratio__basic" src="${el}"/>
+    <img id="dog__image" class="dog__image" src="${el}"/>
     `).join("")
 
     document.getElementById("dog__list").innerHTML = image__list

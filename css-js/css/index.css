@@ -44,6 +44,9 @@
     --font-size-title-md: 1.125rem; /* 헤더, 카드 제목 */
     --font-size-text-md: 1rem; /* 일반 텍스트, 입력 필드 */
     --font-size-text-sm: 0.875rem; /* 날짜, 부제, 푸터 텍스트 */
+
+    /* 이미지 비율 */
+    --image-ratio: 1 / 1;
   }
 
 
@@ -549,9 +552,13 @@ a{
     width: 40rem;
     border-radius: 1.5rem;
     object-fit: cover;
+    /* --ratio-basic : 1 / 1;
+    --ratio-horizontal : 4 / 3;
+    --ratio-vertical : 3 / 4 ;  */
+    aspect-ratio: var(--image-ratio);
 }
 
-.ratio__basic{
+/* .ratio__basic{
     aspect-ratio: 1 / 1 ;
 }
 
@@ -561,11 +568,12 @@ a{
 
 .ratio__vertical{
     aspect-ratio: 3 / 4 ;
-}
+} */
 
 .skeleton__background{
     width: 40rem;
     height: 40rem;
+    aspect-ratio: var(--image-ratio);
     border-radius: 1.5rem;
 
     background: linear-gradient(90deg, rgba(255, 255, 255, 0.00) 0%, rgba(255, 255, 255, 0.60) 48.5%, rgba(255, 255, 255, 0.00) 100%);
@@ -1098,7 +1106,7 @@ a{
         font-size: var(--font-size-text-sm);
         line-height: 1rem;
     }
-    .dog__list img{
+    .dog__image{
         width: 17.5rem;
     }
 }
