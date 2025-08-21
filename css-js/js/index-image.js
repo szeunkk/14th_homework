@@ -1,30 +1,72 @@
 let image__list = `<div id=dog__list></div>`;
 let dogImageURL = ''
+const skeleton__list = new Array(10).fill(`<div class="skeleton__background"></div>`).join("")
+let result ;
+let resultJSON ;
+let imageURL ;
 
-/* 강아지 사진 불러오는 함수 */
-async function addImageCard() {
+/* 강아지 이미지 불러오는 함수 (API) */
+async function dogImageAPI() {
+    result = await fetch('https://dog.ceo/api/breeds/image/random/10');
 
-    // 
-    const skeleton__list = new Array(10).fill(`<div class="skeleton__background"></div>`).join("")
-    document.getElementById("dog__list").innerHTML = skeleton__list
+    resultJSON = await result.json();
 
-    const result = await fetch('https://dog.ceo/api/breeds/image/random/10');
-    console.log(result);
+    imageURL = resultJSON.message;
 
-    const resultJSON = await result.json();
-
-    console.log(resultJSON);
-
-    const imageURL = resultJSON.message;
-    console.log(imageURL);
-
-    dogImageURL = imageURL.map(el => `
-    <img id="dog__image" class="dog__image" src="${el}"/>
-    `).join("")
+    dogImageURL = dogImageURL + imageURL.map(el => `
+        <img id="dog__image" class="dog__image" src="${el}"/>
+        `).join("")
 
     document.getElementById("dog__list").innerHTML = dogImageURL
+}
+
+/* 처음 메뉴 진입 시 강아지 사진 불러오는 함수 */
+async function addImageCard() {
+
+    // 메뉴 처음 눌렀을 때 기존 URL 주소 초기화 후 새로 이미지 불러오기
+    dogImageURL = ''
+    document.getElementById("dog__list").innerHTML = skeleton__list
+
+    dogImageAPI()
 
 }
+
+
+/* 무한 스크롤 */
+let timer = ""
+window.addEventListener("scroll", ()=>{
+    
+    // 스크롤되었을 때 선택된 메뉴가 사진보관함 일 때, 무한 스크롤 시작
+    const tabMenuClass = document.getElementById("click__image__list").classList.value
+    if(tabMenuClass!=="content__tab__menu") return
+
+    
+    if(timer !== "") return
+
+    timer = setTimeout(()=>{
+        timer = ""
+    },1000)
+
+    const scrollTop = document.documentElement.scrollTop
+    const scrollHeight = document.documentElement.scrollHeight
+    const clientHeight = document.documentElement.clientHeight
+
+    const scrolled = scrollTop / (scrollHeight - clientHeight)
+
+    if (scrolled < 0.85) return
+
+    
+    document.getElementById("dog__list").innerHTML = dogImageURL + skeleton__list
+
+    dogImageAPI()
+    
+
+})
+
+
+
+
+
 
 
 const image__filter = `
@@ -70,13 +112,3 @@ async function loadImageCard(){
     document.getElementById("dog__list").innerHTML = dogImageURL
 }
 
-
-
-const element = document.getElementById('dog__list');
-
-element.addEventListener('scroll', () => {
-  // 스크롤이 끝에 도달했는지 확인하는 조건
-  if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-    console.log('스크롤이 맨 아래에 도달했습니다.');
-  }
-});
