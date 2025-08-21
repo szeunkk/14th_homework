@@ -49,12 +49,15 @@
     --image-ratio: 1 / 1;
   }
 
+  @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
 
+/* 
 @font-face {
-    font-family: 'Pretendard-Regular';
+    font-family: 'Pretendard Variable';
+    font-weight: 45 920;
     src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
     font-style: normal;
-}
+} */
 
 *{
 
