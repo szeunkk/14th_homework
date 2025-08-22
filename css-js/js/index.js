@@ -211,6 +211,50 @@ function clearDiaryForm() {
 
 }
 
+/* 페이지그리기 기능 */
+
+// 시작페이지 설정
+let firstPage = 1
+const prevPageElement = document.getElementById("prevpage__button")
+const nextPageElement = document.getElementById("nextpage__button")
+
+// 배열 개수에 따른 마지막페이지 계산 후 HTML로 반환
+const diaryPage = (Arr) => {
+
+
+    // 마지막페이지 설정
+    // 다이어리가 총 12개 보여져야하므로 배열의 길이에서 12를 나눔
+    const lastPage = Math.ceil(Arr.length / 12)
+    const pages = Arr.map((el, index) => {
+        const pageNum = firstPage + index
+
+        return pageNum <= lastPage ? `<button>${pageNum}</button>` : ``
+    }).join("")
+    
+    document.getElementById("page__number").innerHTML = pages
+
+
+}
+
+// 이전페이지기능
+const prevPage = (Arr) => {
+    if(firstPage === 1) return
+
+    firstPage = firstPage - 5
+    diaryPage(Arr)
+
+}
+
+// 다음페이지기능
+const nextPage = (Arr) => {
+    if(lastPage < firstPage + 5) return
+
+    firstPage = firstPage + 5
+    diaryPage(Arr)
+
+}
+
+
 /* 다이어리 카드 리스트가 1개 이상일 때, 카드 추가하기 */
 function addDiaryCard() {
 
