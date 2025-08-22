@@ -330,7 +330,6 @@ const nextPage = (Arr) => {
 }
 
 
-// localstorage에 저장되어있는 다이어리카드 전체 불러오기
 // function addDiaryCard() {
 
     // if (diaryCard.length >= 1){
@@ -419,38 +418,41 @@ const dropdownEvent = (event) => {
     filterDiaryCard(result)
 }
 
-// 공통으로 포함된 배열 찾기
+// 4. 공통으로 포함된 배열 찾기
 function findCommonCard(arr1, arr2){
     const commonCard = arr1.filter( el => arr2.includes(el));
 
     return commonCard
 }
 
-// select_filter가 1개 이상일 때 다이어리 카드로 변환
+// 필터된 카드의 인덱스를 모아둔 배열 로컬스토리지에서 뽑아오기(굳이 필요없나..?)
 let getFilteredNum = localStorage.getItem("filteredCardNum")
 let indexOfFilteredNum = JSON.parse(getFilteredNum)
 
+
+// 필터된 다이어리 카드의 길이에 따라 카드 이미지 생성
 function filterDiaryCard(result) {
     
+    // 필터된 다이어리 카드의 길이가 1보다 작으면(검색된 내용이 없으면) 작성된 일기 없음 안내
     if (result.length < 1){
         document.getElementById("card__list").innerText = "검색한 내용으로 작성된 일기가 없습니다."
         return
     }
 
+    // localstorage에 저장된 다이어리 카드의 인덱스 번호를 빼올 빈 배열 생성
     const resultOfCard = [];
 
-    // 필터링(검색, 드롭다운)된 다이어리 카드의 인덱스를 뽑아오기
+    // 필터링(검색, 드롭다운)된 다이어리 카드의 인덱스를 뽑아오기(indexOf)
     result.map(el => {
         const indexResult = diaryCard.indexOf(el)
         resultOfCard.push(indexResult)
     })
-    console.log(resultOfCard)
+
+    // 로컬스토리지에 배열 저장
     localStorage.setItem("filteredCardNum", JSON.stringify(resultOfCard))
 
     getFilteredNum = localStorage.getItem("filteredCardNum")
     indexOfFilteredNum = JSON.parse(getFilteredNum)
-
-    const indexObject = {  }
 
     // 페이지그리기 기능
     diaryPage(indexOfFilteredNum,1)
@@ -477,7 +479,7 @@ const imageRatio = (event) => {
     }
 }
 
-// 플로팅 버튼 선택 시, 요소 맨 위로 이동
+// 플로팅 버튼 선택 시, 화면 맨 위로 이동
 function scrollpage () {
 
     window.scrollTo({ top: 0, behavior: "smooth" })
