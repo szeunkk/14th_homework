@@ -298,11 +298,12 @@ const prevPage = (Arr) => {
         // 페이지 번호가 1이 아니면 페이지 그룹의 개수만큼 빼주기
         firstPage -= numPerPagegroup
 
-        // 첫 
+        // 이전페이지 버튼을 누르면, 이전 페이지 그룹의 가장 마지막 번호가 표시되게끔 하기?(6 or 7페이지에서 이전페이지를 누르면, 1페이지가 아닌 5페이지로 넘어가게끔... ?)
         loaddiaryPage(Arr,firstPage+(numPerPagegroup-1))
         diaryPage(Arr,firstPage+(numPerPagegroup-1))
 
     } else (
+        // 첫 페이지가 1일 때 이전 페이지 버튼을 누르면, 알럿 발생
         alert("현재 표시된 페이지들보다 더 앞으로 갈 수 없어요")
     )
 
@@ -312,12 +313,14 @@ const prevPage = (Arr) => {
 // 다음페이지기능
 const nextPage = (Arr) => {
     if(lastPage < firstPage + numPerPagegroup) {
+        // 마지막 페이지보다 그룹의 첫 페이지 + 페이지 그룹수(5)가 클 때, 알럿 발생
         alert("현재 표시된 페이지들보다 더 뒤로 갈 수 없어요")
     } else {
 
         // 페이지 목록이 1~5까지 보여지므로, 이후페이지 클릭 시 5만큼 늘어남
         firstPage += numPerPagegroup
-        console.log(firstPage)
+
+        // 다음페이지 버튼을 누르면, 다음 페이지 그룹의 첫 페이지로 넘어가게끔 하기
         diaryPage(Arr,firstPage)
         loaddiaryPage(Arr,firstPage)
     }
