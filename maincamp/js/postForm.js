@@ -40,7 +40,7 @@ const PostForm = () => {
                     <label>주소</label>
                     <div class="zipCode__group">
                         <input type="text" placeholder={[placeholder['zipCode']]} />
-                        <button id="form__button">우편번호 검색</button>
+                        <button type="button">우편번호 검색</button>
                     </div>
                 </div>
                 <input type="text" placeholder={placeholder['mainAddress']}/>
@@ -48,7 +48,7 @@ const PostForm = () => {
             </div>
             <hr />
             <div>
-                <div><label>유튜브 링크</label><span>*</span></div>
+                <div><label>유튜브 링크</label></div>
                 <input type="text" placeholder={placeholder['youtubeUrl']}/>
             </div>
             <hr />
@@ -70,8 +70,8 @@ const PostForm = () => {
                 </div>
             </div>
             <div class="postForm__button__group">
-                <button id="form__button">취소</button>
-                <button id="form__submit" disabled="true">등록하기</button>
+                <button type="button">취소</button>
+                <button type="submit" /*disabled="true"*/>등록하기</button>
             </div>
         </form>
     )
