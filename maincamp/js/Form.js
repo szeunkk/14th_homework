@@ -7,48 +7,42 @@ const FormBtn = (props) => {
 
 /* Form에서 쓰는 Input 형식 컴포넌트 */
 const FormInput = (props) => {
-    if(props.type === "textarea"){
-        return(        
-        <div>
-            <div><label>{props.label}</label>{props.required == "true" ? <span>*</span> : ""}</div>
-            <textarea placeholder={InputPlaceholder[props.placeholder__name]}></textarea>
-        </div>)
-    }
-    else if(props.type === "address"){
-        return(        
-            <div className="postForm__address__group">
-                <div>
-                    <label>주소</label>
-                    <div className="zipCode__group">
-                        <input type="text" placeholder={[InputPlaceholder['zipCode']]} />
-                        <FormBtn type="button" text="우편번호 검색" />
-                    </div>
-                </div>
-                <input type="text" placeholder={InputPlaceholder['mainAddress']}/>
-                <input type="text" placeholder={InputPlaceholder['detailAddress']}/>
-            </div>
-        )
-    }
-    else if(props.type === "imagefile"){
-        return(
-            <div className="add__image">
-                <label for="upload__image">
-                    <input id="upload__image" type="file" style={{display:"none"}}/>
-                    <img src="./assets/icons/add.svg" />    
-                    클릭해서 사진 업로드
-                </label>
-            </div>
-        )
-    }
-    else{
-        return(
+    switch(props.type){
+        case ("textarea"):{return(        
             <div>
                 <div><label>{props.label}</label>{props.required == "true" ? <span>*</span> : ""}</div>
-                <input type={props.input} placeholder={InputPlaceholder[props.placeholder__name]} />
+                <textarea placeholder={InputPlaceholder[props.placeholder__name]}></textarea>
             </div>
-        )
-    }
-}
+            )}
+        case ("address"):{return(        
+                <div className="postForm__address__group">
+                    <div>
+                        <label>주소</label>
+                        <div className="zipCode__group">
+                            <input type="text" placeholder={[InputPlaceholder['zipCode']]} />
+                            <FormBtn type="button" text="우편번호 검색" />
+                        </div>
+                    </div>
+                    <input type="text" placeholder={InputPlaceholder['mainAddress']}/>
+                    <input type="text" placeholder={InputPlaceholder['detailAddress']}/>
+                </div>
+            )}
+        case ("imagefile"):{return(
+                <div className="add__image">
+                    <label htmlFor="upload__image">
+                        <input id="upload__image" type="file" style={{display:"none"}}/>
+                        <img src="./assets/icons/add.svg" />    
+                        클릭해서 사진 업로드
+                    </label>
+                </div>
+            )}
+        default:{return(
+                <div>
+                    <div><label>{props.label}</label>{props.required == "true" ? <span>*</span> : ""}</div>
+                    <input type={props.type} placeholder={InputPlaceholder[props.placeholder__name]} />
+                </div>
+                )}
+    }}
 
 /* Form-Input-Placeholder */
 const InputPlaceholder = {
@@ -91,7 +85,7 @@ const PostForm = () => {
             </div>
             <div className="postForm__button__group">
                 <FormBtn type="button" text="취소" />
-                <FormBtn type="submit" text="등록하기" disabled="true"/>
+                <FormBtn type="submit" text="등록하기" disabled/>
             </div>
         </form>
     )
