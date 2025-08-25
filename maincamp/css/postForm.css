@@ -149,7 +149,8 @@
     color: var(--color-gray-white);
 }
 
-#form__submit:disabled{
+/* 게시글 등록 - 최초 에서는 파란색 버튼이라 그냥 주석 처리 */
+/* #form__submit:disabled{
     background-color: var(--color-gray-300);
     color: var(--color-gray-100);
-} 
+}  */
