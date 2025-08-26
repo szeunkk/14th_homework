@@ -16,27 +16,25 @@ const App = () => {
   const [titleError, setTitleError] = useState("")
   const [contentError, setContentError] = useState("")
 
-  const onClickBtn = () => {
 
-    if(writer.length >0 && password.length >0 && title.length >0){
+  const onClickBtn = (event) => {
+    // form 기본 동작 막기
+    event.preventDefault(); 
+
+    if((writer.length && password.length && title.length && content.length)>0){
       alert("게시글 등록이 가능한 상태입니다!")
 
-      console.log("작성자: ",writer);
-      console.log("비밀번호: ",password);
-      console.log("제목: ",title);
+      console.log(writer)
+      console.log(password)
+      console.log(title)
+      console.log(content)
+    }
 
-      setWriterError("")
-      setPasswordError("")
-      setTitleError("")
-      setContentError("")
 
-      return
-    } 
-
-    writer===""? setWriterError("필수입력 사항 입니다."):setWriterError("")
-    password===""? setPasswordError("필수입력 사항 입니다."):setPasswordError("")
-    title===""? setTitleError("필수입력 사항 입니다."):setTitleError("")
-    content===""? setContentError("필수입력 사항 입니다."):setContentError("")
+    writer===""? setWriterError("필수입력 사항 입니다."):setWriterError("");
+    password===""? setPasswordError("필수입력 사항 입니다."):setPasswordError("");
+    title===""? setTitleError("필수입력 사항 입니다."):setTitleError("");
+    content===""? setContentError("필수입력 사항 입니다."):setContentError("");
     
   }
 
@@ -54,7 +52,7 @@ const App = () => {
         <hr />
         <CustomZipCode />
         <hr />
-        <CustomInputText type="text" label="유튜브 링크" placeholder="링크를 입력해 주세요." onChange={(val) => setYoutubeUrl(val)}/>
+        <CustomInputText type="text" label="유튜브 링크" placeholder="링크를 입력해 주세요." onChange={(val) => setYoutubeUrl(val)} />
         <hr />
         <div className="postForm__button__group">
           <CustomButton type="button" label="취소" />
@@ -79,7 +77,7 @@ const CustomInputText = ({label, type, required, placeholder, onChange, error}) 
     <div>
       <div><label>{label}</label>{required && <span>*</span>}</div>
       <input type={type} placeholder={placeholder} onChange={(el) => onChange(el.target.value)} />
-      {error && <div><span>{error}</span></div>}
+      {error && <span>{error}</span>}
     </div>
   )
 }
