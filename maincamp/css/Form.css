@@ -35,6 +35,7 @@ form textarea{
     height: 3rem;
     border-radius: 0.5rem;
     border: 0.06rem solid var(--color-gray-200);
+    outline: none;
     padding: 0.75rem 1rem;
     margin-top: 0.5rem;
 
