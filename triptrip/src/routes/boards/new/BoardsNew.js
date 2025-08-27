@@ -1,5 +1,6 @@
 import { useState } from "react"
 import './BoardsNew.css';
+import { Link } from "react-router";
 
 const BoardsNewForm = () => {
 
@@ -9,50 +10,68 @@ const BoardsNewForm = () => {
   const [content, setContent] = useState("")
   const [youtubeUrl, setYoutubeUrl] = useState("")
 
+  const [isValid, setIsValid] = useState(true)
 
+  const onChangeWriter = (event) => {
+    setWriter(event.target.value)
 
-  const [writerError, setWriterError] = useState("")
-  const [passwordError, setPasswordError] = useState("")
-  const [titleError, setTitleError] = useState("")
-  const [contentError, setContentError] = useState("")
+    if(event.target.value && password && title && content){
+      setIsValid(false)
+    } else{
+      setIsValid(true)
+    }
+  }
+  const onChangePassword = (event) => {
+    setPassword(event.target.value)
+
+    if(writer && event.target.value && title && content){
+      setIsValid(false)
+    } else{
+      setIsValid(true)
+    }
+  }
+  const onChangeTitle = (event) => {
+    setTitle(event.target.value)
+
+    if(writer && password && event.target.value && content){
+      setIsValid(false)
+    } else{
+      setIsValid(true)
+    }
+  }
+  const onChangeContent = (event) => {
+    setContent(event.target.value)
+
+    if(writer && password && title && event.target.value){
+      setIsValid(false)
+    } else{
+      setIsValid(true)
+    }
+  }
+
 
 
   const onClickBtn = (event) => {
-    // form 기본 동작 막기
-    event.preventDefault(); 
 
-    if((writer.length && password.length && title.length && content.length)>0){
-      alert("게시글 등록이 가능한 상태입니다!")
+    alert("게시물 등록이 완료되었습니다.")
 
-      console.log(writer)
-      console.log(password)
-      console.log(title)
-      console.log(content)
-    }
-
-
-    writer===""? setWriterError("필수입력 사항 입니다."):setWriterError("");
-    password===""? setPasswordError("필수입력 사항 입니다."):setPasswordError("");
-    title===""? setTitleError("필수입력 사항 입니다."):setTitleError("");
-    content===""? setContentError("필수입력 사항 입니다."):setContentError("");
-    
   }
 
   return(
     <form>
         <div className="postForm__title">게시물 등록</div>
         <div className="postForm__writer__group">
-          <CustomInputText type="text" label="작성자" required placeholder="작성자 명을 입력해 주세요." error={writerError} onChange={(val) => setWriter(val)} />
-          <CustomInputText type="password" label="비밀번호" required placeholder="비밀번호를 입력해 주세요." error={passwordError} onChange={(val) => setPassword(val)} />
+          <CustomInputText type="text" label="작성자" required placeholder="작성자 명을 입력해 주세요." onChange={onChangeWriter} />
+          <CustomInputText type="password" label="비밀번호" required placeholder="비밀번호를 입력해 주세요." onChange={onChangePassword} />
         </div>
         <hr />
-        <CustomInputText type="text" label="제목" required placeholder="제목을 입력해 주세요." error={titleError} onChange={(val) => setTitle(val)} />
+        <CustomInputText type="text" label="제목" required placeholder="제목을 입력해 주세요." onChange={onChangeTitle} />
         <hr />
-        <CustomTextarea label="내용" required placeholder="내용을 입력해 주세요." error={contentError} onChange={(val) => setContent(val)} />
+        <CustomTextarea label="내용" required placeholder="내용을 입력해 주세요." onChange={onChangeContent} />
         <hr />
         <CustomZipCode />
         <hr />
-        <CustomInputText type="text" label="유튜브 링크" placeholder="링크를 입력해 주세요." onChange={(val) => setYoutubeUrl(val)} />
+        <CustomInputText type="text" label="유튜브 링크" placeholder="링크를 입력해 주세요."/>
         <hr />
         <div className="postForm__attachments__group">
           <label>사진 첨부</label>
@@ -64,7 +83,9 @@ const BoardsNewForm = () => {
         </div>
         <div className="postForm__button__group">
           <CustomButton type="button" label="취소" />
-          <CustomButton type="submit" label="등록하기" onClick={onClickBtn} />
+          <Link to='/boards/detail'>
+            <CustomButton type="submit" disabled={isValid} label="등록하기" onClick={onClickBtn} />
+          </Link>
         </div>
     </form>
 
@@ -80,12 +101,11 @@ export const CustomButton = (props) => {
 
 /* Custom Input 컴포넌트 */
 
-export const CustomInputText = ({label, type, required, placeholder, onChange, error}) => {
+export const CustomInputText = (props) => {
   return(
     <div>
-      <div><label>{label}</label>{required && <span>*</span>}</div>
-      <input type={type} placeholder={placeholder} onChange={(el) => onChange(el.target.value)} />
-      {error && <span className="errorMessage">{error}</span>}
+      <div><label>{props.label}</label>{props.required && <span>*</span>}</div>
+      <input type={props.type} placeholder={props.placeholder} onChange={props.onChange} />
     </div>
   )
 }
@@ -108,12 +128,11 @@ export const CustomZipCode = () => {
 }
 
 /* Custom Textarea 컴포넌트 */
-export const CustomTextarea = ({label, required, placeholder, onChange, error}) => {
+export const CustomTextarea = (props) => {
   return(
     <div>
-      <div><label>{label}</label>{required && <span>*</span>}</div>
-      <textarea placeholder={placeholder} onChange={(el) => onChange(el.target.value)}></textarea>
-      {error && <span className="errorMessage">{error}</span>}
+      <div><label>{props.label}</label>{props.required && <span>*</span>}</div>
+      <textarea placeholder={props.placeholder} onChange={props.onChange}></textarea>
     </div>
   )
 }
@@ -124,7 +143,7 @@ export const CustomAddImage = () => {
     <div className="add__image">
       <label htmlFor="upload__image">
           <input id="upload__image" type="file" style={{display:"none"}}/>
-          <img src="./icons/add.svg" />    
+          <img src="/icons/add.svg" />
           클릭해서 사진 업로드
       </label>
     </div>
