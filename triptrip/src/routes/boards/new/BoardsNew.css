@@ -8,7 +8,7 @@ form{
     gap: 2.5rem;
 }
 
-form hr{
+hr{
     height: 0;
     border: none;
     border-top: 0.0625rem solid var(--color-gray-100);
@@ -123,11 +123,17 @@ form textarea::placeholder{
     color: var(--color-gray-600);
 }
 
-form button{
+button{
     height: 3rem;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
     border: none;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
     
     font-size: var(--font-size-btn);
     font-weight: var(--font-weight-semibold);
@@ -135,20 +141,20 @@ form button{
     white-space: nowrap;
 }
 
-form button[type="button"]{
+button[type="button"]{
     border: 0.0625rem solid var(--color-gray-black);
     background-color: var(--color-gray-white);
     
     color: var(--color-gray-black);
 }
 
-form button[type="submit"]{
+button[type="submit"]{
     background-color: var(--color-blue);
 
     color: var(--color-gray-white);
 }
 
-form button[type="submit"]:disabled{
+button[type="submit"]:disabled{
     background-color: var(--color-gray-300);
     color: var(--color-gray-100);
 }

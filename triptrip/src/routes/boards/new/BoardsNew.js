@@ -8,7 +8,7 @@ const BoardsNewForm = () => {
   const [password, setPassword] = useState("")
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
-  const [youtubeUrl, setYoutubeUrl] = useState("")
+
 
   const [isValid, setIsValid] = useState(true)
 
@@ -94,8 +94,11 @@ const BoardsNewForm = () => {
 
 /* Custom Button 컴포넌트 */
 export const CustomButton = (props) => {
+
+  const iconPath = `/icons/${props.icon}.svg`
+
   return(
-    <button type={props.type} disabled={props.disabled && true} onClick={props.onClick}>{props.label}</button>
+    <button type={props.type} disabled={props.disabled && true} onClick={props.onClick}>{props.icon && <img src={iconPath} />}{props.label}</button>
   )
 }
 
