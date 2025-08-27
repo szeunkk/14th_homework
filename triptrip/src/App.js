@@ -54,6 +54,14 @@ const App = () => {
         <hr />
         <CustomInputText type="text" label="유튜브 링크" placeholder="링크를 입력해 주세요." onChange={(val) => setYoutubeUrl(val)} />
         <hr />
+        <div className="postForm__attachments__group">
+          <label>사진 첨부</label>
+          <div className="image__upload__group">
+            <CustomAddImage />
+            <CustomAddImage />
+            <CustomAddImage />
+          </div>
+        </div>
         <div className="postForm__button__group">
           <CustomButton type="button" label="취소" />
           <CustomButton type="submit" label="등록하기" onClick={onClickBtn} />
@@ -77,7 +85,7 @@ const CustomInputText = ({label, type, required, placeholder, onChange, error}) 
     <div>
       <div><label>{label}</label>{required && <span>*</span>}</div>
       <input type={type} placeholder={placeholder} onChange={(el) => onChange(el.target.value)} />
-      {error && <span>{error}</span>}
+      {error && <span className="errorMessage">{error}</span>}
     </div>
   )
 }
@@ -105,7 +113,20 @@ const CustomTextarea = ({label, required, placeholder, onChange, error}) => {
     <div>
       <div><label>{label}</label>{required && <span>*</span>}</div>
       <textarea placeholder={placeholder} onChange={(el) => onChange(el.target.value)}></textarea>
-      {error && <div><span>{error}</span></div>}
+      {error && <span className="errorMessage">{error}</span>}
+    </div>
+  )
+}
+
+/* Custom Add Image 컴포넌트 */
+const CustomAddImage = () => {
+  return(
+    <div className="add__image">
+      <label htmlFor="upload__image">
+          <input id="upload__image" type="file" style={{display:"none"}}/>
+          <img src="./icons/add.svg" />    
+          클릭해서 사진 업로드
+      </label>
     </div>
   )
 }
