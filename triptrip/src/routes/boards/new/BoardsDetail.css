@@ -30,7 +30,9 @@
 .boardsDetail__content{
     font-size: var(--font-size-md);
     font-weight: var(--font-weight-regular);
+    line-height: 1.5rem;
     white-space: pre-line;
+    color: var(--color-gray-black);
 }
 
 .writer__group__detail{

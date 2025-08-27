@@ -1,6 +1,7 @@
 import { CustomButton } from "./BoardsNew"
 import './BoardsDetail.css';
 import './BoardsNew.css';
+import { Link } from "react-router";
 
 
 export const BoardsDetailTitle = ({text}) => {
@@ -61,6 +62,8 @@ const BoardsDetailLike = ({bad, good}) => {
 
 
 const BoardsDetail = () => {
+
+
     return(
         <div className="boardsDetail">
             <BoardsDetailTitle text="살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라" />
@@ -103,7 +106,9 @@ const BoardsDetail = () => {
             </div>
             <BoardsDetailLike bad="24" good="12"/>
             <div className="boardsDetail__button__group">
-                <CustomButton type="button" label="목록으로" icon="menu" />
+                <Link to='/'>
+                    <CustomButton type="button" label="목록으로" icon="menu" />
+                </Link>
                 <CustomButton type="button" label="수정하기" icon="edit" />
             </div>
         </div>

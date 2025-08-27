@@ -43,3 +43,7 @@
     --font-weight-regular: 400;
     --font-weight-light: 300;
 }
+
+a{
+    text-decoration: none;
+}
