@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from '.pnpm/react@19.1.1/node_modules/react';
 
 export default function PrevstatePage() {
   const [state, setState] = useState(0);

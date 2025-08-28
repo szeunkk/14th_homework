@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from '.pnpm/react@19.1.1/node_modules/react';
+import ReactDOM from '.pnpm/react-dom@19.1.1_react@19.1.1/node_modules/react-dom/client';
 import PrevstatePage from './PrevstatePage'; 
 
 const root = ReactDOM.createRoot(
