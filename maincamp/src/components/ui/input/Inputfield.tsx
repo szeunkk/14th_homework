@@ -6,7 +6,7 @@ import { InputProps, TextareaProps } from "@/types/index";
 export function Inputfield (props: InputProps) {
 
     return(
-        <div className={props.variant && styles[props.variant]}>
+        <div className={styles.Formfield}>
             <div><label>{props.label}</label>{props.required && <span>*</span>}</div>
             <input type={props.type} placeholder={props.placeholder} onChange={props.onChange} />
         </div>
@@ -18,7 +18,7 @@ export function Inputfield (props: InputProps) {
 export function Textareafield (props: TextareaProps){
 
     return(
-        <div className={props.variant && styles[props.variant]}>
+        <div className={styles.Formfield}>
             <div><label>{props.label}</label>{props.required && <span>*</span>}</div>
             <textarea placeholder={props.placeholder} onChange={props.onChange}></textarea>
         </div>
