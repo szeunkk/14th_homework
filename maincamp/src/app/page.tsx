@@ -6,24 +6,19 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div style={{width: "1000px"}}>
-      기본 첫 페이지 입니당
+    <div>
       <Link href='/boards/new'>
       <Button type="button" variant="FormBtn">
         게시글 등록하기
       </Button>
       </Link>
 
-      <br/>
-
       <Link href="/boards/detail">
       <Button type="button" variant="FormBtn">
-        게시글 등록하기
+        게시글 상세보기
       </Button>
       </Link>
 
-      <InputZipcode variant='Formfield' placeholder="주소를 입력해주세요" placeholder_2='상세 주소'></InputZipcode>
-      <InputImage></InputImage>
     </div>
   );
 }
