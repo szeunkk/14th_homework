@@ -40,6 +40,7 @@ export default function BoardsNewPage (){
     // 1-3. 게시글 생성 API 요청 함수
     const [createBoard] = useMutation(CREATE_BOARD)
 
+
     // 2. 필수 작성 요소 작성 여부에 따른 버튼 활성화
     const [isValid, setIsValid] = useState(true)
 
@@ -93,7 +94,7 @@ export default function BoardsNewPage (){
         setYoutubeUrl(value)
       }
 
-      const onChangeZipcode = (event: ChangeEvent<HTMLInputElement>) => {
+      const onChangeBoardAddress = (event: ChangeEvent<HTMLInputElement>) => {
         const inputID = event.target.id;
         const value = event.target.value;
         switch(inputID){
@@ -139,7 +140,7 @@ export default function BoardsNewPage (){
             <hr/>
             <Textareafield label='내용' required placeholder='내용을 입력해 주세요.' onChange={onChangeContents} ></Textareafield>
             <hr />
-            <InputBoardAddress placeholder='주소를 입력해 주세요.' placeholder_2='상세주소' onChange={onChangeZipcode}></InputBoardAddress>
+            <InputBoardAddress placeholder='주소를 입력해 주세요.' placeholder_2='상세주소' onChange={onChangeBoardAddress}></InputBoardAddress>
             <hr />
             <Inputfield type='string' label='유튜브 링크' placeholder='링크를 입력해 주세요.' onChange={onChangeYoutubeUrl}></Inputfield>
             <hr />
