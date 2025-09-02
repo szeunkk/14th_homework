@@ -2,7 +2,7 @@
 
 import Button from '@/components/ui/button/Button'
 import { Inputfield, Textareafield } from '@/components/ui/input/Inputfield'
-import InputZipcode from '@/components/ui/input/InputZipcode'
+import InputBoardAddress from '@/components/ui/input/InputBoardAddress'
 import InputImage from '@/components/ui/input/InputImage'
 import styles from './styles.module.css'
 import Link from 'next/link'
@@ -21,6 +21,9 @@ export default function BoardsNewPage (){
     const [title, setTitle] = useState("")
     const [contents, setContents] = useState("")
     const [youtubeUrl, setYoutubeUrl] = useState("")
+    const [zipcode, setZipcode] = useState("")
+    const [address, setAddress] = useState("")
+    const [addressDetail, setAddressDetail] = useState("")
 
     // 1-1. graphql코드: 작성자, 제목, 내용
     const CREATE_BOARD = gql`
@@ -43,7 +46,6 @@ export default function BoardsNewPage (){
     // 3. Change Event에 따른 유효성 검증
     const onChangeWriter = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value
-        console.log("🚀 ~ onChangeWriter ~ value:", value)
         
         setWriter(value)
     
@@ -55,7 +57,6 @@ export default function BoardsNewPage (){
       }
       const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value
-        console.log("🚀 ~ onChangePassword ~ value:", value)
 
         setPassword(value)
     
@@ -67,7 +68,6 @@ export default function BoardsNewPage (){
       }
       const onChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value
-        console.log("🚀 ~ onChangeTitle ~ value:", value)
         setTitle(value)
     
         if(writer && password && value && contents){
@@ -78,7 +78,6 @@ export default function BoardsNewPage (){
       }
       const onChangeContents = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const value = event.target.value
-        console.log("🚀 ~ onChangeContents ~ value:", value)
         setContents(value)
     
         if(writer && password && title && value){
@@ -91,8 +90,17 @@ export default function BoardsNewPage (){
       // 3-1. 필수 요소 아닌 ChangeEvent 추가
       const onChangeYoutubeUrl = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value
-        console.log("🚀 ~ onChangeYoutubeUrl ~ value:", value)
         setYoutubeUrl(value)
+      }
+
+      const onChangeZipcode = (event: ChangeEvent<HTMLInputElement>) => {
+        const inputID = event.target.id;
+        const value = event.target.value;
+        switch(inputID){
+          case "zipcode": {setZipcode(value);break;}
+          case "address": {setAddress(value);break;}
+          case "addressDetail": {setAddressDetail(value);break;}
+        }
       }
 
       // 4. 버튼 활성화 후 등록 버튼 클릭 시 알럿 발생
@@ -106,13 +114,15 @@ export default function BoardsNewPage (){
               title: title,
               contents: contents,
               youtubeUrl: youtubeUrl,
+              boardAddress: {
+                zipcode: zipcode,
+                address: address,
+                addressDetail: addressDetail,
+              }
             }
           }
         })
         console.log("🚀 ~ onClickBtn ~ result:", result)
-
-        await alert(`게시글 등록이 완료되었습니다
-id: ${boardID}`)
       }
 
     return(
@@ -129,7 +139,7 @@ id: ${boardID}`)
             <hr/>
             <Textareafield label='내용' required placeholder='내용을 입력해 주세요.' onChange={onChangeContents} ></Textareafield>
             <hr />
-            <InputZipcode placeholder='주소를 입력해 주세요.' placeholder_2='상세주소'></InputZipcode>
+            <InputBoardAddress placeholder='주소를 입력해 주세요.' placeholder_2='상세주소' onChange={onChangeZipcode}></InputBoardAddress>
             <hr />
             <Inputfield type='string' label='유튜브 링크' placeholder='링크를 입력해 주세요.' onChange={onChangeYoutubeUrl}></Inputfield>
             <hr />
