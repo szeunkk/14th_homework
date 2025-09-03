@@ -10,6 +10,7 @@ import Like from "@/components/features/boards/detail/Like";
 import Link from "next/link";
 import Button from "@/components/ui/button/Button";
 import styles from './styles.module.css'
+import YoutubeUrl from "@/components/features/boards/detail/YoutubeUrl";
 
 export default function BoardsBoardIdPage() {
     const params = useParams();
@@ -21,17 +22,18 @@ export default function BoardsBoardIdPage() {
         }
     })
 
+    const { writer, title, contents, youtubeUrl, images, createdAt, likeCount, dislikeCount } = data?.fetchBoard || {} ;
+
+    const date = createdAt?.slice(0,10)
+
     return(
         <div className={styles.boardsDetail}>
-            <Sectiontitle text={data && data.fetchBoard.title} />
-            <Writer writer={data? data.fetchBoard.writer : "비회원" } date={data && (data.fetchBoard.createdAt).slice(0,10)}/>
+            <Sectiontitle text={title} />
+            <Writer writer={writer} date={date}/>
             <img src="/images/boardsdetail_image.png" className={styles.addimage1}/>
-            <Sectioncontent content={data && data.fetchBoard.contents}/>
-            <div className={styles.boardsDetail__youtube__group}>
-                <img src="/icons/play.svg" className={styles.youtube__icon}/>
-                <img src="/images/boardsdetail_image_2.png" className={styles.youtube__thumbnail} />
-            </div>
-            <Like bad={data && data.fetchBoard.dislikeCount} good={data && data.fetchBoard.likeCount}/>
+            <Sectioncontent content={contents}/>
+            {youtubeUrl !== "" ? <YoutubeUrl youtubeUrl={youtubeUrl}></YoutubeUrl> : ""}
+            <Like bad={dislikeCount} good={likeCount}/>
             <div className={styles.boardsDetail__button__group}>
                 <Link href='/'>
                     <Button type="button" variant='FormBtn'><img src="/icons/menu.svg"/>목록으로</Button>
