@@ -25,12 +25,17 @@ export default function BoardsBoardIdPage() {
     const { writer, title, contents, youtubeUrl, images, createdAt, likeCount, dislikeCount } = data?.fetchBoard || {} ;
 
     const date = createdAt?.slice(0,10)
+    const imagesUrl = images?.map((el: string) => `https://storage.googleapis.com/${el}`)
+    console.log("🚀 ~ BoardsBoardIdPage ~ imagesUrl:", imagesUrl)
+
 
     return(
         <div className={styles.boardsDetail}>
             <Sectiontitle text={title} />
             <Writer writer={writer} date={date}/>
-            <img src="/images/boardsdetail_image.png" className={styles.addimage1}/>
+            <div className={styles.imagesGroup}>
+                {imagesUrl && imagesUrl.map((url: string) => <img src={url} className={styles.addimage1}/>)}
+            </div>
             <Sectioncontent content={contents}/>
             {youtubeUrl !== "" ? <YoutubeUrl youtubeUrl={youtubeUrl}></YoutubeUrl> : ""}
             <Like bad={dislikeCount} good={likeCount}/>

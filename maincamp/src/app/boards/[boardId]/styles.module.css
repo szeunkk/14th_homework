@@ -8,8 +8,16 @@
     gap: 1.5rem;
 }
 
+.imagesGroup{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 2.5rem;
+}
+
 .addimage1{
     width: 25rem;
+    object-fit: cover;
 }
 
 .boardsDetail__button__group{
