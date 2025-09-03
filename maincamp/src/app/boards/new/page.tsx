@@ -9,7 +9,8 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { ChangeEvent } from 'react'
 import { gql, useMutation } from '@apollo/client'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
+import { CREATE_BOARD } from '@/graphql/mutations/board'
 
 
 export default function BoardsNewPage (){
@@ -25,17 +26,8 @@ export default function BoardsNewPage (){
     const [address, setAddress] = useState("")
     const [addressDetail, setAddressDetail] = useState("")
 
-    // 1-1. graphql코드: 작성자, 제목, 내용
-    const CREATE_BOARD = gql`
-      mutation createBoard($createBoardInput: CreateBoardInput!){
-        createBoard(createBoardInput: $createBoardInput) {
-          _id
-          writer
-          title
-          contents
-        }
-      }
-    `
+    // 1-2. 페이지 이동을 위한 useRouter
+    const router = useRouter();
 
     // 1-3. 게시글 생성 API 요청 함수
     const [createBoard] = useMutation(CREATE_BOARD)
@@ -95,9 +87,8 @@ export default function BoardsNewPage (){
       }
 
       const onChangeBoardAddress = (event: ChangeEvent<HTMLInputElement>) => {
-        const inputID = event.target.id;
-        const value = event.target.value;
-        switch(inputID){
+        const {id, value} = event.target;
+        switch(id){
           case "zipcode": {setZipcode(value);break;}
           case "address": {setAddress(value);break;}
           case "addressDetail": {setAddressDetail(value);break;}
@@ -106,24 +97,36 @@ export default function BoardsNewPage (){
 
       // 4. 버튼 활성화 후 등록 버튼 클릭 시 알럿 발생
       const onClickBtn = async () => {
+        try{
 
-        const result = await createBoard({
-          variables:{
-            createBoardInput:{
-              writer: writer,
-              password: password,
-              title: title,
-              contents: contents,
-              youtubeUrl: youtubeUrl,
-              boardAddress: {
-                zipcode: zipcode,
-                address: address,
-                addressDetail: addressDetail,
+          const result = await createBoard({
+            variables:{
+              createBoardInput:{
+                writer: writer,
+                password: password,
+                title: title,
+                contents: contents,
+                youtubeUrl: youtubeUrl,
+                boardAddress: {
+                  zipcode: zipcode,
+                  address: address,
+                  addressDetail: addressDetail,
+                }
               }
             }
-          }
-        })
-        console.log("🚀 ~ onClickBtn ~ result:", result)
+          })
+          console.log("🚀 ~ onClickBtn ~ result:", result)
+          const boardId = result.data.createBoard._id
+          router.push(
+            `/boards/${boardId}`
+          )
+
+        } catch (error) {
+          alert("에러가 발생하였습니다. 다시 시도해 주세요.");
+        } 
+
+
+
       }
 
     return(
