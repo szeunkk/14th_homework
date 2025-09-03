@@ -11,7 +11,9 @@ import { ChangeEvent } from 'react'
 import { gql, useMutation } from '@apollo/client'
 import { useRouter } from 'next/navigation'
 import { CREATE_BOARD } from '@/graphql/mutations/board'
+import { UPLOAD_FILE } from '@/graphql/queries/file'
 
+type ImageUrlArray = (string | null | undefined)[]
 
 export default function BoardsNewPage (){
 
@@ -25,12 +27,16 @@ export default function BoardsNewPage (){
     const [zipcode, setZipcode] = useState("")
     const [address, setAddress] = useState("")
     const [addressDetail, setAddressDetail] = useState("")
+    const [images, setImages] = useState<ImageUrlArray>([undefined,undefined,undefined])
 
     // 1-2. 페이지 이동을 위한 useRouter
     const router = useRouter();
 
     // 1-3. 게시글 생성 API 요청 함수
     const [createBoard] = useMutation(CREATE_BOARD)
+
+    // 1-4. 이미지 업로드 API 요청 함수
+    const [uploadFile] = useMutation(UPLOAD_FILE);
 
 
     // 2. 필수 작성 요소 작성 여부에 따른 버튼 활성화
@@ -95,9 +101,40 @@ export default function BoardsNewPage (){
         }
       }
 
+      const onChangeFile = async(event: ChangeEvent<HTMLInputElement>) => {
+        const {id, files} = event.target;
+        const file = files?.[0];
+
+        const handleSetImageUrl = (index: number, url: string) => {
+          setImages(
+            prevUrls => {
+              const NewUrls = [...prevUrls]
+              NewUrls[index] = url
+              return NewUrls
+            }
+          )
+        }
+        
+        const result = await uploadFile({
+          variables:{
+            file
+          }
+        });
+
+        const fileUrl = result.data?.uploadFile.url
+
+        switch(id){
+          case "0":{handleSetImageUrl(Number(id), fileUrl)}
+          case "1":{handleSetImageUrl(Number(id), fileUrl)}
+          case "2":{handleSetImageUrl(Number(id), fileUrl)}
+        }
+        
+      }
+
       // 4. 버튼 활성화 후 등록 버튼 클릭 시 알럿 발생
       const onClickBtn = async () => {
         try{
+
 
           const result = await createBoard({
             variables:{
@@ -111,7 +148,8 @@ export default function BoardsNewPage (){
                   zipcode: zipcode,
                   address: address,
                   addressDetail: addressDetail,
-                }
+                },
+                images: images.filter(Boolean),
               }
             }
           })
@@ -150,9 +188,9 @@ export default function BoardsNewPage (){
             <div className={styles.postForm__attachments__group}>
                 <label>사진 첨부</label>
                 <div className={styles.image__upload__group}>
-                    <InputImage />
-                    <InputImage />
-                    <InputImage />
+                    {images[0] ? <img src={`https://storage.googleapis.com/${images[0]}`} className={styles.upload__image}/>:<InputImage id="0" onChange={onChangeFile} />}
+                    {images[1] ? <img src={`https://storage.googleapis.com/${images[1]}`} className={styles.upload__image}/>:<InputImage id="1" onChange={onChangeFile} />}
+                    {images[2] ? <img src={`https://storage.googleapis.com/${images[2]}`} className={styles.upload__image}/>:<InputImage id="2" onChange={onChangeFile} />}
                 </div>
             </div>
             <div className={styles.postForm__button__group}>
