@@ -11,10 +11,6 @@ export const FETCH_BOARD = gql`
         createdAt
         likeCount
         dislikeCount
-        user {
-        picture
-        deletedAt
-        }
     }
 }
 `
