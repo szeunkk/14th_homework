@@ -43,7 +43,7 @@ export default function BoardsBoardIdPage() {
             <Sectiontitle text={title} />
             <Writer writer={writer} date={KSTdate}/>
             <div className={styles.imagesGroup}>
-                {imagesUrl && imagesUrl.map((url: string) => <img src={url} className={styles.addimage1}/>)}
+                {imagesUrl && imagesUrl.map((url: string) => <img key={url} src={url} className={styles.addimage1}/>)}
             </div>
             <Sectioncontent content={contents}/>
             {youtubeUrl !== "" ? <YoutubeUrl youtubeUrl={youtubeUrl}></YoutubeUrl> : ""}
