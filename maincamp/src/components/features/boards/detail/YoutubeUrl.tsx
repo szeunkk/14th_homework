@@ -16,7 +16,7 @@ export default function YoutubeUrl (props:{youtubeUrl: string}){
     const [isPlaying,setIsPlaying] = useState(false)
 
     const onClickThumbnail =() => {
-        setIsPlaying(isPlaying => true)
+        setIsPlaying(true)
     }
     
     return(
@@ -27,8 +27,8 @@ export default function YoutubeUrl (props:{youtubeUrl: string}){
                 id="ytplayer" 
                 type="text/html"
                 src={IframeSrc}
-                frameborder="0" 
-                allowfullscreen
+                frameBorder="0" 
+                allowFullScreen
                 allow="autoplay; encrypted-media"
                 className={`${styles.youtube__iframe}`}></iframe>}
         </div>
