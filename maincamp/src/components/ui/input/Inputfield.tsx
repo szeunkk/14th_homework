@@ -8,7 +8,7 @@ export function Inputfield (props: InputProps) {
     return(
         <div className={styles.Formfield}>
             <div><label>{props.label}</label>{props.required && <span>*</span>}</div>
-            <input type={props.type} placeholder={props.placeholder} onChange={props.onChange} />
+            <input type={props.type} placeholder={props.placeholder} disabled={props.isEdit} onChange={props.onChange} />
         </div>
     );
 }

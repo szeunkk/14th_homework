@@ -18,6 +18,7 @@ export type InputProps = {
     required?: boolean;
     type: string;
     placeholder: string;
+    isEdit?: boolean;
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   }
 
