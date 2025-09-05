@@ -39,6 +39,10 @@ export default function BoardsBoardIdPage() {
         router.push('/boards')
     }
 
+    const onClickBoardsEdit = () => {
+        router.push(`/boards/${boardId}/edit`)
+    }
+
     const imagesUrl = images?.filter(Boolean).map((el: string) => `https://storage.googleapis.com/${el}`)
 
 
@@ -54,7 +58,7 @@ export default function BoardsBoardIdPage() {
             <Like bad={dislikeCount} good={likeCount}/>
             <div className={styles.boardsDetail__button__group}>
                 <Button type="button" variant='FormBtn' onClick={onClickBoardsList}><img src="/icons/menu.svg"/>목록으로</Button>
-                <Button type="button" variant='FormBtn'><img src="/icons/edit.svg"/>수정하기</Button>
+                <Button type="button" variant='FormBtn' onClick={onClickBoardsEdit}><img src="/icons/edit.svg"/>수정하기</Button>
             </div>
         </div>
     )
