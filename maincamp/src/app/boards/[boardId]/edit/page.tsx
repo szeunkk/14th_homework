@@ -6,6 +6,6 @@ export default function BoardsNewPage (){
 
 
     return(
-      <BoardsWrite isEdit={false}/>
+      <BoardsWrite isEdit={true}/>
     );
 }
