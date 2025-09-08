@@ -19,6 +19,7 @@ export type InputProps = {
     type: string;
     placeholder: string;
     isEdit?: boolean;
+    defaultValue?:any;
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   }
 
@@ -29,6 +30,7 @@ export type TextareaProps = {
     label: string;
     required?: boolean;
     placeholder: string;
+    defaultValue?:any;
     onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
@@ -38,5 +40,6 @@ export type ZipcodeProps = {
     required?: boolean;
     placeholder: string;
     placeholder_2?: string;
+    defaultValue?:any;
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
