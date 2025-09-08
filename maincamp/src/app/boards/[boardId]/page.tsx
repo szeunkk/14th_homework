@@ -33,7 +33,7 @@ export default function BoardsBoardIdPage() {
     // 한국 시간대로 변경 필요: 외부 라이브러리 date-fns-tz 설치 후 서울 시간대로 변경
     let KSTdate;
     if(createdAt){
-        KSTdate = formatInTimeZone(new Date(createdAt&&createdAt),'Asia/Seoul','yyyy-MM-dd')
+        KSTdate = formatInTimeZone(new Date(createdAt),'Asia/Seoul','yyyy-MM-dd')
     }
     const onClickBoardsList = () => {
         router.push('/boards')
