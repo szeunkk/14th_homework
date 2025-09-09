@@ -3,7 +3,6 @@ import styles from './styles.module.css'
 import useCommentList from './hook'
 import { formatInTimeZone } from 'date-fns-tz';
 import { Fragment } from 'react';
-import { IComment } from './types';
 
 export default function CommentList(){
 
@@ -18,7 +17,7 @@ export default function CommentList(){
 
     return(
         <>
-            {fetchBoardComments?.map((el: IComment) =>
+            {fetchBoardComments?.map((el) =>
                 <Fragment key={el._id}>
                 <div className={styles.CommentRow}>
                     <div className={styles.CommentHeader}>
@@ -31,11 +30,11 @@ export default function CommentList(){
                                 {el.writer}
                             </div>
                             <div className={styles.CommentRated}>
-                                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor="#FADA67" />
-                                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor="#FADA67" />
-                                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor="#C7C7C7" />
-                                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor="#C7C7C7" />
-                                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor="#C7C7C7" />
+                                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor={1 <= el.rating ? "#FADA67" : "#C7C7C7" } />
+                                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor={2 <= el.rating ? "#FADA67" : "#C7C7C7" } />
+                                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor={3 <= el.rating ? "#FADA67" : "#C7C7C7" } />
+                                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor={4 <= el.rating ? "#FADA67" : "#C7C7C7" } />
+                                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor={5 <= el.rating ? "#FADA67" : "#C7C7C7" } />
                             </div>
                         </div>
                         <div>

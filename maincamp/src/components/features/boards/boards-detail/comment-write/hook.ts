@@ -1,6 +1,7 @@
+"use client"
+
 import { CreateBoardCommentDocument, FetchBoardCommentsDocument } from "@/commons/graphql/graphql";
 import { useMutation } from "@apollo/client";
-import { getDefaultFetchPolicy } from "@apollo/client/react/hooks/useQuery";
 import { useParams } from "next/navigation"
 import { ChangeEvent, useState } from "react";
 
@@ -14,6 +15,7 @@ export default function useCommentWrite(){
     const [password, setPassword] = useState("")
     const [contents, setContents] = useState("")
     const [isValid, setIsValid] = useState(true)
+    const [rating, setRating] = useState(0)
 
     // 게시글 댓글 생성 API
     const [createBoardComment] = useMutation(CreateBoardCommentDocument)
@@ -42,6 +44,7 @@ export default function useCommentWrite(){
     }
 
     const onChangeContents = (event: ChangeEvent<HTMLTextAreaElement>) => {
+
         const value = event.target.value
         setContents(value)
 
@@ -50,6 +53,13 @@ export default function useCommentWrite(){
         } else {
             setIsValid(true)
         }
+    }
+
+    // 별점 기능
+    const onClickRate = (event: React.MouseEvent) => {
+        const parent = event.currentTarget.closest('div');
+        if(!parent) return;
+        setRating(Number(parent.id))
     }
 
     // 댓글 등록하기 버튼 클릭
@@ -61,7 +71,7 @@ export default function useCommentWrite(){
                         writer,
                         password,
                         contents,
-                        rating: 0
+                        rating,
                     },
                     boardId: params.boardId as string,
                 },
@@ -81,5 +91,5 @@ export default function useCommentWrite(){
         }
     }
 
-    return{writer, password, contents, isValid, onChangeWriter, onChangePassword, onChangeContents, onClickCommentSubmit}
+    return{writer, password, contents, isValid, rating, onChangeWriter, onChangePassword, onChangeContents, onClickCommentSubmit, onClickRate}
 }

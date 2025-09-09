@@ -6,7 +6,7 @@ import useCommentWrite from "./hook";
 
 export default function CommentWrite(){
 
-    const {onChangeWriter, onChangePassword, onChangeContents, onClickCommentSubmit, isValid} = useCommentWrite();
+    const {onChangeWriter, onChangePassword, onChangeContents, onClickCommentSubmit, onClickRate, isValid, rating} = useCommentWrite();
 
     return(
         <form className={styles.CommentField} onSubmit={onClickCommentSubmit}>
@@ -17,11 +17,21 @@ export default function CommentWrite(){
             <span>댓글</span>
         </div>
         <div className={styles.CommentRate}>
-        <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor="#C7C7C7" />
-        <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor="#C7C7C7" />
-        <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor="#C7C7C7" />
-        <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor="#C7C7C7" />
-        <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor="#C7C7C7" />
+            <div id='1'>
+                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor={1 <= rating ? "#FADA67" : "#C7C7C7"} onClick={onClickRate}/>
+            </div>
+            <div id='2'>
+                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor={2 <= rating ? "#FADA67" : "#C7C7C7"}  onClick={onClickRate}/>
+            </div>
+            <div id='3'>
+                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor={3 <= rating ? "#FADA67" : "#C7C7C7"}  onClick={onClickRate}/>
+            </div>
+            <div id='4'>
+                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor={4 <= rating ? "#FADA67" : "#C7C7C7"}  onClick={onClickRate}/>
+            </div>
+            <div id='5'>
+                <StarTwoTone style={{ fontSize: '1.25rem'}} twoToneColor={5 <= rating ? "#FADA67" : "#C7C7C7"}  onClick={onClickRate}/>
+            </div>
         </div>
         <div className={styles.CommentWrite}>
             <div className={styles.CommentWriterGroup}>
