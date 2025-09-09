@@ -1,7 +1,7 @@
 import { FetchBoardCommentsDocument, FetchBoardCommentsQuery, FetchBoardCommentsQueryVariables } from "@/commons/graphql/graphql";
 import { useQuery } from "@apollo/client";
 import { useParams } from "next/navigation"
-import { IUseCommentList } from "./types";
+import { IComment, IUseCommentList } from "./types";
 
 export default function useCommentList(){
 
@@ -10,7 +10,7 @@ export default function useCommentList(){
 
     if(!boardId) return;
     
-    const { data } = useQuery<FetchBoardCommentsQueryVariables>(FetchBoardCommentsDocument, {
+    const { data } = useQuery<FetchBoardCommentsQuery>(FetchBoardCommentsDocument, {
         variables: {
             boardId
         },
