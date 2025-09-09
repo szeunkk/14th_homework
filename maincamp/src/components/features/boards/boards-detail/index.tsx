@@ -13,7 +13,7 @@ import useBoardsId from "./hook";
 export default function BoardsBoardDetailPage() {
 
     const {writer, title, contents, youtubeUrl, imagesUrl, KSTdate, likeCount, dislikeCount, onClickBoardsEdit, onClickBoardsList} = useBoardsId()
-
+    if(!writer||!title||!contents||!youtubeUrl||!imagesUrl||!KSTdate||!likeCount||!dislikeCount) return;
 
     return(
         <div className={styles.boardsDetail}>
