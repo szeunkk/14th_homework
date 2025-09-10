@@ -6,14 +6,38 @@ import InputBoardAddress from '@/components/ui/input/InputBoardAddress'
 import InputImage from '@/components/ui/input/InputImage'
 import styles from './style.module.css'
 import useBoardsWrite from './hook'
+import { Modal } from "antd";
+import DaumPostcodeEmbed from "react-daum-postcode";
+import { useState } from 'react'
 
 
 
 
 export default function BoardsWrite({isEdit, data}:{isEdit: boolean, data?:any}){
 
-    const { onChangeWriter, onChangePassword, onChangeTitle, onChangeContents, onChangeBoardAddress, onChangeYoutubeUrl, onClickCancel, onClickUpdate, onClickSubmit, onChangeFile, isValid, images } = useBoardsWrite({data});
+    const { onChangeWriter, 
+        onChangePassword, 
+        onChangeTitle, 
+        onChangeContents, 
+        onChangeBoardAddress, 
+        onChangeYoutubeUrl, 
+        onClickCancel, 
+        onClickUpdate, 
+        onClickSubmit, 
+        onChangeFile, 
+        isValid, 
+        images,
+        isModalOpen,
+        onToggleModal,
+        handleComplete,
+        setZipcode,
+        setAddress,
+        setAddressDetail,
+        boardAddress,
+    } = useBoardsWrite({data});
     // const {images, onChangeFile} = useUploadFile(data);
+
+    const onChangeAddress = {setZipcode, setAddress, setAddressDetail, onChangeBoardAddress}
 
     return(
         <div className={styles.Formfield}>
@@ -29,7 +53,16 @@ export default function BoardsWrite({isEdit, data}:{isEdit: boolean, data?:any})
             <hr/>
             <Textareafield label='내용' required placeholder='내용을 입력해 주세요.' defaultValue={data?.fetchBoard.contents} onChange={onChangeContents} ></Textareafield>
             <hr />
-            <InputBoardAddress placeholder='주소를 입력해 주세요.' placeholder_2='상세주소' defaultValue={data?.fetchBoard} onChange={onChangeBoardAddress}></InputBoardAddress>
+            <InputBoardAddress placeholder='주소를 입력해 주세요.' placeholder_2='상세주소' isEdit={isEdit} value={boardAddress} onClick={onToggleModal} onChange={onChangeAddress}></InputBoardAddress>
+            {isModalOpen && 
+                <Modal 
+                    title="주소입력하기" 
+                    open={true}
+                    styles={{body:{height: 450}}}
+                    onOk={onToggleModal}
+                    onCancel={onToggleModal}>
+                    <DaumPostcodeEmbed onComplete={handleComplete} style={{ height: "100%"}}/>
+                </Modal>}
             <hr />
             <Inputfield type='string' label='유튜브 링크' placeholder='링크를 입력해 주세요.' defaultValue={data?.fetchBoard.youtubeUrl} onChange={onChangeYoutubeUrl}></Inputfield>
             <hr />
