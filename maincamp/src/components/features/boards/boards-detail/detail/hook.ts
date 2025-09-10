@@ -16,7 +16,7 @@ export default function useBoardsDetail () {
         }
     });
 
-    const { writer, title, contents, youtubeUrl, images, createdAt, likeCount, dislikeCount } = data?.fetchBoard || {} ;
+    const { writer, title, contents, youtubeUrl, images, createdAt, likeCount, dislikeCount, boardAddress } = data?.fetchBoard || {} ;
 
     // const date = createdAt?.slice(0,10)
     // 현재 createdAt에 저장된 시간은 UTC로 기존 코드 그대로 사용 시, 새벽시간대 작성하거나 UTC날짜가 바뀌는 시간대에 작성 시 날짜가 이상하게 나옴
@@ -46,5 +46,6 @@ export default function useBoardsDetail () {
         dislikeCount: dislikeCount,
         onClickBoardsList,
         onClickBoardsEdit,
+        boardAddress
     }
 }

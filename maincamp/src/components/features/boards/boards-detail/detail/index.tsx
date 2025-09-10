@@ -12,13 +12,13 @@ import useBoardsId from "./hook";
 
 export default function BoardsBoardDetailPage() {
 
-    const {writer, title, contents, youtubeUrl, imagesUrl, KSTdate, likeCount, dislikeCount, onClickBoardsEdit, onClickBoardsList} = useBoardsId()
+    const {writer, title, contents, youtubeUrl, imagesUrl, KSTdate, likeCount, dislikeCount, boardAddress, onClickBoardsEdit, onClickBoardsList} = useBoardsId()
 
     return(
         <>
             <div className={styles.boardsDetail}>
                 <Sectiontitle text={title || ""} />
-                <Writer writer={writer || ""} date={KSTdate}/>
+                <Writer writer={writer || ""} date={KSTdate} address={boardAddress?.address}/>
                 <div className={styles.imagesGroup}>
                     {imagesUrl?.map((url: string) => <img key={url} src={url} className={styles.addimage1}/>)}
                 </div>  
