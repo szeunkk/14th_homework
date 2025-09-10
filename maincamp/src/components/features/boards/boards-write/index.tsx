@@ -37,12 +37,10 @@ export default function BoardsWrite({isEdit, data}:{isEdit: boolean, data?:any})
     } = useBoardsWrite({data});
     // const {images, onChangeFile} = useUploadFile(data);
 
-    const onChangeAddress = {setZipcode, setAddress, setAddressDetail, onChangeBoardAddress}
-
     return(
         <div className={styles.Formfield}>
             {/* 폼 타이틀 */}
-            <div className={styles.postForm__title}>게시물 등록</div>
+            <div className={styles.postForm__title}>게시물 {isEdit? "수정":"등록"}</div>
             {/* 작성자 그룹 */}
             <div className={styles.postForm__writer__group}>
                 <Inputfield type='text' label='작성자' required placeholder='작성자 명을 입력해 주세요.' defaultValue={data?.fetchBoard.writer} isEdit={isEdit} onChange={onChangeWriter}></Inputfield>
@@ -53,7 +51,7 @@ export default function BoardsWrite({isEdit, data}:{isEdit: boolean, data?:any})
             <hr/>
             <Textareafield label='내용' required placeholder='내용을 입력해 주세요.' defaultValue={data?.fetchBoard.contents} onChange={onChangeContents} ></Textareafield>
             <hr />
-            <InputBoardAddress placeholder='주소를 입력해 주세요.' placeholder_2='상세주소' isEdit={isEdit} value={boardAddress} onClick={onToggleModal} onChange={onChangeAddress}></InputBoardAddress>
+            <InputBoardAddress placeholder='주소를 입력해 주세요.' placeholder_2='상세주소' isEdit={isEdit} value={boardAddress} onClick={onToggleModal} onChange={onChangeBoardAddress}></InputBoardAddress>
             {isModalOpen && 
                 <Modal 
                     title="주소입력하기" 
