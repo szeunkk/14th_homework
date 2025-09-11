@@ -30,9 +30,6 @@ export default function BoardsWrite({isEdit, data}:{isEdit: boolean, data?:any})
         isModalOpen,
         onToggleModal,
         handleComplete,
-        setZipcode,
-        setAddress,
-        setAddressDetail,
         boardAddress,
     } = useBoardsWrite({data});
     // const {images, onChangeFile} = useUploadFile(data);
