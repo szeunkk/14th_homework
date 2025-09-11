@@ -20,9 +20,9 @@ export default function useBoardsWrite({data}:{data?: any}){
         const [title, setTitle] = useState(!data? "" : data.fetchBoard.title)
         const [contents, setContents] = useState(!data? "" : data.fetchBoard.contents)
         const [youtubeUrl, setYoutubeUrl] = useState(!data? "" : data.fetchBoard.youtubeUrl)
-        const [zipcode, setZipcode] = useState(!data? "" : data.fetchBoard.boardAddress.zipcode)
-        const [address, setAddress] = useState(!data? "" : data.fetchBoard.boardAddress.address)
-        const [addressDetail, setAddressDetail] = useState(!data? "" : data.fetchBoard.boardAddress.addressDetail)
+        const [zipcode, setZipcode] = useState(!data? "" : data.fetchBoard.boardAddress?.zipcode)
+        const [address, setAddress] = useState(!data? "" : data.fetchBoard.boardAddress?.address)
+        const [addressDetail, setAddressDetail] = useState(!data? "" : data.fetchBoard.boardAddress?.addressDetail)
         const [images, setImages] = useState<ImageUrlArray>(!data?[undefined, undefined, undefined]:data?.fetchBoard.images )
         
         // 1-2. 게시글 생성 API 요청 함수
