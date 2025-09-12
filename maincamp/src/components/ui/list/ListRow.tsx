@@ -7,6 +7,7 @@ import { formatInTimeZone } from 'date-fns-tz';
 import { FETCH_BOARDS_AND_COUNT } from '@/graphql/queries/board';
 import { useMutation, useQuery } from '@apollo/client';
 import { DELETE_BOARD } from '@/graphql/mutations/board';
+import { Modal } from 'antd';
 
 interface IListRow{
     _id: string,
@@ -44,6 +45,10 @@ export default function ListRow(props: IListRow){
                 page: props.currentPage,
             }}],
         })
+        const showSuccessModal = () => Modal.success({
+            content: "게시글이 삭제되었습니다.",
+          });
+          showSuccessModal()
     }
 
     let KSTDate;
