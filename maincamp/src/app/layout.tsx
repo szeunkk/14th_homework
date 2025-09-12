@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import ApolloUploadSetting from "@/commons/settings/apollo-upload-setting";
-import LayoutNavigation from "@/commons/layout/navigation";
 import Layout from "@/commons/layout";
 
 const pretendard = localFont({

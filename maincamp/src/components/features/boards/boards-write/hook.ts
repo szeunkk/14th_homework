@@ -7,6 +7,7 @@ import { ImageUrlArray, IUpdateBoardInput } from "./types";
 import { GraphQLError } from "graphql";
 import { CreateBoardDocument, FetchBoardDocument, UpdateBoardDocument, UploadFileDocument } from "@/commons/graphql/graphql";
 import { Modal } from "antd";
+import { Address } from "react-daum-postcode";
 
 export default function useBoardsWrite({data}:{data?: any}){
     
@@ -109,7 +110,7 @@ export default function useBoardsWrite({data}:{data?: any}){
 
           const boardAddress = {zipcode: zipcode, address: address, addressDetail: addressDetail}
 
-          const handleComplete = (data) => {
+          const handleComplete = (data: Address) => {
             console.log(data); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
             setZipcode(data.zonecode)
             setAddress(data.address)
