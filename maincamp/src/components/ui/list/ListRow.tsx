@@ -4,20 +4,20 @@ import { useRouter } from 'next/navigation';
 import styles from './ListRow.module.css'
 import { Fragment, MouseEvent } from 'react';
 import { formatInTimeZone } from 'date-fns-tz';
-import { FETCH_BOARDS_AND_COUNT } from '@/graphql/queries/board';
 import { useMutation } from '@apollo/client';
 import { DELETE_BOARD } from '@/graphql/mutations/board';
 import { Modal } from 'antd';
+import { FetchBoardsDocument } from '@/commons/graphql/graphql';
 
 interface IListRow{
     _id: string,
     flex: string[],
-    currentPage: number,
     createdAt: string,
     textAlign: CanvasTextAlign[],
-    num: number,
+    num: number | undefined,
     title: string,
     writer: string,
+    currentPage: number,
     children?: React.ReactNode
 }
 
@@ -41,7 +41,7 @@ export default function ListRow(props: IListRow){
             variables:{
                 boardId: boardId,
             },
-            refetchQueries: [{ query: FETCH_BOARDS_AND_COUNT, variables:{
+            refetchQueries: [{ query: FetchBoardsDocument, variables:{
                 page: props.currentPage,
             }}],
         })
