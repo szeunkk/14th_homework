@@ -40,7 +40,7 @@ export default function BoardsPage () {
                 flex={flex} 
                 textAlign={textAlign} 
             >
-                <BoardsList flex={flex} textAlign={textAlign} data={data?.fetchBoards ?? []} pageNum={pageNum} currentPage={currentPage} />
+                <BoardsList flex={flex} textAlign={textAlign} data={data?.fetchBoards ?? []} pageNum={pageNum} currentPage={currentPage} refetch={refetch} />
                 <Pagination lastPage={lastPage} refetch={refetch} setCurrentPage={setCurrentPage} currentPage={currentPage} numPerPageGroup={numPerPageGroup}/>
             </DataList>
             </div>

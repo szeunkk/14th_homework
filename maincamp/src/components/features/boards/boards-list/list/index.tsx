@@ -22,6 +22,7 @@ export default function BoardsList (props: IBoardsListProps) {
                             writer={el.writer as string}
                             createdAt={el.createdAt}
                             currentPage={props.currentPage}
+                            refetch={props.refetch}
                         >
                         </ListRow>
                         </Fragment>
