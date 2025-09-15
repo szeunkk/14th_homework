@@ -12,6 +12,8 @@ import Pagination from "@/components/features/boards/boards-list/pagination"
 
 export default function BoardsPage () {
 
+    const { data, numPerPageGroup, lastPage, refetch, pageNum, currentPage, setCurrentPage } = useBoards();
+
     const router = useRouter();
 
     const onClickBoardsNew = () => {
@@ -21,7 +23,7 @@ export default function BoardsPage () {
     const flex = ["4", "53", "6.25", "6.25"]
     const textAlign = ['center', 'left', 'center', 'center'] as CanvasTextAlign[]
 
-    const { data, numPerPageGroup, lastPage, refetch, pageNum, currentPage, setCurrentPage } = useBoards();
+
 
     return(
         <div className={styles.boards}>

@@ -5,7 +5,7 @@ import {  FetchBoardsCountDocument, FetchBoardsDocument, FetchBoardsQuery, Fetch
 export default function useBoards () {
 
     // 게시글 리스트 요청 API 및 게시글 개수 요청 API
-    const { data, refetch } = useQuery<FetchBoardsQuery, FetchBoardsQueryVariables>(FetchBoardsDocument);
+    const { data, refetch } = useQuery<FetchBoardsQuery, FetchBoardsQueryVariables>(FetchBoardsDocument, {fetchPolicy: "cache-and-network"});
     const { data: dataBoardsCount } = useQuery(FetchBoardsCountDocument)
 
     // 현재 페이지 공유를 위한 현재 페이지 state 설정 및 페이지 그룹 당 페이지 수 설정
