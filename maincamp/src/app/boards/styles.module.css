@@ -18,3 +18,9 @@
     flex: 0 0 auto
     
 }
+
+.BoardsListMenu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
