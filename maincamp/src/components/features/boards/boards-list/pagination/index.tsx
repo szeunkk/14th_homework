@@ -18,7 +18,7 @@ export default function Pagination(props: IPaginationProps){
                     />
                 </svg>
             </div>
-            <div>
+            <div className={styles.pages}>
                 {new Array(5).fill("").map((_,index) => 
                     index + startPage <= props.lastPage && (
                         <button
