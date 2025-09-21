@@ -1,8 +1,14 @@
 import { supabase } from "@/commons/libraries/supabase";
+import { useState } from "react";
 
-export default async function useTravelList() {
-  const { data } = await supabase.from("travel-list").select("*");
-  console.log(data);
+export default function useTravelList() {
+  const [travels, setTravels] = useState<any[]>([]);
 
-  return {};
+  const fetchTravels = async () => {
+    const { data, error } = await supabase.from("travel_list").select("*");
+    if (error) return;
+    setTravels(data ?? []);
+  };
+
+  return { travels };
 }
