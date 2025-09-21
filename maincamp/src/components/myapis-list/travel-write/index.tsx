@@ -5,7 +5,11 @@ import { Inputfield } from "@/components/ui/input/Inputfield";
 import styles from "./style.module.css";
 import useTravelWrite from "./hook";
 
-export default function TravelWrite() {
+interface Props {
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function TravelWrite({ setVisible }: Props) {
   const { inputs, onChangeInputs, onClickSubmit, isValid } = useTravelWrite();
 
   return (
@@ -44,7 +48,7 @@ export default function TravelWrite() {
           value={inputs?.endDate}
         />
       </div>
-      <div className={styles.ButtonGroup}>
+      <div className={styles.ButtonGroup} onClick={() => setVisible(false)}>
         <Button variant="FormBtn" type="button">
           취소
         </Button>

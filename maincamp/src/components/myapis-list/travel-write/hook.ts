@@ -34,7 +34,7 @@ export default function useTravelWrite() {
 
   // 여행 리스트 supabase로 전송
   const onClickSubmit = async () => {
-    const result = await supabase.from("travel-list").insert({
+    const result = await supabase.from("travel_list").insert({
       destination: inputs.destination,
       title: inputs.title,
       startDate: inputs.startDate,
