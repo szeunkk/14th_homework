@@ -121,7 +121,10 @@ export default function useBoardsWrite({ data }: { data?: any }) {
   };
 
   // (3) 파일 업로드 추가
-  const onChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeFile = async (
+    event: ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const { id, files } = event.target;
     if (!files || files.length === 0) return;
 
@@ -137,38 +140,29 @@ export default function useBoardsWrite({ data }: { data?: any }) {
       return;
     }
 
-    const handleSetImageUrl = (index: number, url: string | undefined) => {
-      setImages((prevUrls) => {
-        const NewUrls = [...prevUrls];
-        console.log(NewUrls);
-        NewUrls[index] = url;
-        return NewUrls;
-      });
-      console.log(images);
-    };
-
     const result = await uploadFile({
       variables: {
         file,
       },
     });
 
-    const fileUrl = result.data?.uploadFile.url;
+    console.log(result.data?.uploadFile.url);
 
-    switch (id) {
-      case "0": {
-        handleSetImageUrl(Number(id), fileUrl);
-        break;
-      }
-      case "1": {
-        handleSetImageUrl(Number(id), fileUrl);
-        break;
-      }
-      case "2": {
-        handleSetImageUrl(Number(id), fileUrl);
-        break;
-      }
-    }
+    const fileUrl = result.data?.uploadFile.url;
+    setImages((preUrls) => {
+      const newUrls = [...preUrls];
+      newUrls[index] = fileUrl;
+      return newUrls;
+    });
+  };
+
+  // (4) 파일 삭제 추가
+  const onClickDelete = (index: number) => {
+    setImages((preUrls) => {
+      const newUrls = [...preUrls];
+      newUrls[index] = undefined;
+      return newUrls;
+    });
   };
 
   // 4. 등록하기 버튼
@@ -275,11 +269,12 @@ export default function useBoardsWrite({ data }: { data?: any }) {
     onChangeBoardAddress,
     onChangeYoutubeUrl,
     onChangeFile,
+    onClickDelete,
     onClickCancel,
     isValid,
     onClickUpdate,
     onClickSubmit,
-    images: images,
+    images,
     isModalOpen,
     onToggleModal,
     handleComplete,
