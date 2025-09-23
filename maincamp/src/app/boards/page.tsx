@@ -52,6 +52,7 @@ export default function BoardsPage() {
             setStartDate={setStartDate}
             setSearch={setSearch}
             refetch={refetch}
+            setCurrentPage={setCurrentPage}
           ></SearchBar>
           <Button type="submit" variant="FormBtn" onClick={onClickBoardsNew}>
             <svg
