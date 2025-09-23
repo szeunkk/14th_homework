@@ -8,8 +8,8 @@ import {
 } from "@/commons/graphql/graphql";
 
 export default function useBoards() {
-  const [endDate, setEndDate] = useState("");
-  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState<string | undefined>(undefined);
+  const [startDate, setStartDate] = useState<string | undefined>(undefined);
   const [search, setSearch] = useState("");
 
   // 게시글 리스트 요청 API 및 게시글 개수 요청 API
@@ -18,14 +18,16 @@ export default function useBoards() {
     FetchBoardsQueryVariables
   >(FetchBoardsDocument, {
     variables: {
-      //   endDate,
-      //   startDate,
+      endDate,
+      startDate,
       search,
     },
     fetchPolicy: "cache-and-network",
   });
   const { data: dataBoardsCount } = useQuery(FetchBoardsCountDocument, {
     variables: {
+      endDate,
+      startDate,
       search,
     },
   });
@@ -42,7 +44,7 @@ export default function useBoards() {
 
   // 게시글 번호 계산을 위한 배열 생성
   const numArray = new Array(10).fill(1);
-  const pageNum = numArray.map((el, index) => {
+  const pageNum = numArray.map((_, index) => {
     if (dataBoardsCount)
       return dataBoardsCount?.fetchBoardsCount - (currentPage - 1) * 10 - index;
   });
