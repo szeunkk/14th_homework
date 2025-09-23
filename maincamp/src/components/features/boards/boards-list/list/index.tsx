@@ -10,6 +10,7 @@ export default function BoardsList(props: IBoardsListProps) {
       {props.data && props.data.length > 0 ? (
         props.data?.map((el: BoardType, index: number) => (
           <ListRow
+            key={el._id}
             num={props.pageNum[index]}
             flex={props.flex}
             textAlign={props.textAlign}
