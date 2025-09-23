@@ -2,7 +2,6 @@
 
 import styles from "./styles.module.css";
 import ListRow from "@/components/ui/list/ListRow";
-import { Fragment } from "react";
 import { BoardType, IBoardsListProps } from "./types";
 
 export default function BoardsList(props: IBoardsListProps) {
@@ -20,6 +19,7 @@ export default function BoardsList(props: IBoardsListProps) {
             createdAt={el.createdAt}
             currentPage={props.currentPage}
             refetch={props.refetch}
+            search={props.search}
           ></ListRow>
         ))
       ) : (

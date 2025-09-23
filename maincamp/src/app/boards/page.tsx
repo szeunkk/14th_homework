@@ -81,6 +81,7 @@ export default function BoardsPage() {
             pageNum={pageNum}
             currentPage={currentPage}
             refetch={refetch}
+            search={search}
           />
           <Pagination
             lastPage={lastPage}
