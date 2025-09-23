@@ -1,6 +1,7 @@
 import Button from "../../../../ui/button/Button";
 import useSearchBar from "./hook";
 import styles from "./styles.module.css";
+import { ISearchBar } from "./types";
 
 export default function SearchBar({
   endDate,
@@ -10,7 +11,7 @@ export default function SearchBar({
   setStartDate,
   setSearch,
   refetch,
-}) {
+}: ISearchBar) {
   const { onChangeSearch } = useSearchBar({
     endDate,
     startDate,
