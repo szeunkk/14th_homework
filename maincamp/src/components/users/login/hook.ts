@@ -1,6 +1,6 @@
 import { LoginUserDocument } from "@/commons/graphql/graphql";
 import { useAccessTokenStore } from "@/commons/stores/accessTokenStore";
-import { useMutation, useQuery } from "@apollo/client";
+import { ApolloError, useMutation, useQuery } from "@apollo/client";
 import { Modal } from "antd";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
@@ -32,7 +32,7 @@ export default function useLogin() {
   const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
 
-    if (event.target.value && password) {
+    if (event.target.value && email) {
       setIsValid(true);
     }
   };
@@ -59,13 +59,17 @@ export default function useLogin() {
 
       router.push("/boards");
     } catch (error) {
-      const showErrorModal = () => {
+      if (error instanceof ApolloError) {
         Modal.error({
           title: "로그인에 실패하였습니다.",
-          content: error as string,
+          content: error.message,
         });
-        showErrorModal();
-      };
+      } else {
+        Modal.error({
+          title: "로그인에 실패하였습니다.",
+          content: "알 수 없는 에러가 발생하였습니다.",
+        });
+      }
     }
   };
 
