@@ -70,6 +70,10 @@
   /* border: 0.06rem solid var(--color-red); */
 }
 
+.error input {
+  border: 0.06rem solid var(--color-red);
+}
+
 .inputContainer input::placeholder {
   font-size: 0.875rem;
   line-height: 1.25rem;
