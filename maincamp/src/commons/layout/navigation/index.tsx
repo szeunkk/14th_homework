@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import styles from "./style.module.css";
 import useNavigation from "./hook";
 
