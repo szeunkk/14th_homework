@@ -67,6 +67,10 @@
   line-height: 1.25rem;
 }
 
+.error input {
+  border: 0.06rem solid var(--color-red);
+}
+
 .errorMessage {
   display: block;
   margin-top: 0.5rem;

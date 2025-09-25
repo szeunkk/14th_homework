@@ -17,7 +17,7 @@ export default function Signup() {
         <div>
           회원가입을 위해 아래 빈칸을 모두 채워 주세요
           <div className={styles.inputContainer}>
-            <div className={styles.error}>
+            <div className={errors.email ? styles.error : ""}>
               <Inputfield
                 type="text"
                 placeholder="이메일을 입력해 주세요."
@@ -32,7 +32,7 @@ export default function Signup() {
                 </span>
               )}
             </div>
-            <div className={styles.error}>
+            <div className={errors.name ? styles.error : ""}>
               <Inputfield
                 type="text"
                 placeholder="이름을 입력해 주세요."
@@ -47,7 +47,7 @@ export default function Signup() {
                 </span>
               )}
             </div>
-            <div className={styles.error}>
+            <div className={errors.password ? styles.error : ""}>
               <Inputfield
                 type="password"
                 placeholder="비밀번호를 입력해 주세요."
@@ -62,7 +62,7 @@ export default function Signup() {
                 </span>
               )}
             </div>
-            <div className={styles.error}>
+            <div className={errors.passwordConfirm ? styles.error : ""}>
               <Inputfield
                 type="password"
                 placeholder="비밀번호를 한번 더 입력해 주세요."
