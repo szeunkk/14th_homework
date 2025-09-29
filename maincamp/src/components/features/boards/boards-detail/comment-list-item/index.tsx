@@ -19,8 +19,6 @@ export default withAuth(function CommentListItem({
     setIsEdit(!isEdit);
   };
 
-  console.log(el);
-
   return isEdit ? (
     <>
       <CommentWrite isEdit={true} onClickEdit={onClickEdit} el={el} />
