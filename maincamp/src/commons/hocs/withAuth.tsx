@@ -1,20 +1,19 @@
-import { Modal } from "antd";
+"use client";
+
 import { useRouter } from "next/navigation";
-import { ComponentType, useEffect } from "react";
+import { ComponentType, useEffect, useState } from "react";
 
-export const withAuth = (Component: ComponentType) => () => {
-  const router = useRouter();
+export const withAuth =
+  <P extends object>(Component: ComponentType<P>) =>
+  (props: P) => {
+    const router = useRouter();
+    const [isAuth, setIsAuth] = useState<boolean | undefined>(undefined);
 
-  useEffect(() => {
-    if (!localStorage.getItem("accessToken")) {
-      Modal.error({
-        title: "해당 페이지에 접속 권한이 없습니다.",
-        content: "로그인 후 이용해주세요.",
-      });
+    useEffect(() => {
+      const token = localStorage.getItem("accessToken");
+      if (!token) return setIsAuth(false);
+      if (token) return setIsAuth(true);
+    }, []);
 
-      router.push("/login");
-    }
-  }, []);
-
-  return <Component />;
-};
+    return <Component {...props} isAuth={isAuth} />;
+  };
