@@ -97,6 +97,7 @@ export default withAuth(function CommentWrite({
             placeholder="작성자 명을 입력해 주세요."
             value={writer}
             isEdit={isEdit}
+            isAuth={isAuth}
             onChange={onChangeWriter}
           ></Inputfield>
           <Inputfield
@@ -105,6 +106,7 @@ export default withAuth(function CommentWrite({
             required
             placeholder="비밀번호를 입력해 주세요."
             value={password}
+            isAuth={isAuth}
             onChange={onChangePassword}
           ></Inputfield>
         </div>
@@ -113,6 +115,7 @@ export default withAuth(function CommentWrite({
           isCommentField
           maxLength={100}
           value={contents}
+          isAuth={isAuth}
           onChange={onChangeContents}
         />
         <div className={styles.CommentButtonGroup}>
