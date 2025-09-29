@@ -18,6 +18,7 @@ export type InputProps = {
   id?: string;
   isEdit?: boolean;
   value?: string;
+  isAuth?: boolean | undefined;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -31,6 +32,7 @@ export type TextareaProps = {
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   isCommentField?: boolean;
+  isAuth?: boolean | undefined;
   maxLength?: number;
 };
 
