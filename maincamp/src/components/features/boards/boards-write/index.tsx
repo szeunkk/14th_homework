@@ -9,6 +9,7 @@ import DaumPostcodeEmbed from "react-daum-postcode";
 import { Board } from "@/commons/graphql/graphql";
 import UploadImages from "./uploadImages/uploadImages";
 import useBoardForm from "./useBoardForm";
+import { FieldErrors } from "react-hook-form";
 
 export default function BoardsWrite({
   isEdit,
@@ -30,7 +31,7 @@ export default function BoardsWrite({
     onClickCancel,
     handleComplete,
     onClickUpdate,
-  } = useBoardForm({ data });
+  } = useBoardForm({ data, isEdit });
 
   return (
     <form
@@ -57,7 +58,7 @@ export default function BoardsWrite({
           placeholder="비밀번호를 입력해 주세요."
           {...register("password")}
           isEdit={isEdit}
-          error={formState.errors.password?.message}
+          error={(formState.errors as FieldErrors<{ password?: string }>).password?.message}
         ></Inputfield>
       </div>
       <hr />
@@ -118,7 +119,7 @@ export default function BoardsWrite({
         <Button type="button" variant="FormBtn" onClick={onClickCancel}>
           취소
         </Button>
-        <Button type="submit" variant="FormBtn" disabled={!formState.isValid}>
+        <Button type="submit" variant="FormBtn" disabled={isEdit ? false : !formState.isValid}>
           {isEdit ? "수정" : "등록"}하기
         </Button>
       </div>
