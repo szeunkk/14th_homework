@@ -9,6 +9,7 @@ import { Modal } from "antd";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import { Board } from "@/commons/graphql/graphql";
 import UploadImages from "./uploadImages/uploadImages";
+import useBoardForm from "./useBoardForm";
 
 export default function BoardsWrite({
   isEdit,
@@ -17,27 +18,41 @@ export default function BoardsWrite({
   isEdit: boolean;
   data?: { fetchBoard: Board };
 }) {
+  // const {
+  //   onClickCancel,
+  //   onClickUpdate,
+  //   onClickSubmit,
+  //   onChangeFile,
+  //   onClickDelete,
+  //   images,
+  //   isModalOpen,
+  //   onToggleModal,
+  //   handleComplete,
+  //   boardAddress,
+  // } = useBoardsWrite({ data });
+
   const {
-    inputs,
-    onChangeInputs,
-    onChangeBoardAddress,
-    onChangeYoutubeUrl,
-    onClickCancel,
-    onClickUpdate,
+    register,
+    handleSubmit,
+    formState,
+    watch,
     onClickSubmit,
-    onChangeFile,
-    onClickDelete,
-    isValid,
-    images,
     isModalOpen,
     onToggleModal,
+    onClickDelete,
+    onChangeFile,
+    onClickCancel,
     handleComplete,
-    boardAddress,
-    youtubeUrl,
-  } = useBoardsWrite({ data });
+    onClickUpdate,
+  } = useBoardForm({ data });
 
   return (
-    <div className={styles.Formfield}>
+    <form
+      className={styles.Formfield}
+      onSubmit={
+        isEdit ? handleSubmit(onClickUpdate) : handleSubmit(onClickSubmit)
+      }
+    >
       {/* 폼 타이틀 */}
       <div className={styles.postForm__title}>
         게시물 {isEdit ? "수정" : "등록"}
@@ -50,9 +65,10 @@ export default function BoardsWrite({
           required
           placeholder="작성자 명을 입력해 주세요."
           id="writer"
-          value={inputs?.writer}
+          {...register("writer")}
+          // value={inputs?.writer}
           isEdit={isEdit}
-          onChange={onChangeInputs}
+          // onChange={onChangeInputs}
         ></Inputfield>
         <Inputfield
           type="password"
@@ -60,9 +76,10 @@ export default function BoardsWrite({
           required
           placeholder="비밀번호를 입력해 주세요."
           id="password"
-          value={inputs?.password}
+          {...register("password")}
+          // value={inputs?.password}
           isEdit={isEdit}
-          onChange={onChangeInputs}
+          // onChange={onChangeInputs}
         ></Inputfield>
       </div>
       <hr />
@@ -72,8 +89,9 @@ export default function BoardsWrite({
         required
         placeholder="제목을 입력해 주세요."
         id="title"
-        value={inputs?.title}
-        onChange={onChangeInputs}
+        {...register("title")}
+        // value={inputs?.title}
+        // onChange={onChangeInputs}
       ></Inputfield>
       <hr />
       <Textareafield
@@ -81,17 +99,18 @@ export default function BoardsWrite({
         required
         placeholder="내용을 입력해 주세요."
         id="contents"
-        value={inputs?.contents}
-        onChange={onChangeInputs}
+        {...register("contents")}
+        // value={inputs?.contents}
+        // onChange={onChangeInputs}
       ></Textareafield>
       <hr />
       <InputBoardAddress
         placeholder="주소를 입력해 주세요."
         placeholder_2="상세주소"
         isEdit={isEdit}
-        value={boardAddress}
+        register={register}
         onClick={onToggleModal}
-        onChange={onChangeBoardAddress}
+        // onChange={onChangeBoardAddress}
       ></InputBoardAddress>
       {isModalOpen && (
         <Modal
@@ -112,14 +131,16 @@ export default function BoardsWrite({
         type="string"
         label="유튜브 링크"
         placeholder="링크를 입력해 주세요."
-        value={youtubeUrl}
-        onChange={onChangeYoutubeUrl}
+        id="youtubeUrl"
+        {...register("youtubeUrl")}
+        // value={youtubeUrl}
+        // onChange={onChangeYoutubeUrl}
       ></Inputfield>
       <hr />
       <div className={styles.postForm__attachments__group}>
         <label>사진 첨부</label>
         <UploadImages
-          images={images}
+          images={watch("images") ?? []}
           onClickDelete={onClickDelete}
           onChangeFile={onChangeFile}
         />
@@ -131,12 +152,12 @@ export default function BoardsWrite({
         <Button
           type="submit"
           variant="FormBtn"
-          disabled={isEdit ? false : isValid}
-          onClick={isEdit ? onClickUpdate : onClickSubmit}
+          disabled={!formState.isValid}
+          // onClick={isEdit ? onClickUpdate : onClickSubmit}
         >
           {isEdit ? "수정" : "등록"}하기
         </Button>
       </div>
-    </div>
+    </form>
   );
 }
