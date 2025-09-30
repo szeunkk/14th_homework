@@ -13,8 +13,14 @@ import { useForm } from "react-hook-form";
 import { Modal } from "antd";
 import { useMutation } from "@apollo/client";
 import { Address } from "react-daum-postcode";
-import { IUpdateBoardInput } from "./types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { GraphQLError } from "graphql";
+import {
+  boardCreateFormSchema,
+  BoardCreateFormValues,
+  boardUpdateFormSchema,
+  BoardupdateFormValues,
+} from "./schema";
 
 /*
     CreateBoardInput
@@ -29,7 +35,13 @@ import { GraphQLError } from "graphql";
 
 */
 
-export default function useBoardForm({ data }: { data?: FetchBoardQuery }) {
+export default function useBoardForm({
+  data,
+  isEdit,
+}: {
+  data?: FetchBoardQuery;
+  isEdit?: boolean;
+}) {
   // 0. 세팅
   // 0-1. 라우터
   const router = useRouter();
@@ -37,7 +49,7 @@ export default function useBoardForm({ data }: { data?: FetchBoardQuery }) {
 
   // 1. useForm 세팅
   // 1-1. useForm 초기값세팅
-  const methods = useForm<CreateBoardInput>({
+  const methods = useForm<BoardCreateFormValues | BoardupdateFormValues>({
     defaultValues: {
       writer: "",
       password: "",
@@ -51,10 +63,11 @@ export default function useBoardForm({ data }: { data?: FetchBoardQuery }) {
       youtubeUrl: "",
       images: [undefined, undefined, undefined],
     },
+    resolver: zodResolver(isEdit ? boardUpdateFormSchema : boardCreateFormSchema),
+    mode: "onChange",
   });
 
-  const { register, handleSubmit, formState, watch, reset, getValues } =
-    methods;
+  const { register, handleSubmit, formState, watch, reset, getValues } = methods;
 
   // 1-2. useForm 수정하기 페이지에서 data.fetchBoard 불러오기
   useEffect(() => {
@@ -91,10 +104,7 @@ export default function useBoardForm({ data }: { data?: FetchBoardQuery }) {
 
   // 2. 함수
   // 2-1. 파일 변경 하기
-  const onChangeFile = async (
-    event: ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
+  const onChangeFile = async (event: ChangeEvent<HTMLInputElement>, index: number) => {
     console.log(watch("images"));
     const files = event.target.files;
     if (!files || files.length === 0) return;
@@ -164,11 +174,13 @@ export default function useBoardForm({ data }: { data?: FetchBoardQuery }) {
 
   // 3. 등록, 수정하기 함수
   // 3-1. 등록하기
-  const onClickSubmit = async (data: CreateBoardInput) => {
+  const onClickSubmit = async (data: BoardCreateFormValues) => {
     console.log(data);
-    const createBoardInput = data;
-    createBoardInput.images = data.images?.filter(Boolean);
-    createBoardInput.boardAddress = data.boardAddress;
+    const createBoardInput: CreateBoardInput = {
+      ...data,
+      images: data.images?.filter(Boolean) as string[],
+      boardAddress: data.boardAddress,
+    };
 
     console.log(createBoardInput);
     try {
@@ -187,29 +199,33 @@ export default function useBoardForm({ data }: { data?: FetchBoardQuery }) {
   };
 
   // 3-2. 수정하기
-  const onClickUpdate = async () => {
+  const onClickUpdate = async (formData: BoardupdateFormValues) => {
     const updateBoardInput: UpdateBoardInput = {};
     const boardId = params.boardId as string;
-    const values = getValues();
-    if (values.title !== data?.fetchBoard.title)
-      updateBoardInput.title = values.title;
-    if (values.contents !== data?.fetchBoard.contents)
-      updateBoardInput.contents = values.contents;
-    if (values.youtubeUrl !== data?.fetchBoard.youtubeUrl)
-      updateBoardInput.youtubeUrl = values.youtubeUrl;
-    if (values.boardAddress !== data?.fetchBoard.boardAddress)
+    // const values = getValues();
+    if (formData.title !== data?.fetchBoard.title) updateBoardInput.title = formData.title;
+    if (formData.contents !== data?.fetchBoard.contents)
+      updateBoardInput.contents = formData.contents;
+    if (formData.youtubeUrl !== data?.fetchBoard.youtubeUrl)
+      updateBoardInput.youtubeUrl = formData.youtubeUrl;
+    if (
+      formData.boardAddress?.zipcode !== data?.fetchBoard.boardAddress?.zipcode ||
+      formData.boardAddress?.address !== data?.fetchBoard.boardAddress?.address ||
+      formData.boardAddress?.addressDetail !== data?.fetchBoard.boardAddress?.addressDetail
+    ) {
       updateBoardInput.boardAddress = {
-        zipcode: values.boardAddress?.zipcode,
-        address: values.boardAddress?.address,
-        addressDetail: values.boardAddress?.addressDetail,
+        zipcode: formData.boardAddress?.zipcode,
+        address: formData.boardAddress?.address,
+        addressDetail: formData.boardAddress?.addressDetail,
       };
-    if (values.images !== data?.fetchBoard.images)
-      updateBoardInput.images = values.images?.filter(Boolean);
+    }
+    const newImages = formData.images?.filter(Boolean);
+    if (JSON.stringify(newImages) !== JSON.stringify(data?.fetchBoard.images)) {
+      updateBoardInput.images = newImages as string[];
+    }
 
     try {
-      const password = prompt(
-        "글을 입력할 때 입력하셨던 비밀번호를 입력해주세요"
-      );
+      const password = prompt("글을 입력할 때 입력하셨던 비밀번호를 입력해주세요");
       const result = await updateBoard({
         variables: { updateBoardInput, password, boardId },
         refetchQueries: [
