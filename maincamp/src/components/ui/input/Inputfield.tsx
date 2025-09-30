@@ -6,13 +6,18 @@ import { useRouter } from "next/navigation";
 /* input 컴포넌트: 라벨, span, input */
 export function Inputfield(props: InputProps) {
   const router = useRouter();
+
   const handleUnauthClick = () => {
-    Modal.error({
+    Modal.confirm({
       title: "로그인 후 이용할 수 있습니다.",
       content: "댓글 기능은 로그인 후 이용할 수 있습니다.",
+      okText: "로그인하기",
+      cancelText: "창닫기",
+      onOk() {
+        router.push("/login");
+      },
+      onCancel() {},
     });
-
-    router.push("/login");
   };
 
   return (
@@ -42,12 +47,16 @@ export function Textareafield(props: TextareaProps) {
   const router = useRouter();
 
   const handleUnauthClick = () => {
-    Modal.error({
+    Modal.confirm({
       title: "로그인 후 이용할 수 있습니다.",
       content: "댓글 기능은 로그인 후 이용할 수 있습니다.",
+      okText: "로그인하기",
+      cancelText: "창닫기",
+      onOk() {
+        router.push("/login");
+      },
+      onCancel() {},
     });
-
-    router.push("/login");
   };
 
   return (
