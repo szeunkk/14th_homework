@@ -6,10 +6,7 @@ import { forwardRef } from "react";
 
 /* input 컴포넌트: 라벨, span, input */
 export const Inputfield = forwardRef<HTMLInputElement, InputProps>(
-  (
-    { label, required, type, placeholder, id, isEdit, isAuth, ...rest },
-    ref
-  ) => {
+  ({ label, required, type, placeholder, id, isEdit, isAuth, error, ...rest }, ref) => {
     const router = useRouter();
 
     const handleUnauthClick = () => {
@@ -40,6 +37,7 @@ export const Inputfield = forwardRef<HTMLInputElement, InputProps>(
           {...rest}
           ref={ref}
         />
+        <span>{error}</span>
       </div>
     );
   }
@@ -48,16 +46,7 @@ export const Inputfield = forwardRef<HTMLInputElement, InputProps>(
 /* TextArea 컴포넌트: 라벨, span, input */
 export const Textareafield = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
-    {
-      isCommentField,
-      label,
-      required,
-      placeholder,
-      id,
-      isAuth,
-      maxLength,
-      ...rest
-    },
+    { isCommentField, label, required, placeholder, id, isAuth, maxLength, error, ...rest },
     ref
   ) => {
     const router = useRouter();
@@ -93,6 +82,7 @@ export const Textareafield = forwardRef<HTMLTextAreaElement, TextareaProps>(
           {...rest}
           ref={ref}
         ></textarea>
+        <span>{error}</span>
       </div>
     );
   }
