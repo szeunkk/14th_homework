@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  ApolloClient,
-  ApolloLink,
-  ApolloProvider,
-  InMemoryCache,
-} from "@apollo/client";
+import { ApolloClient, ApolloLink, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { createUploadLink } from "apollo-upload-client";
 import { useAccessTokenStore } from "../stores/accessTokenStore";
 import { useEffect } from "react";
@@ -22,7 +17,6 @@ export default function ApolloUploadSetting({ children }: IApolloSetting) {
 
     const now = Math.floor(Date.now() / 1000);
 
-    console.log(now);
     return now < tokenExp;
   };
 
