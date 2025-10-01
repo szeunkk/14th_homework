@@ -11,13 +11,7 @@ import UploadImages from "./uploadImages/uploadImages";
 import useBoardForm from "./useBoardForm";
 import { FieldErrors } from "react-hook-form";
 
-export default function BoardsWrite({
-  isEdit,
-  data,
-}: {
-  isEdit: boolean;
-  data?: { fetchBoard: Board };
-}) {
+export default function BoardsWrite({ isEdit, data }: { isEdit: boolean; data?: { fetchBoard: Board } }) {
   const {
     register,
     handleSubmit,
