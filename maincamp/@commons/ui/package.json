@@ -2,7 +2,7 @@
   "name": "@commons/ui",
   "version": "0.1.0",
   "private": true,
-  "main": "src.index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
