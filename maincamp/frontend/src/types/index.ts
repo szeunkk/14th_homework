@@ -1,7 +1,5 @@
-import { CreateBoardInput } from "@/commons/graphql/graphql";
 import {
   BoardCreateFormValues,
-  BoardFormValues,
   BoardupdateFormValues,
 } from "@/components/features/boards/boards-write/schema";
 import { FieldError, UseFormRegister } from "react-hook-form";
