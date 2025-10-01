@@ -1,6 +1,7 @@
+import { Meta, StoryObj } from "@storybook/nextjs";
 import { Button } from ".";
 
-const meta = {
+const meta: Meta<typeof Button> = {
   title: "components/button",
   component: Button,
   tags: ["autodocs"],
@@ -8,7 +9,9 @@ const meta = {
 
 export default meta;
 
-export const FormButton = {
+type Story = StoryObj<typeof Button>;
+
+export const FormButton: Story = {
   args: {
     variant: "FormBtn",
     children: "FormBtn",
@@ -32,7 +35,7 @@ export const FormButton = {
   },
 };
 
-export const CommentButton = {
+export const CommentButton: Story = {
   args: {
     variant: "CommentBtn",
     children: "CommentBtn",
@@ -56,7 +59,7 @@ export const CommentButton = {
   },
 };
 
-export const ModalButton = {
+export const ModalButton: Story = {
   args: {
     variant: "ModalBtn",
     children: "ModalBtn",
