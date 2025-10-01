@@ -100,14 +100,7 @@ export default withAuth(function CommentWrite({
             onChange={onChangePassword}
           ></Inputfield>
         </div>
-        <Textareafield
-          placeholder="댓글을 입력해 주세요."
-          isCommentField
-          maxLength={100}
-          value={contents}
-          isAuth={isAuth}
-          onChange={onChangeContents}
-        />
+        <Textareafield placeholder="댓글을 입력해 주세요." isCommentField maxLength={100} isAuth={isAuth} />
         <div className={styles.CommentButtonGroup}>
           {isEdit && (
             <Button variant="CommentBtn" type="button" onClick={onClickEdit}>

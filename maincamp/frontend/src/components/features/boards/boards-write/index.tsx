@@ -6,7 +6,7 @@ import { Modal } from "antd";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import { Board } from "@/commons/graphql/graphql";
 import UploadImages from "./uploadImages/uploadImages";
-import useBoardForm from "./useBoardForm";
+import useBoardForm from "./hook";
 import { FieldErrors } from "react-hook-form";
 
 export default function BoardsWrite({ isEdit, data }: { isEdit: boolean; data?: { fetchBoard: Board } }) {
