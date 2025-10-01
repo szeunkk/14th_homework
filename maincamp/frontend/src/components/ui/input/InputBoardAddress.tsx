@@ -11,17 +11,8 @@ export default function InputBoardAddress({
   placeholder_2,
   register,
 }: ZipcodeProps) {
-  console.log(register);
-  // const { zipcode, address, addressDetail } = props.value ?? {
-  //   zipcode: "",
-  //   address: "",
-  //   addressDetail: "",
-  // };
-
   return (
-    <div
-      className={cn(Formstyles.Formfield, Zipstyles.postForm__address__group)}
-    >
+    <div className={cn(Formstyles.Formfield, Zipstyles.postForm__address__group)}>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div>
           <label>주소</label>
