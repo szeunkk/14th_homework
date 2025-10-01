@@ -9,24 +9,19 @@ import { Button } from "../button";
 /* input 컴포넌트: 라벨, span, input */
 export const Inputfield = forwardRef<HTMLInputElement, InputProps>(
   (
-    { label, required, type, placeholder, isEdit, isAuth, error, ...rest },
+    {
+      label,
+      required,
+      type,
+      placeholder,
+      isEdit,
+      isAuth,
+      error,
+      onClick,
+      ...rest
+    },
     ref
   ) => {
-    const router = useRouter();
-
-    const handleUnauthClick = () => {
-      Modal.confirm({
-        title: "로그인 후 이용할 수 있습니다.",
-        content: "댓글 기능은 로그인 후 이용할 수 있습니다.",
-        okText: "로그인하기",
-        cancelText: "창닫기",
-        onOk() {
-          router.push("/login");
-        },
-        onCancel() {},
-      });
-    };
-
     return (
       <div className={styles.Formfield}>
         <div>
@@ -38,7 +33,7 @@ export const Inputfield = forwardRef<HTMLInputElement, InputProps>(
           placeholder={placeholder}
           readOnly={isAuth === false ? true : false}
           disabled={isEdit}
-          onClick={isAuth === false ? handleUnauthClick : undefined}
+          onClick={isAuth === false ? onClick : undefined}
           {...rest}
           ref={ref}
         />
@@ -59,25 +54,11 @@ export const Textareafield = forwardRef<HTMLTextAreaElement, TextareaProps>(
       isAuth,
       maxLength,
       error,
+      onClick,
       ...rest
     },
     ref
   ) => {
-    const router = useRouter();
-
-    const handleUnauthClick = () => {
-      Modal.confirm({
-        title: "로그인 후 이용할 수 있습니다.",
-        content: "댓글 기능은 로그인 후 이용할 수 있습니다.",
-        okText: "로그인하기",
-        cancelText: "창닫기",
-        onOk() {
-          router.push("/login");
-        },
-        onCancel() {},
-      });
-    };
-
     return (
       <div className={isCommentField ? styles.Commentfield : styles.Formfield}>
         {isCommentField ? (
@@ -92,7 +73,7 @@ export const Textareafield = forwardRef<HTMLTextAreaElement, TextareaProps>(
           placeholder={placeholder}
           readOnly={isAuth === false ? true : false}
           maxLength={maxLength}
-          onClick={isAuth === false ? handleUnauthClick : undefined}
+          onClick={isAuth === false ? onClick : undefined}
           {...rest}
           ref={ref}
         ></textarea>
@@ -123,7 +104,7 @@ export function InputBoardAddress<T extends FieldValues>({
             type="text"
             readOnly
             placeholder="01234"
-            {...register(`${basePath}.zipcode` as Path<T>)}
+            {...register?.(`${basePath}.zipcode` as Path<T>)}
           />
           <Button variant="FormBtn" type="button" onClick={onClick}>
             우편번호 검색
@@ -135,14 +116,14 @@ export function InputBoardAddress<T extends FieldValues>({
         id="address"
         placeholder={placeholder}
         readOnly
-        {...register(`${basePath}.address` as Path<T>)}
+        {...register?.(`${basePath}.address` as Path<T>)}
       />
       {placeholder_2 && (
         <input
           type="text"
           id="addressDetail"
           placeholder={placeholder_2}
-          {...register(`${basePath}.addressDetail` as Path<T>)}
+          {...register?.(`${basePath}.addressDetail` as Path<T>)}
         />
       )}
     </div>

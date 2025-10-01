@@ -9,6 +9,7 @@ export type InputProps = {
   isEdit?: boolean;
   isAuth?: boolean | undefined;
   error?: string | undefined;
+  onClick?: () => void;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 /* textarea types */
@@ -20,6 +21,7 @@ export type TextareaProps = {
   isAuth?: boolean | undefined;
   maxLength?: number;
   error?: string | undefined;
+  onClick?: () => void;
 };
 
 /* boardAddress types */
@@ -28,7 +30,7 @@ export type BoardAddressProps<T extends FieldValues> = {
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   placeholder: string;
   placeholder_2?: string;
-  register: UseFormRegister<T>;
-  basePath: Path<T>;
+  register?: UseFormRegister<T>;
+  basePath?: Path<T>;
   isEdit?: boolean;
 };
