@@ -1,8 +1,7 @@
 "use client";
 
 import { supabase } from "@/commons/libraries/supabase";
-import { Button } from "@commons/ui";
-import { Inputfield } from "@/components/ui/input/Inputfield";
+import { Button, Inputfield } from "@commons/ui";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 

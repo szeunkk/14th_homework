@@ -1,5 +1,4 @@
-import { Button } from "@commons/ui";
-import { Inputfield, Textareafield } from "@/components/ui/input/Inputfield";
+import { Button, Inputfield, Textareafield } from "@commons/ui";
 import styles from "./styles.module.css";
 import { StarTwoTone } from "@ant-design/icons";
 import useCommentWrite from "./hook";

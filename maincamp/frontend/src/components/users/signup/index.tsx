@@ -1,7 +1,6 @@
 "use client";
 
-import { Button } from "@commons/ui";
-import { Inputfield } from "@/components/ui/input/Inputfield";
+import { Button, Inputfield } from "@commons/ui";
 import styles from "./styles.module.css";
 import useSignUp from "./hook";
 import { Modal } from "antd";

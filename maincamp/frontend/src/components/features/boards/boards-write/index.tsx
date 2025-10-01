@@ -1,8 +1,6 @@
 "use client";
 
-import { Button } from "@commons/ui";
-import { Inputfield, Textareafield } from "@/components/ui/input/Inputfield";
-import InputBoardAddress from "@/components/ui/input/InputBoardAddress";
+import { Button, Inputfield, Textareafield, InputBoardAddress } from "@commons/ui";
 import styles from "./style.module.css";
 import { Modal } from "antd";
 import DaumPostcodeEmbed from "react-daum-postcode";
@@ -69,7 +67,6 @@ export default function BoardsWrite({ isEdit, data }: { isEdit: boolean; data?: 
         label="내용"
         required
         placeholder="내용을 입력해 주세요."
-        id="contents"
         {...register("contents")}
         error={formState.errors.contents?.message}
       ></Textareafield>
@@ -80,6 +77,7 @@ export default function BoardsWrite({ isEdit, data }: { isEdit: boolean; data?: 
         isEdit={isEdit}
         register={register}
         onClick={onToggleModal}
+        basePath="boardAddress"
       ></InputBoardAddress>
       {isModalOpen && (
         <Modal
