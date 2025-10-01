@@ -35,13 +35,7 @@ import {
 
 */
 
-export default function useBoardForm({
-  data,
-  isEdit,
-}: {
-  data?: FetchBoardQuery;
-  isEdit?: boolean;
-}) {
+export default function useBoardForm({ data, isEdit }: { data?: FetchBoardQuery; isEdit?: boolean }) {
   // 0. 세팅
   // 0-1. 라우터
   const router = useRouter();
@@ -87,19 +81,20 @@ export default function useBoardForm({
     }
   }, [data, reset]);
 
+  // 1-3. 모달 관련 state 설정
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onToggleModal = () => {
     setIsModalOpen((prev) => !prev);
   };
 
-  // 1-2. 게시글 생성 API 요청 함수
+  // 1-4. 게시글 생성 API 요청 함수
   const [createBoard] = useMutation(CreateBoardDocument);
 
-  // 1-3. 게시글 수정 API 요청 함수
+  // 1-5. 게시글 수정 API 요청 함수
   const [updateBoard] = useMutation(UpdateBoardDocument);
 
-  // 1-4. 이미지 업로드 API 요청 함수
+  // 1-6. 이미지 업로드 API 요청 함수
   const [uploadFile] = useMutation(UploadFileDocument);
 
   // 2. 함수
@@ -111,6 +106,7 @@ export default function useBoardForm({
 
     const file = files?.[0];
 
+    // 파일 사이즈 유효성 검사
     if (file.size > 5 * 1024 * 1024) {
       const showErrorModal = () =>
         Modal.error({
@@ -121,6 +117,7 @@ export default function useBoardForm({
       return;
     }
 
+    // 파일 업로드 API
     const result = await uploadFile({
       variables: {
         file,
@@ -130,6 +127,9 @@ export default function useBoardForm({
     console.log(result.data?.uploadFile.url);
 
     const fileUrl = result.data?.uploadFile.url;
+
+    // 기존 값에서 변경: current(기존 createBoardInput), newImages(기존 이미지 배열 => 새로운 이미지 배열)
+    // reset시, current로 얕은 복사를 안하면 다른 내용들이 초기화..!
     const current = getValues();
     const newImages = watch("images") ?? [];
 
@@ -204,8 +204,7 @@ export default function useBoardForm({
     const boardId = params.boardId as string;
     // const values = getValues();
     if (formData.title !== data?.fetchBoard.title) updateBoardInput.title = formData.title;
-    if (formData.contents !== data?.fetchBoard.contents)
-      updateBoardInput.contents = formData.contents;
+    if (formData.contents !== data?.fetchBoard.contents) updateBoardInput.contents = formData.contents;
     if (formData.youtubeUrl !== data?.fetchBoard.youtubeUrl)
       updateBoardInput.youtubeUrl = formData.youtubeUrl;
     if (
