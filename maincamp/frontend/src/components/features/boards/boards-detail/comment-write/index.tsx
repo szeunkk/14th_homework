@@ -1,37 +1,31 @@
 import { Button, Inputfield, Textareafield } from "@commons/ui";
 import styles from "./styles.module.css";
 import { StarTwoTone } from "@ant-design/icons";
-import useCommentWrite from "./hook";
 import { IComment } from "../comment-list/types";
 import { withAuth } from "@/commons/hocs/withAuth";
+import useCommentForm from "./hook";
 
 export default withAuth(function CommentWrite({
   isEdit,
   onClickEdit,
   el,
   isAuth,
+  handleUnauthClick,
 }: {
   isEdit: boolean;
   onClickEdit?: () => void;
   el?: IComment;
   isAuth?: boolean | undefined;
+  handleUnauthClick?: (content?: string) => void;
 }) {
-  const {
-    writer,
-    password,
-    contents,
-    onChangeWriter,
-    onChangePassword,
-    onChangeContents,
-    onClickCommentSubmit,
-    onClickCommentEdit,
-    onClickRate,
-    isValid,
-    rating,
-  } = useCommentWrite({ el, onClickEdit });
+  const { register, handleSubmit, formState, watch, setValue, onClickCommentSubmit, onClickCommentEdit } =
+    useCommentForm({ el, onClickEdit });
 
   return (
-    <form className={styles.CommentField} onSubmit={isEdit ? onClickCommentEdit : onClickCommentSubmit}>
+    <form
+      className={styles.CommentField}
+      onSubmit={isEdit ? handleSubmit(onClickCommentEdit) : handleSubmit(onClickCommentSubmit)}
+    >
       <div className={isEdit ? styles.CommentLabelEdit : styles.CommentLabel}>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path
@@ -45,36 +39,46 @@ export default withAuth(function CommentWrite({
         <div id="1">
           <StarTwoTone
             style={{ fontSize: "1.25rem" }}
-            twoToneColor={1 <= rating ? "#FADA67" : "#C7C7C7"}
-            onClick={onClickRate}
+            twoToneColor={1 <= watch("rating") ? "#FADA67" : "#C7C7C7"}
+            onClick={() => {
+              setValue("rating", 1);
+            }}
           />
         </div>
         <div id="2">
           <StarTwoTone
             style={{ fontSize: "1.25rem" }}
-            twoToneColor={2 <= rating ? "#FADA67" : "#C7C7C7"}
-            onClick={onClickRate}
+            twoToneColor={2 <= watch("rating") ? "#FADA67" : "#C7C7C7"}
+            onClick={() => {
+              setValue("rating", 2);
+            }}
           />
         </div>
         <div id="3">
           <StarTwoTone
             style={{ fontSize: "1.25rem" }}
-            twoToneColor={3 <= rating ? "#FADA67" : "#C7C7C7"}
-            onClick={onClickRate}
+            twoToneColor={3 <= watch("rating") ? "#FADA67" : "#C7C7C7"}
+            onClick={() => {
+              setValue("rating", 3);
+            }}
           />
         </div>
         <div id="4">
           <StarTwoTone
             style={{ fontSize: "1.25rem" }}
-            twoToneColor={4 <= rating ? "#FADA67" : "#C7C7C7"}
-            onClick={onClickRate}
+            twoToneColor={4 <= watch("rating") ? "#FADA67" : "#C7C7C7"}
+            onClick={() => {
+              setValue("rating", 4);
+            }}
           />
         </div>
         <div id="5">
           <StarTwoTone
             style={{ fontSize: "1.25rem" }}
-            twoToneColor={5 <= rating ? "#FADA67" : "#C7C7C7"}
-            onClick={onClickRate}
+            twoToneColor={5 <= watch("rating") ? "#FADA67" : "#C7C7C7"}
+            onClick={() => {
+              setValue("rating", 5);
+            }}
           />
         </div>
       </div>
@@ -85,29 +89,39 @@ export default withAuth(function CommentWrite({
             label="작성자"
             required
             placeholder="작성자 명을 입력해 주세요."
-            value={writer}
             isEdit={isEdit}
             isAuth={isAuth}
-            onChange={onChangeWriter}
+            onClick={() => handleUnauthClick?.("댓글 등록은 로그인 후 가능합니다.")}
+            error={formState.errors.writer?.message}
+            {...register("writer")}
           ></Inputfield>
           <Inputfield
             type="password"
             label="비밀번호"
             required
             placeholder="비밀번호를 입력해 주세요."
-            value={password}
             isAuth={isAuth}
-            onChange={onChangePassword}
+            onClick={() => handleUnauthClick?.("댓글 등록은 로그인 후 가능합니다.")}
+            error={formState.errors.password?.message}
+            {...register("password")}
           ></Inputfield>
         </div>
-        <Textareafield placeholder="댓글을 입력해 주세요." isCommentField maxLength={100} isAuth={isAuth} />
+        <Textareafield
+          placeholder="댓글을 입력해 주세요."
+          isCommentField
+          maxLength={100}
+          isAuth={isAuth}
+          onClick={() => handleUnauthClick?.("댓글 등록은 로그인 후 가능합니다.")}
+          error={formState.errors.contents?.message}
+          {...register("contents")}
+        />
         <div className={styles.CommentButtonGroup}>
           {isEdit && (
             <Button variant="CommentBtn" type="button" onClick={onClickEdit}>
               취소
             </Button>
           )}
-          <Button variant="CommentBtn" type="submit" disabled={isValid}>
+          <Button variant="CommentBtn" type="submit" disabled={!formState.isValid}>
             {isEdit ? "수정 하기" : "댓글 등록"}
           </Button>
         </div>
