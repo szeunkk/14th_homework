@@ -1,21 +1,13 @@
-import InputImage from "@/components/ui/input/InputImage";
 import styles from "./styles.module.css";
 import classNames from "classnames";
 
 interface IUploadImages {
   images: (string | null | undefined)[];
   onClickDelete: (index: number) => void;
-  onChangeFile: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => Promise<void>;
+  onChangeFile: (event: React.ChangeEvent<HTMLInputElement>, index: number) => Promise<void>;
 }
 
-export default function UploadImages({
-  images,
-  onClickDelete,
-  onChangeFile,
-}: IUploadImages) {
+export default function UploadImages({ images, onClickDelete, onChangeFile }: IUploadImages) {
   const fixedImages = [...images, "", "", ""].slice(0, 3);
   return (
     <div className={styles.image__upload__group}>
@@ -30,18 +22,9 @@ export default function UploadImages({
           />
           {image ? (
             // 이미지 있을 때 이미지 미리보기
-            <label
-              htmlFor={`${index}-${image}`}
-              className={styles.image__label}
-            >
-              <img
-                src={`https://storage.googleapis.com/${image}`}
-                className={styles.upload__image}
-              />
-              <button
-                className={styles.imageDeleteBtn}
-                onClick={() => onClickDelete(index)}
-              >
+            <label htmlFor={`${index}-${image}`} className={styles.image__label}>
+              <img src={`https://storage.googleapis.com/${image}`} className={styles.upload__image} />
+              <button className={styles.imageDeleteBtn} onClick={() => onClickDelete(index)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -58,9 +41,7 @@ export default function UploadImages({
             </label>
           ) : (
             // 이미지 없을 때 미리보기
-            <div
-              className={classNames(styles.upload__image, styles.add__image)}
-            >
+            <div className={classNames(styles.upload__image, styles.add__image)}>
               <label htmlFor={`${index}-${image}`}>
                 <img src={"/icons/add.svg"} />
                 <span className={styles.textDesktop}>클릭해서 사진 업로드</span>

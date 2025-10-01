@@ -1,15 +1,13 @@
 "use client";
 
-import Button from "@/components/ui/button/Button";
+import { Button } from "@commons/ui";
 import { Inputfield } from "@/components/ui/input/Inputfield";
 import styles from "./styles.module.css";
 import useSignUp from "./hook";
 import { Modal } from "antd";
-import { Header } from "antd/es/layout/layout";
 
 export default function Signup() {
-  const { errors, onChangeInputs, onClickSignup, onClickLogin, isModalOpen } =
-    useSignUp();
+  const { errors, onChangeInputs, onClickSignup, onClickLogin, isModalOpen } = useSignUp();
   return (
     <>
       <form className={styles.formContainer} onSubmit={onClickSignup}>
@@ -26,11 +24,7 @@ export default function Signup() {
                 id="email"
                 onChange={onChangeInputs}
               />
-              {errors.email && (
-                <span className={styles.errorMessage}>
-                  이메일을 입력해 주세요.
-                </span>
-              )}
+              {errors.email && <span className={styles.errorMessage}>이메일을 입력해 주세요.</span>}
             </div>
             <div className={errors.name ? styles.error : ""}>
               <Inputfield
@@ -41,11 +35,7 @@ export default function Signup() {
                 id="name"
                 onChange={onChangeInputs}
               />
-              {errors.name && (
-                <span className={styles.errorMessage}>
-                  이름을 입력해 주세요.
-                </span>
-              )}
+              {errors.name && <span className={styles.errorMessage}>이름을 입력해 주세요.</span>}
             </div>
             <div className={errors.password ? styles.error : ""}>
               <Inputfield
@@ -56,11 +46,7 @@ export default function Signup() {
                 id="password"
                 onChange={onChangeInputs}
               />
-              {errors.password && (
-                <span className={styles.errorMessage}>
-                  비밀번호를 입력해 주세요.
-                </span>
-              )}
+              {errors.password && <span className={styles.errorMessage}>비밀번호를 입력해 주세요.</span>}
             </div>
             <div className={errors.passwordConfirm ? styles.error : ""}>
               <Inputfield
@@ -72,9 +58,7 @@ export default function Signup() {
                 onChange={onChangeInputs}
               />
               {errors.passwordConfirm && (
-                <span className={styles.errorMessage}>
-                  비밀번호를 입력해 주세요.
-                </span>
+                <span className={styles.errorMessage}>비밀번호를 입력해 주세요.</span>
               )}
             </div>
           </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/ui/button/Button";
+import { Button } from "@commons/ui";
 import { Inputfield } from "@/components/ui/input/Inputfield";
 import styles from "./style.module.css";
 import useTravelWrite from "./hook";
@@ -55,12 +55,7 @@ export default function TravelWrite({ setVisible, fetchTravels }: Props) {
         <Button variant="FormBtn" type="button">
           취소
         </Button>
-        <Button
-          variant="FormBtn"
-          type="submit"
-          disabled={isValid}
-          onClick={onClickSubmit}
-        >
+        <Button variant="FormBtn" type="submit" disabled={isValid} onClick={onClickSubmit}>
           등록하기
         </Button>
       </div>

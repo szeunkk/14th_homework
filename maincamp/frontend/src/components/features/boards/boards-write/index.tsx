@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/ui/button/Button";
+import { Button } from "@commons/ui";
 import { Inputfield, Textareafield } from "@/components/ui/input/Inputfield";
 import InputBoardAddress from "@/components/ui/input/InputBoardAddress";
 import styles from "./style.module.css";
