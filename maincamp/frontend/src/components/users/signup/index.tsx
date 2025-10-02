@@ -2,14 +2,20 @@
 
 import { Button, Inputfield } from "@commons/ui";
 import styles from "./styles.module.css";
-import useSignUp from "./hook";
 import { Modal } from "antd";
+<<<<<<< HEAD
 import useSignupForm from "./useSignupForm";
 import classNames from "classnames";
 
 export default function Signup() {
   // const { errors, onChangeInputs, onClickSignup, onClickLogin, isModalOpen } = useSignUp();
 
+=======
+import useSignupForm from "./hook";
+import classNames from "classnames";
+
+export default function Signup() {
+>>>>>>> 32cb173 ([트립트립] refactor(signup): react-hook-form + zod 기반 회원가입 페이지 리팩토링)
   const { register, handleSubmit, formState, isModalOpen, onClickSignup, onClickLogin } = useSignupForm();
   return (
     <>
@@ -25,7 +31,10 @@ export default function Signup() {
                 label="이메일"
                 required
                 {...register("email")}
+<<<<<<< HEAD
                 // error={formState.errors.email?.message}
+=======
+>>>>>>> 32cb173 ([트립트립] refactor(signup): react-hook-form + zod 기반 회원가입 페이지 리팩토링)
               />
               {formState.isSubmitted && formState.errors.email && (
                 <span className={styles.errorMessage}>{formState.errors.email.message}</span>
