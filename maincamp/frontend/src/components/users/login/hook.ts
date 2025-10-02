@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { loginFormSchema, LoginFormValues } from "./schema";
+import { loginUserFormSchema, LoginUserFormValues } from "./schema";
 import { useAccessTokenStore } from "@/commons/stores/accessTokenStore";
 import { ApolloError, useMutation } from "@apollo/client";
 import { LoginUserDocument } from "@/commons/graphql/graphql";
@@ -14,8 +14,8 @@ export default function useLoginForm() {
   const router = useRouter();
 
   // 1. useForm세팅
-  const { register, handleSubmit, formState } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginFormSchema),
+  const { register, handleSubmit, formState } = useForm<LoginUserFormValues>({
+    resolver: zodResolver(loginUserFormSchema),
     mode: "onChange",
   });
 
@@ -26,7 +26,7 @@ export default function useLoginForm() {
   const [loginUser] = useMutation(LoginUserDocument);
 
   // 4. 함수
-  const onClickLogin = async (data: LoginFormValues, event?: BaseSyntheticEvent) => {
+  const onClickLogin = async (data: LoginUserFormValues, event?: BaseSyntheticEvent) => {
     event?.preventDefault();
     const { email, password } = data;
 

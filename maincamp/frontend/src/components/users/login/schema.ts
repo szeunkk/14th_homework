@@ -1,13 +1,13 @@
 import z from "zod";
 
-export type LoginFormVlaues = {
+export type LoginFormValues = {
   email: string;
   password: string;
 };
 
-export type LoginFormValues = z.infer<typeof loginFormSchema>;
+export type LoginUserFormValues = z.infer<typeof loginUserFormSchema>;
 
-export const loginFormSchema = z.object({
+export const loginUserFormSchema = z.object({
   email: z.string().email("이메일 또는 비밀번호를 확인해주세요."),
   password: z.string().min(1, { message: "이메일 또는 비밀번호를 확인해주세요." }),
 });
