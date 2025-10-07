@@ -11,7 +11,7 @@ export default function useSignupForm() {
   // 0. 세팅
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect");
+  const redirect = searchParams.get("redirect") || "/";
 
   // 1. useForm 세팅
   const { register, handleSubmit, formState } = useForm<CreateUserFormValues>({

@@ -13,7 +13,7 @@ export default function useLoginForm() {
   // 0. 세팅
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect");
+  const redirect = searchParams.get("redirect") || "/";
 
   // 1. useForm세팅
   const { register, handleSubmit, formState } = useForm<LoginUserFormValues>({
@@ -45,7 +45,7 @@ export default function useLoginForm() {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("exp", decodedExp);
 
-      router.push(redirect || "/boards");
+      router.push(redirect);
     } catch (error) {
       if (error instanceof ApolloError) {
         Modal.error({
