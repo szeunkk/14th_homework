@@ -38,6 +38,7 @@ export default withAuth(function CommentListItem({ el, isAuth }: { el: IComment;
                 <StarTwoTone
                   style={{ fontSize: "1.25rem" }}
                   twoToneColor={index + 1 <= el.rating ? "#FADA67" : "#C7C7C7"}
+                  key={index}
                 />
               ))}
             </div>

@@ -36,8 +36,8 @@ export default function BoardsBoardDetailPage() {
         <Sectiontitle text={title || ""} />
         <Writer writer={writer || ""} date={KSTdate} address={boardAddress?.address} />
         <div className={styles.imagesGroup}>
-          {imagesUrl?.map((url: string) => (
-            <img key={url} src={url} className={styles.addimage1} />
+          {imagesUrl?.map((url: string, index: number) => (
+            <img key={`${url}-${index}`} src={url} className={styles.addimage1} />
           ))}
         </div>
         <Sectioncontent content={contents || ""} />
