@@ -1,5 +1,4 @@
-import { FetchBoardsCountDocument } from "@/commons/graphql/graphql";
-import { DELETE_BOARD } from "@/graphql/mutations/board";
+import { DeleteBoardDocument, FetchBoardsCountDocument } from "@/commons/graphql/graphql";
 import { useMutation } from "@apollo/client";
 import { Modal } from "antd";
 import { formatInTimeZone } from "date-fns-tz";
@@ -15,16 +14,16 @@ export default function useListRow(props: IListRow) {
     router.push(`/boards/${boardId}`);
   };
 
-  const [deleteBoard] = useMutation(DELETE_BOARD);
+  const [deleteBoard] = useMutation(DeleteBoardDocument);
   const onClickDelete = async (event: MouseEvent<SVGSVGElement>) => {
     const parent = event.currentTarget.closest("div");
-    const boardId = parent?.id;
+    const boardId = parent?.id || "";
     console.log("🚀 ~ onClickDelete ~ boardId:", boardId);
     event.stopPropagation();
 
     await deleteBoard({
       variables: {
-        boardId: boardId,
+        boardId,
       },
       refetchQueries: [{ query: FetchBoardsCountDocument }],
     });
