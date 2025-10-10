@@ -22,7 +22,7 @@ export default function LayoutBanner() {
         style={{ width: "100%" }}
       >
         {Array.from({ length: 3 }).map((_, index) => (
-          <SwiperSlide>
+          <SwiperSlide key={index}>
             <Image
               src={`/images/bannerimage${index + 1}.svg`}
               alt={`배너이미지${index + 1}`}
@@ -30,6 +30,7 @@ export default function LayoutBanner() {
               height={0}
               sizes="100vw"
               style={{ width: "100%", height: "32rem", objectFit: "cover", objectPosition: "50% 70%" }}
+              priority={index === 0}
             />
           </SwiperSlide>
         ))}
