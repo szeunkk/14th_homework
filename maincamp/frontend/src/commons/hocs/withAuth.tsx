@@ -9,7 +9,6 @@ export const withAuth =
   (props: P) => {
     const router = useRouter();
     const pathname = usePathname();
-    console.log("pathname: ", pathname);
     const [isAuth, setIsAuth] = useState<boolean | undefined>(undefined);
 
     useEffect(() => {
