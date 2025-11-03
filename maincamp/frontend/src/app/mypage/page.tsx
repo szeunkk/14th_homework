@@ -4,6 +4,9 @@ import { withAuth } from "@/commons/hocs/withAuth";
 import { Modal } from "antd";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import MypageUser from "@/components/mypage/user";
+import Sectiontitle from "@/components/ui/section/Sectiontitle";
+import styles from "./styles.module.css";
 
 export default withAuth(function MyPagePage({ isAuth }: { isAuth?: boolean }) {
   const router = useRouter();
@@ -21,5 +24,10 @@ export default withAuth(function MyPagePage({ isAuth }: { isAuth?: boolean }) {
 
   if (isAuth === false) return null;
 
-  return <h1>마이페이지 입니다... 구현 예정 ... </h1>;
+  return (
+    <div className={styles.mypage}>
+      <Sectiontitle text="마이 페이지"></Sectiontitle>
+      <MypageUser />
+    </div>
+  );
 });
