@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import MypageUser from "@/components/mypage/user";
 import MypageProduct from "@/components/mypage/product";
 import MypagePoint from "@/components/mypage/point";
+import MypagePassword from "@/components/mypage/password";
 import Sectiontitle from "@/components/ui/section/Sectiontitle";
 import styles from "./styles.module.css";
 
@@ -32,6 +33,7 @@ export default withAuth(function MyPagePage({ isAuth }: { isAuth?: boolean }) {
       <MypageUser />
       <MypageProduct />
       <MypagePoint />
+      <MypagePassword />
     </div>
   );
 });

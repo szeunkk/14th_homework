@@ -11,15 +11,11 @@
 ==============================================
 
 조건-피그마) 활용할MCP: CursorTalkToFigmaMCP(채널명: deneydy1)
-조건-피그마) 구현될 컴포넌트 노드ID(전체): 285:31167
-조건-피그마) 구현될 컴포넌트 노드ID(list-전체): 285:31173
-조건-피그마) 구현될 컴포넌트 노드ID(list-충전내역): 285:31289
-조건-피그마) 구현될 컴포넌트 노드ID(list-구매내역): 285:31405
-조건-피그마) 구현될 컴포넌트 노드ID(list-판매내역): 285:31543
+조건-피그마) 구현될 컴포넌트 노드ID(전체): 285:30847
 
 
-조건-파일경로) 구현될 TSX 파일경로: src/components/mypage/point/index.tsx
-조건-파일경로) 구현될 CSS 파일경로: src/components/mypage/point/styles.module.css
+조건-파일경로) 구현될 TSX 파일경로: src/components/mypage/password/index.tsx
+조건-파일경로) 구현될 CSS 파일경로: src/components/mypage/password/styles.module.css
 
  ==============================================
 
@@ -41,16 +37,5 @@
 
 핵심요구사항) 게시글 상세는 아래의 조건으로 Mock 데이터를 만들어 적용할 것.
             1. 아래의 지시를 반영하여 구현할 것.
-                1) tabs
-                    - 내용 텍스트: 피그마와 동일하게 구현할 것.
-                    - tab 선택에 따라 list 부분의 내용 바뀌도록 구현할 것.
-                    - tab 선택에 따라 class가 변경되도록 구현할 것.
-
-                2) list
-                    - 내용 텍스트: 피그마와 동일하게 구현할 것.
-                    - list 내 페이지네이션은 다음 node ID를 참고하여 구현할 것.
-                        - pagination 노드ID : 6:345
-                    - tabs-전체 선택 시 node ID : 285:31173
-                    - tabs-충전내역 선택 시 node ID : 285:31289
-                    - tabs-구매내역 선택 시 node ID : 285:31405
-                    - tabs-판매내역 선택 시 node ID : 285:31543
+                - @commons/ui의 input, button 컴포넌트를 활용하여 구현할 것.
+                - 비밀번호와 비밀번호 확인이 서로 동일할 경우 비밀번호 변경 버튼이 활성화 되게 구현할 것.
