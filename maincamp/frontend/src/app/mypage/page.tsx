@@ -5,6 +5,7 @@ import { Modal } from "antd";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import MypageUser from "@/components/mypage/user";
+import MypageProduct from "@/components/mypage/product";
 import Sectiontitle from "@/components/ui/section/Sectiontitle";
 import styles from "./styles.module.css";
 
@@ -28,6 +29,7 @@ export default withAuth(function MyPagePage({ isAuth }: { isAuth?: boolean }) {
     <div className={styles.mypage}>
       <Sectiontitle text="마이 페이지"></Sectiontitle>
       <MypageUser />
+      <MypageProduct />
     </div>
   );
 });
