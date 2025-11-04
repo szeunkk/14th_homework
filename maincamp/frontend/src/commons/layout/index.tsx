@@ -17,6 +17,7 @@ const layoutConfig: Record<string, LayoutConfig> = {
   "/login": { navigation: false, banner: false, hero: "/images/hero.jpg" },
   "/signup": { navigation: false, banner: false, hero: "/images/hero.jpg" },
   "/boards": { navigation: true, banner: true },
+  "/mypage": { navigation: true, banner: false },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
