@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
+import ProductsDetailCard from "../card";
 import styles from "./styles.module.css";
 
 // SVG 아이콘 컴포넌트
@@ -158,6 +159,7 @@ export default function ProductsDetailContents() {
 
   return (
     <div className={styles.productsDetail} data-testid="products-detail-contents">
+      <ProductsDetailCard />
       {/* Title Section */}
       <div className={styles.titleSection}>
         <div className={styles.titleWrapper}>
