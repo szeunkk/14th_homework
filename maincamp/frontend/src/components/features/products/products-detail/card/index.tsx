@@ -1,4 +1,5 @@
 import { Button } from "@commons/ui";
+import Image from "next/image";
 import styles from "./styles.module.css";
 
 export default function ProductsDetailCard() {
@@ -29,9 +30,11 @@ export default function ProductsDetailCard() {
       <div className={styles.sellerCard}>
         <h3 className={styles.sellerTitle}>판매자</h3>
         <div className={styles.sellerProfile}>
-          <img
+          <Image
             src="/images/profile/8.svg"
             alt="판매자 프로필"
+            width={40}
+            height={40}
             className={styles.profileImage}
           />
           <span className={styles.sellerName}>김상훈</span>
