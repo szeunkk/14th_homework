@@ -73,6 +73,7 @@
 .bookmark {
   width: 3.3125rem;
   height: 2rem;
+  padding: 0.25rem 0.5rem 0.25rem 0.25rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
