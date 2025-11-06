@@ -48,6 +48,22 @@
     gap: 1rem;
 }
 
+.CommentTextareaWrapper{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.CommentCount{
+    color: #ABABAB;
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5rem;
+    text-align: right;
+    margin-top: 0.5rem;
+}
+
 .CommentButtonGroup{
     display: flex;
     flex-direction: row;
