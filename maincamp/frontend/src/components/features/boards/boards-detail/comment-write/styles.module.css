@@ -55,13 +55,15 @@
 }
 
 .CommentCount {
+  position: absolute;
+  top: 6.75rem;
+  right: 1rem;
   color: #ababab;
   font-family: var(--font-family-primary);
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-medium);
   line-height: 1.5rem;
-  text-align: right;
-  margin-top: 0.5rem;
+  pointer-events: none;
 }
 
 .CommentButtonGroup {
