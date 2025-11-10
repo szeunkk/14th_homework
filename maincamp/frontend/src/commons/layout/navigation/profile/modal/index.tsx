@@ -154,3 +154,4 @@ export default function PointChargeModal({ isOpen, onClose, onSubmit }: PointCha
     document.body
   );
 }
+

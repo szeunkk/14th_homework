@@ -4,7 +4,7 @@ import styles from "./style.module.css";
 import useNavigation from "./hook";
 import Image from "next/image";
 import Profile from "./profile";
-import PointChargeModal from "@/commons/layout/profile/modal";
+import PointChargeModal from "./profile/modal";
 
 export default function LayoutNavigation() {
   const {
