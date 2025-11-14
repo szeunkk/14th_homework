@@ -58,11 +58,11 @@ export default function ProductsList() {
       price: product.price.toLocaleString(),
       seller: product.seller.name,
       sellerProfileImage: product.seller.picture
-        ? `https://storage.googleapis.com/${product.seller.picture}`
+        ? `https://storage.googleapis.com/${product.seller.picture.replace(/ /g, '%20')}`
         : "/images/profile/6.svg",
       imageUrl:
         product.images && product.images.length > 0
-          ? `https://storage.googleapis.com/${product.images[0]}`
+          ? `https://storage.googleapis.com/${product.images[0].replace(/ /g, '%20')}`
           : `/images/accommodation_${(index % 10) + 1}.png`,
     }));
   };

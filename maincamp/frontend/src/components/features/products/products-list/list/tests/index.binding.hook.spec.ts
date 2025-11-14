@@ -99,7 +99,8 @@ test.describe("ProductsList 컴포넌트 데이터 바인딩", () => {
       expect(imageSrc).toContain('storage.googleapis.com');
     } else {
       // 이미지가 없는 경우: 폴백 이미지
-      expect(imageSrc).toMatch(/\/images\/accommodation_\d+\.svg/);
+      // Next.js Image 컴포넌트를 사용하는 경우 URL이 변환됨
+      expect(imageSrc).toMatch(/accommodation_\d+\.png/);
     }
 
     // 8. 프로필 이미지 바인딩 검증

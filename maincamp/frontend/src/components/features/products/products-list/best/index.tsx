@@ -14,7 +14,7 @@ export default function ProductsListBest() {
       // 이미지 처리: images 배열이 비어있지 않으면 첫 번째 이미지 사용, 아니면 기본 이미지
       const imageUrl =
         product.images && product.images.length > 0
-          ? `https://storage.googleapis.com/${product.images[0]}`
+          ? `https://storage.googleapis.com/${product.images[0].replace(/ /g, '%20')}`
           : `/images/accommodation_${index + 1}.png`;
 
       return {
