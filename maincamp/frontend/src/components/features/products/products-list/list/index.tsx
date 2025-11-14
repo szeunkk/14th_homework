@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@commons/ui/src/button";
 import styles from "./styles.module.css";
 import Image from "next/image";
+import { useFetchTravelproducts } from "./hooks/index.binding.hook";
 
 interface Product {
   id: string;
@@ -11,6 +12,7 @@ interface Product {
   description: string;
   tags: string;
   seller: string;
+  sellerProfileImage: string;
   price: string;
   bookmarkCount: number;
   imageUrl: string;
@@ -28,127 +30,66 @@ const categories = [
   { icon: "/icons/planterior.svg", label: "플랜테리어" },
 ];
 
-const mockProducts: Product[] = [
-  {
-    id: "1",
-    title:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    description:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    tags: "#6인 이하 #건식 사우나 #애견동반 가능",
-    seller: "빈얀트리",
-    price: "32,900",
-    bookmarkCount: 24,
-    imageUrl: "/images/accommodation_4.png",
-  },
-  {
-    id: "2",
-    title:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    description:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    tags: "#6인 이하 #건식 사우나 #애견동반 가능",
-    seller: "빈얀트리",
-    price: "32,900",
-    bookmarkCount: 24,
-    imageUrl: "/images/accommodation_4.png",
-  },
-  {
-    id: "3",
-    title:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    description:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    tags: "#6인 이하 #건식 사우나 #애견동반 가능",
-    seller: "빈얀트리",
-    price: "32,900",
-    bookmarkCount: 24,
-    imageUrl: "/images/accommodation_4.png",
-  },
-  {
-    id: "4",
-    title:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    description:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    tags: "#6인 이하 #건식 사우나 #애견동반 가능",
-    seller: "빈얀트리",
-    price: "32,900",
-    bookmarkCount: 24,
-    imageUrl: "/images/accommodation_4.png",
-  },
-  {
-    id: "5",
-    title:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    description:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    tags: "#6인 이하 #건식 사우나 #애견동반 가능",
-    seller: "빈얀트리",
-    price: "32,900",
-    bookmarkCount: 24,
-    imageUrl: "/images/accommodation_4.png",
-  },
-  {
-    id: "6",
-    title:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    description:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    tags: "#6인 이하 #건식 사우나 #애견동반 가능",
-    seller: "빈얀트리",
-    price: "32,900",
-    bookmarkCount: 24,
-    imageUrl: "/images/accommodation_4.png",
-  },
-  {
-    id: "7",
-    title:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    description:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    tags: "#6인 이하 #건식 사우나 #애견동반 가능",
-    seller: "빈얀트리",
-    price: "32,900",
-    bookmarkCount: 24,
-    imageUrl: "/images/accommodation_4.png",
-  },
-  {
-    id: "8",
-    title:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    description:
-      "살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라 우러라 우러라 새여 자고 니러 우러라 새여 널라와 시름 한 나도 자고 니러 우니로라 얄리얄리 얄라셩 얄라리 얄라",
-    tags: "#6인 이하 #건식 사우나 #애견동반 가능",
-    seller: "빈얀트리",
-    price: "32,900",
-    bookmarkCount: 24,
-    imageUrl: "/images/accommodation_4.png",
-  },
-];
-
-const closedProducts: Product[] = [
-  {
-    id: "9",
-    title: "예약 마감된 숙소 1",
-    description: "이미 예약이 완료된 숙소입니다",
-    tags: "#마감 #인기 #예약완료",
-    seller: "빈얀트리",
-    price: "32,900",
-    bookmarkCount: 10,
-    imageUrl: "/images/accommodation_4.png",
-  },
-];
-
 export default function ProductsList() {
   const [activeTab, setActiveTab] = useState<"available" | "closed">("available");
   const [searchValue, setSearchValue] = useState("");
+
+  const isSoldout = activeTab === "closed";
+
+  const { data, loading, error } = useFetchTravelproducts({
+    isSoldout,
+    search: "",
+    page: 1,
+  });
 
   const handleSearch = () => {
     console.log("검색:", searchValue);
   };
 
-  const currentProducts = activeTab === "available" ? mockProducts : closedProducts;
+  const transformProducts = (): Product[] => {
+    if (!data?.fetchTravelproducts) return [];
+
+    return data.fetchTravelproducts.map((product, index) => ({
+      id: product._id,
+      title: product.name,
+      description: product.remarks,
+      tags: product.tags?.map((tag) => `#${tag}`).join(" ") || "",
+      bookmarkCount: product.pickedCount,
+      price: product.price.toLocaleString(),
+      seller: product.seller.name,
+      sellerProfileImage: product.seller.picture
+        ? `https://storage.googleapis.com/${product.seller.picture}`
+        : "/images/profile/6.svg",
+      imageUrl:
+        product.images && product.images.length > 0
+          ? `https://storage.googleapis.com/${product.images[0]}`
+          : `/images/accommodation_${(index % 10) + 1}.png`,
+    }));
+  };
+
+  const currentProducts = transformProducts();
+
+  if (loading) {
+    return (
+      <div className={styles.container} data-testid="products-list">
+        <h1 className={styles.title} data-testid="page-title">
+          여기에서만 예약할 수 있는 숙소
+        </h1>
+        <div>로딩 중...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.container} data-testid="products-list">
+        <h1 className={styles.title} data-testid="page-title">
+          여기에서만 예약할 수 있는 숙소
+        </h1>
+        <div>에러가 발생했습니다.</div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container} data-testid="products-list">
@@ -288,7 +229,7 @@ export default function ProductsList() {
                   <div className={styles.cardFooter}>
                     <div className={styles.profile}>
                       <Image
-                        src="/images/profile/6.svg"
+                        src={product.sellerProfileImage}
                         alt="profile"
                         width={24}
                         height={24}
