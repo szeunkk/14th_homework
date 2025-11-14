@@ -80,12 +80,12 @@ export default function ProductsList() {
 
   const loadMore = async () => {
     if (loading) return;
-    
+
     const nextPage = page + 1;
     try {
       await fetchMore(nextPage);
       setPage(nextPage);
-      
+
       // 데이터가 10개 미만이면 더 이상 로드할 데이터가 없음
       if (data?.fetchTravelproducts && data.fetchTravelproducts.length < nextPage * 10) {
         setHasMore(false);
