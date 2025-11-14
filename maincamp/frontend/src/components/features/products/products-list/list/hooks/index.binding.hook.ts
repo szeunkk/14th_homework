@@ -37,17 +37,13 @@ interface UseFetchTravelproductsResult {
 export const useFetchTravelproducts = (
   variables: UseFetchTravelproductsVariables = {}
 ): UseFetchTravelproductsResult => {
-  const { data, loading, error } = useQuery<FetchTravelproductsResponse>(
-    FETCH_TRAVELPRODUCTS,
-    {
-      variables: {
-        isSoldout: variables.isSoldout,
-        search: variables.search,
-        page: variables.page,
-      },
-    }
-  );
+  const { data, loading, error } = useQuery<FetchTravelproductsResponse>(FETCH_TRAVELPRODUCTS, {
+    variables: {
+      isSoldout: variables.isSoldout,
+      search: variables.search,
+      page: variables.page,
+    },
+  });
 
   return { data, loading, error };
 };
-

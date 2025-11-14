@@ -15,7 +15,7 @@ export default function ProductsListBest() {
       const imageUrl =
         product.images && product.images.length > 0
           ? `https://storage.googleapis.com/${product.images[0]}`
-          : `/images/accommodation_${index + 1}.svg`;
+          : `/images/accommodation_${index + 1}.png`;
 
       return {
         id: product._id,
