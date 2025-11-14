@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@commons/ui/src/button";
 import styles from "./styles.module.css";
 import Image from "next/image";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useFetchTravelproducts } from "./hooks/index.binding.hook";
 
 interface Product {
@@ -33,14 +34,22 @@ const categories = [
 export default function ProductsList() {
   const [activeTab, setActiveTab] = useState<"available" | "closed">("available");
   const [searchValue, setSearchValue] = useState("");
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   const isSoldout = activeTab === "closed";
 
-  const { data, loading, error } = useFetchTravelproducts({
+  const { data, loading, error, fetchMore } = useFetchTravelproducts({
     isSoldout,
     search: "",
     page: 1,
   });
+
+  // 탭 변경 시 페이지와 데이터 초기화
+  useEffect(() => {
+    setPage(1);
+    setHasMore(true);
+  }, [activeTab]);
 
   const handleSearch = () => {
     console.log("검색:", searchValue);
@@ -58,16 +67,34 @@ export default function ProductsList() {
       price: product.price.toLocaleString(),
       seller: product.seller.name,
       sellerProfileImage: product.seller.picture
-        ? `https://storage.googleapis.com/${product.seller.picture.replace(/ /g, '%20')}`
+        ? `https://storage.googleapis.com/${product.seller.picture.replace(/ /g, "%20")}`
         : "/images/profile/6.svg",
       imageUrl:
         product.images && product.images.length > 0
-          ? `https://storage.googleapis.com/${product.images[0].replace(/ /g, '%20')}`
+          ? `https://storage.googleapis.com/${product.images[0].replace(/ /g, "%20")}`
           : `/images/accommodation_${(index % 10) + 1}.png`,
     }));
   };
 
   const currentProducts = transformProducts();
+
+  const loadMore = async () => {
+    if (loading) return;
+    
+    const nextPage = page + 1;
+    try {
+      await fetchMore(nextPage);
+      setPage(nextPage);
+      
+      // 데이터가 10개 미만이면 더 이상 로드할 데이터가 없음
+      if (data?.fetchTravelproducts && data.fetchTravelproducts.length < nextPage * 10) {
+        setHasMore(false);
+      }
+    } catch (err) {
+      console.error("Failed to load more:", err);
+      setHasMore(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -194,59 +221,71 @@ export default function ProductsList() {
         </div>
 
         {/* Card Area */}
-        <div className={styles.cardArea} data-testid="card-area">
-          {currentProducts.map((product) => (
-            <div key={product.id} className={styles.card} data-testid={`product-card-${product.id}`}>
-              <div className={styles.cardImage}>
-                <Image
-                  src={product.imageUrl}
-                  alt={product.title}
-                  width={296}
-                  height={296}
-                  className={styles.cardImagePlaceholder}
-                />
-                <div className={styles.bookmark}>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={styles.bookmarkIcon}
-                  >
-                    <path d="M12 17.4615L8.03075 19.1652C7.42825 19.4229 6.85583 19.3736 6.3135 19.0173C5.77117 18.6609 5.5 18.1597 5.5 17.5135V5.30775C5.5 4.80258 5.675 4.375 6.025 4.025C6.375 3.675 6.80258 3.5 7.30775 3.5H16.6923C17.1974 3.5 17.625 3.675 17.975 4.025C18.325 4.375 18.5 4.80258 18.5 5.30775V17.5135C18.5 18.1597 18.2288 18.6609 17.6865 19.0173C17.1442 19.3736 16.5718 19.4229 15.9693 19.1652L12 17.4615ZM12 15.8L16.5673 17.7673C16.6699 17.8121 16.7677 17.8025 16.8605 17.7385C16.9535 17.6743 17 17.5878 17 17.4788V5.30775C17 5.23075 16.9679 5.16025 16.9038 5.09625C16.8398 5.03208 16.7692 5 16.6923 5H7.30775C7.23075 5 7.16025 5.03208 7.09625 5.09625C7.03208 5.16025 7 5.23075 7 5.30775V17.4788C7 17.5878 7.0465 17.6743 7.1395 17.7385C7.23233 17.8025 7.33008 17.8121 7.43275 17.7673L12 15.8ZM12 5H7H17H12Z" />
-                  </svg>
-                  <span className={styles.bookmarkCount}>{product.bookmarkCount}</span>
+        <InfiniteScroll
+          dataLength={currentProducts.length}
+          next={loadMore}
+          hasMore={hasMore}
+          loader={<div style={{ textAlign: "center", padding: "20px" }}>로딩 중...</div>}
+          endMessage={
+            <div style={{ textAlign: "center", padding: "20px", color: "#999" }}>
+              모든 상품을 불러왔습니다.
+            </div>
+          }
+        >
+          <div className={styles.cardArea} data-testid="card-area">
+            {currentProducts.map((product) => (
+              <div key={product.id} className={styles.card} data-testid={`product-card-${product.id}`}>
+                <div className={styles.cardImage}>
+                  <Image
+                    src={product.imageUrl}
+                    alt={product.title}
+                    width={296}
+                    height={296}
+                    className={styles.cardImagePlaceholder}
+                  />
+                  <div className={styles.bookmark}>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className={styles.bookmarkIcon}
+                    >
+                      <path d="M12 17.4615L8.03075 19.1652C7.42825 19.4229 6.85583 19.3736 6.3135 19.0173C5.77117 18.6609 5.5 18.1597 5.5 17.5135V5.30775C5.5 4.80258 5.675 4.375 6.025 4.025C6.375 3.675 6.80258 3.5 7.30775 3.5H16.6923C17.1974 3.5 17.625 3.675 17.975 4.025C18.325 4.375 18.5 4.80258 18.5 5.30775V17.5135C18.5 18.1597 18.2288 18.6609 17.6865 19.0173C17.1442 19.3736 16.5718 19.4229 15.9693 19.1652L12 17.4615ZM12 15.8L16.5673 17.7673C16.6699 17.8121 16.7677 17.8025 16.8605 17.7385C16.9535 17.6743 17 17.5878 17 17.4788V5.30775C17 5.23075 16.9679 5.16025 16.9038 5.09625C16.8398 5.03208 16.7692 5 16.6923 5H7.30775C7.23075 5 7.16025 5.03208 7.09625 5.09625C7.03208 5.16025 7 5.23075 7 5.30775V17.4788C7 17.5878 7.0465 17.6743 7.1395 17.7385C7.23233 17.8025 7.33008 17.8121 7.43275 17.7673L12 15.8ZM12 5H7H17H12Z" />
+                    </svg>
+                    <span className={styles.bookmarkCount}>{product.bookmarkCount}</span>
+                  </div>
                 </div>
-              </div>
-              <div className={styles.cardContent}>
-                <div className={styles.cardInfo}>
-                  <h3 className={styles.cardTitle}>{product.title}</h3>
-                  <p className={styles.cardDescription}>{product.description}</p>
-                </div>
-                <div className={styles.cardDetails}>
-                  <div className={styles.cardTags}>{product.tags}</div>
-                  <div className={styles.cardFooter}>
-                    <div className={styles.profile}>
-                      <Image
-                        src={product.sellerProfileImage}
-                        alt="profile"
-                        width={24}
-                        height={24}
-                        className={styles.profileImage}
-                      />
-                      <span className={styles.profileName}>{product.seller}</span>
-                    </div>
-                    <div className={styles.price}>
-                      <span className={styles.priceAmount}>{product.price}</span>
-                      <span className={styles.priceUnit}>원</span>
+                <div className={styles.cardContent}>
+                  <div className={styles.cardInfo}>
+                    <h3 className={styles.cardTitle}>{product.title}</h3>
+                    <p className={styles.cardDescription}>{product.description}</p>
+                  </div>
+                  <div className={styles.cardDetails}>
+                    <div className={styles.cardTags}>{product.tags}</div>
+                    <div className={styles.cardFooter}>
+                      <div className={styles.profile}>
+                        <Image
+                          src={product.sellerProfileImage}
+                          alt="profile"
+                          width={24}
+                          height={24}
+                          className={styles.profileImage}
+                        />
+                        <span className={styles.profileName}>{product.seller}</span>
+                      </div>
+                      <div className={styles.price}>
+                        <span className={styles.priceAmount}>{product.price}</span>
+                        <span className={styles.priceUnit}>원</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </InfiniteScroll>
       </div>
     </div>
   );

@@ -32,18 +32,42 @@ interface UseFetchTravelproductsResult {
   data: FetchTravelproductsResponse | undefined;
   loading: boolean;
   error: ApolloError | undefined;
+  fetchMore: (page: number) => Promise<void>;
 }
 
 export const useFetchTravelproducts = (
   variables: UseFetchTravelproductsVariables = {}
 ): UseFetchTravelproductsResult => {
-  const { data, loading, error } = useQuery<FetchTravelproductsResponse>(FETCH_TRAVELPRODUCTS, {
-    variables: {
-      isSoldout: variables.isSoldout,
-      search: variables.search,
-      page: variables.page,
-    },
-  });
+  const { data, loading, error, fetchMore: apolloFetchMore } = useQuery<FetchTravelproductsResponse>(
+    FETCH_TRAVELPRODUCTS,
+    {
+      variables: {
+        isSoldout: variables.isSoldout,
+        search: variables.search,
+        page: variables.page,
+      },
+      notifyOnNetworkStatusChange: true,
+    }
+  );
 
-  return { data, loading, error };
+  const fetchMore = async (page: number) => {
+    await apolloFetchMore({
+      variables: {
+        isSoldout: variables.isSoldout,
+        search: variables.search,
+        page,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        return {
+          fetchTravelproducts: [
+            ...(prev.fetchTravelproducts || []),
+            ...(fetchMoreResult.fetchTravelproducts || []),
+          ],
+        };
+      },
+    });
+  };
+
+  return { data, loading, error, fetchMore };
 };
