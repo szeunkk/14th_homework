@@ -33,12 +33,13 @@ interface UseFetchTravelproductsResult {
   loading: boolean;
   error: ApolloError | undefined;
   fetchMore: (page: number) => Promise<void>;
+  refetch: () => Promise<void>;
 }
 
 export const useFetchTravelproducts = (
   variables: UseFetchTravelproductsVariables = {}
 ): UseFetchTravelproductsResult => {
-  const { data, loading, error, fetchMore: apolloFetchMore } = useQuery<FetchTravelproductsResponse>(
+  const { data, loading, error, fetchMore: apolloFetchMore, refetch: apolloRefetch } = useQuery<FetchTravelproductsResponse>(
     FETCH_TRAVELPRODUCTS,
     {
       variables: {
@@ -69,5 +70,13 @@ export const useFetchTravelproducts = (
     });
   };
 
-  return { data, loading, error, fetchMore };
+  const refetch = async () => {
+    await apolloRefetch({
+      isSoldout: variables.isSoldout,
+      search: variables.search,
+      page: 1,
+    });
+  };
+
+  return { data, loading, error, fetchMore, refetch };
 };

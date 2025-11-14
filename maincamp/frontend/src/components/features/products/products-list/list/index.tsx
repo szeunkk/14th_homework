@@ -34,14 +34,15 @@ const categories = [
 export default function ProductsList() {
   const [activeTab, setActiveTab] = useState<"available" | "closed">("available");
   const [searchValue, setSearchValue] = useState("");
+  const [activeSearchValue, setActiveSearchValue] = useState("");
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
   const isSoldout = activeTab === "closed";
 
-  const { data, loading, error, fetchMore } = useFetchTravelproducts({
+  const { data, loading, error, fetchMore, refetch } = useFetchTravelproducts({
     isSoldout,
-    search: "",
+    search: activeSearchValue,
     page: 1,
   });
 
@@ -49,10 +50,21 @@ export default function ProductsList() {
   useEffect(() => {
     setPage(1);
     setHasMore(true);
+    setSearchValue("");
+    setActiveSearchValue("");
   }, [activeTab]);
 
-  const handleSearch = () => {
-    console.log("검색:", searchValue);
+  // 검색어 변경 시 페이지 초기화
+  useEffect(() => {
+    setPage(1);
+    setHasMore(true);
+  }, [activeSearchValue]);
+
+  const handleSearch = async () => {
+    setActiveSearchValue(searchValue);
+    setPage(1);
+    setHasMore(true);
+    await refetch();
   };
 
   const transformProducts = (): Product[] => {
@@ -185,6 +197,11 @@ export default function ProductsList() {
               placeholder="제목을 검색해 주세요."
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
               className={styles.searchInput}
               data-testid="search-input"
             />
