@@ -2,10 +2,20 @@
 .productsDetail {
   width: 80rem;
   display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2.5rem;
+}
+
+.contentsWrapper {
+  flex: 1;
+  display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 0;
+  max-width: 52.75rem;
 }
 
 /* Title Section */

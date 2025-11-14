@@ -199,9 +199,9 @@ export default function ProductsDetailContents() {
 
   return (
     <div className={styles.productsDetail} data-testid="products-detail-contents">
-      <ProductsDetailCard />
-      {/* Title Section */}
-      <div className={styles.titleSection}>
+      <div className={styles.contentsWrapper}>
+        {/* Title Section */}
+        <div className={styles.titleSection}>
         <div className={styles.titleWrapper}>
           <div className={styles.titleTop}>
             <h1 className={styles.title} data-testid="product-title">
@@ -275,6 +275,8 @@ export default function ProductsDetailContents() {
           {/* Google Map API 추후 연동 예정 */}
         </div>
       </div>
+      </div>
+      <ProductsDetailCard />
     </div>
   );
 }
