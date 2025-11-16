@@ -14,8 +14,8 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { FORMAT_TEXT_COMMAND } from "lexical";
 import { useEffect, useRef } from "react";
 import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
-import useProductWriteForm from "./hook";
-import useProductWriteFormSubmit from "./hookSubmit";
+import useProductWriteForm from "./hooks/index.hook";
+import useProductWriteFormSubmit from "./hooks/index.submit.hook";
 
 // Lexical 툴바 컴포넌트
 function ToolbarPlugin() {

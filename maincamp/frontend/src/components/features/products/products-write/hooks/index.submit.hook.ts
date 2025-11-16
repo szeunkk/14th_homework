@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import { Modal } from "antd";
 import { useRouter } from "next/navigation";
 import { CREATE_TRAVELPRODUCT } from "@/graphql/mutations/product";
-import { ProductWriteFormValues } from "./schema";
+import { ProductWriteFormValues } from "../schema";
 
 interface UseProductWriteFormSubmitReturn {
   onSubmit: (data: ProductWriteFormValues) => Promise<void>;

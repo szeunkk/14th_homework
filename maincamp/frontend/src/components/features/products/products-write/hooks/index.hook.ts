@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Address } from "react-daum-postcode";
 import { EditorState } from "lexical";
 import { $getRoot } from "lexical";
-import { productWriteSchema, ProductWriteFormValues } from "./schema";
+import { productWriteSchema, ProductWriteFormValues } from "../schema";
 
 export default function useProductWriteForm() {
   // 0. 세팅
