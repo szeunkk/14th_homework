@@ -31,6 +31,7 @@ type Documents = {
     "\n  query fetchBoardComments($page: Int, $boardId: ID!) {\n    fetchBoardComments(page: $page, boardId: $boardId) {\n      _id\n      writer\n      contents\n      rating\n      createdAt\n    }\n  }\n": typeof types.FetchBoardCommentsDocument,
     "\n    mutation uploadFile($file: Upload!){\n        uploadFile(file: $file){\n            url\n        }\n    }\n": typeof types.UploadFileDocument,
     "\n  query fetchTravelproducts($isSoldout: Boolean, $search: String, $page: Int) {\n    fetchTravelproducts(isSoldout: $isSoldout, search: $search, page: $page) {\n      _id\n      name\n      remarks\n      tags\n      pickedCount\n      price\n      seller {\n        _id\n        name\n        picture\n      }\n      images\n    }\n  }\n": typeof types.FetchTravelproductsDocument,
+    "\n  query fetchTravelproduct($travelproductId: ID!) {\n    fetchTravelproduct(travelproductId: $travelproductId) {\n      _id\n      name\n      remarks\n      contents\n      price\n      tags\n      images\n      pickedCount\n      travelproductAddress {\n        address\n        addressDetail\n        zipcode\n        lat\n        lng\n      }\n      seller {\n        name\n        picture\n      }\n    }\n  }\n": typeof types.FetchTravelproductDocument,
 };
 const documents: Documents = {
     "\n  mutation createBoard($createBoardInput: CreateBoardInput!) {\n    createBoard(createBoardInput: $createBoardInput) {\n      _id\n      writer\n      title\n      contents\n    }\n  }\n": types.CreateBoardDocument,
@@ -50,6 +51,7 @@ const documents: Documents = {
     "\n  query fetchBoardComments($page: Int, $boardId: ID!) {\n    fetchBoardComments(page: $page, boardId: $boardId) {\n      _id\n      writer\n      contents\n      rating\n      createdAt\n    }\n  }\n": types.FetchBoardCommentsDocument,
     "\n    mutation uploadFile($file: Upload!){\n        uploadFile(file: $file){\n            url\n        }\n    }\n": types.UploadFileDocument,
     "\n  query fetchTravelproducts($isSoldout: Boolean, $search: String, $page: Int) {\n    fetchTravelproducts(isSoldout: $isSoldout, search: $search, page: $page) {\n      _id\n      name\n      remarks\n      tags\n      pickedCount\n      price\n      seller {\n        _id\n        name\n        picture\n      }\n      images\n    }\n  }\n": types.FetchTravelproductsDocument,
+    "\n  query fetchTravelproduct($travelproductId: ID!) {\n    fetchTravelproduct(travelproductId: $travelproductId) {\n      _id\n      name\n      remarks\n      contents\n      price\n      tags\n      images\n      pickedCount\n      travelproductAddress {\n        address\n        addressDetail\n        zipcode\n        lat\n        lng\n      }\n      seller {\n        name\n        picture\n      }\n    }\n  }\n": types.FetchTravelproductDocument,
 };
 
 /**
@@ -134,6 +136,10 @@ export function graphql(source: "\n    mutation uploadFile($file: Upload!){\n   
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query fetchTravelproducts($isSoldout: Boolean, $search: String, $page: Int) {\n    fetchTravelproducts(isSoldout: $isSoldout, search: $search, page: $page) {\n      _id\n      name\n      remarks\n      tags\n      pickedCount\n      price\n      seller {\n        _id\n        name\n        picture\n      }\n      images\n    }\n  }\n"): (typeof documents)["\n  query fetchTravelproducts($isSoldout: Boolean, $search: String, $page: Int) {\n    fetchTravelproducts(isSoldout: $isSoldout, search: $search, page: $page) {\n      _id\n      name\n      remarks\n      tags\n      pickedCount\n      price\n      seller {\n        _id\n        name\n        picture\n      }\n      images\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query fetchTravelproduct($travelproductId: ID!) {\n    fetchTravelproduct(travelproductId: $travelproductId) {\n      _id\n      name\n      remarks\n      contents\n      price\n      tags\n      images\n      pickedCount\n      travelproductAddress {\n        address\n        addressDetail\n        zipcode\n        lat\n        lng\n      }\n      seller {\n        name\n        picture\n      }\n    }\n  }\n"): (typeof documents)["\n  query fetchTravelproduct($travelproductId: ID!) {\n    fetchTravelproduct(travelproductId: $travelproductId) {\n      _id\n      name\n      remarks\n      contents\n      price\n      tags\n      images\n      pickedCount\n      travelproductAddress {\n        address\n        addressDetail\n        zipcode\n        lat\n        lng\n      }\n      seller {\n        name\n        picture\n      }\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

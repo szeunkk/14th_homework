@@ -6,7 +6,13 @@ import { Button } from "@commons/ui";
 import ProductPurchaseModal from "../modal";
 import styles from "./styles.module.css";
 
-export default function ProductsDetailCard() {
+interface ProductsDetailCardProps {
+  profileImage: string;
+  price: number;
+  seller: string;
+}
+
+export default function ProductsDetailCard({ profileImage, price, seller }: ProductsDetailCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handlePurchaseClick = () => {
@@ -23,13 +29,15 @@ export default function ProductsDetailCard() {
     setIsModalOpen(false);
   };
 
+  const formattedPrice = price.toLocaleString("ko-KR");
+
   return (
     <>
       <div className={styles.card} data-testid="products-detail-card">
         <div className={styles.purchaseCard}>
           <div className={styles.priceSection}>
             <div className={styles.priceWrapper}>
-              <span className={styles.price}>32,500</span>
+              <span className={styles.price}>{formattedPrice}</span>
               <span className={styles.currency}>원</span>
             </div>
             <div className={styles.description}>
@@ -52,13 +60,13 @@ export default function ProductsDetailCard() {
           <h3 className={styles.sellerTitle}>판매자</h3>
           <div className={styles.sellerProfile}>
             <Image
-              src="/images/profile/8.svg"
+              src={profileImage}
               alt="판매자 프로필"
               width={40}
               height={40}
               className={styles.profileImage}
             />
-            <span className={styles.sellerName}>김상훈</span>
+            <span className={styles.sellerName}>{seller}</span>
           </div>
         </div>
       </div>

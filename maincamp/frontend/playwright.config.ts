@@ -72,6 +72,6 @@ export default defineConfig({
   webServer: {
     command: `PORT=${port} npm run dev:test`,
     url: `http://localhost:${port}`,
-    reuseExistingServer: false, // 항상 새 서버 시작 (환경 변수 적용 보장)
+    reuseExistingServer: true, // 기존 서버 재사용
   },
 });

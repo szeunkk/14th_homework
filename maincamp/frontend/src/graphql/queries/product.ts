@@ -31,3 +31,29 @@ export const FETCH_TRAVELPRODUCTS = gql`
     }
   }
 `;
+
+export const FETCH_TRAVELPRODUCT = gql`
+  query fetchTravelproduct($travelproductId: ID!) {
+    fetchTravelproduct(travelproductId: $travelproductId) {
+      _id
+      name
+      remarks
+      contents
+      price
+      tags
+      images
+      pickedCount
+      travelproductAddress {
+        address
+        addressDetail
+        zipcode
+        lat
+        lng
+      }
+      seller {
+        name
+        picture
+      }
+    }
+  }
+`;
