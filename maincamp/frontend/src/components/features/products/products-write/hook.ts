@@ -94,24 +94,17 @@ export default function useProductWriteForm() {
     router.back();
   };
 
-  // 2-5. 등록 버튼 핸들러
-  const onClickSubmit = (data: ProductWriteFormValues) => {
-    console.log("Form Data:", data);
-    // TODO: API 호출하여 상품 등록
-    alert("상품이 등록되었습니다.");
-  };
-
   return {
     register,
     handleSubmit,
     formState,
     watch,
+    setValue,
     isModalOpen,
     onToggleModal,
     handleComplete,
     handleEditorChange,
     onClickCancel,
-    onClickSubmit,
   };
 }
 

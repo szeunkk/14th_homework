@@ -15,6 +15,7 @@ import { FORMAT_TEXT_COMMAND } from "lexical";
 import { useEffect, useRef } from "react";
 import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
 import useProductWriteForm from "./hook";
+import useProductWriteFormSubmit from "./hookSubmit";
 
 // Lexical 툴바 컴포넌트
 function ToolbarPlugin() {
@@ -144,22 +145,42 @@ export default function ProductsWrite() {
     handleSubmit,
     formState,
     watch,
+    setValue,
     isModalOpen,
     onToggleModal,
     handleComplete,
     handleEditorChange,
     onClickCancel,
-    onClickSubmit,
   } = useProductWriteForm();
+
+  const {
+    onSubmit,
+    loading: submitLoading,
+  } = useProductWriteFormSubmit();
 
   const lat = watch("lat");
   const lng = watch("lng");
+
+  // 테스트 환경에서만 setValue를 window 객체에 노출
+  useEffect(() => {
+    // 테스트 환경에서 사용 (playwright는 dev 모드로 실행)
+    if (typeof window !== 'undefined') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (window as any).__PRODUCT_WRITE_SET_VALUE__ = setValue;
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        delete (window as any).__PRODUCT_WRITE_SET_VALUE__;
+      }
+    };
+  }, [setValue]);
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>숙박권 판매하기</h1>
 
-      <form className={styles.form} onSubmit={handleSubmit(onClickSubmit)}>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)} data-testid="product-write-form">
         {/* 상품명 */}
         <Inputfield
           type="text"
@@ -168,6 +189,7 @@ export default function ProductsWrite() {
           placeholder="상품명을 입력해 주세요."
           {...register("name")}
           error={formState.errors.name?.message}
+          data-testid="input-name"
         />
 
         <div className={styles.divider} />
@@ -180,6 +202,7 @@ export default function ProductsWrite() {
           placeholder="상품을 한줄로 요약해 주세요."
           {...register("remarks")}
           error={formState.errors.remarks?.message}
+          data-testid="input-remarks"
         />
 
         <div className={styles.divider} />
@@ -190,7 +213,7 @@ export default function ProductsWrite() {
             <label>상품 설명</label>
             <span>*</span>
           </div>
-          <div className={styles.editor}>
+          <div className={styles.editor} data-testid="input-contents">
             <LexicalComposer initialConfig={editorConfig}>
               <ToolbarPlugin />
               <RichTextPlugin
@@ -214,6 +237,7 @@ export default function ProductsWrite() {
           placeholder="판매 가격을 입력해 주세요. (원 단위)"
           {...register("price")}
           error={formState.errors.price?.message}
+          data-testid="input-price"
         />
 
         <div className={styles.divider} />
@@ -225,6 +249,7 @@ export default function ProductsWrite() {
           placeholder="태그를 입력해 주세요."
           {...register("tags")}
           error={formState.errors.tags?.message}
+          data-testid="input-tags"
         />
 
         <div className={styles.divider} />
@@ -232,13 +257,15 @@ export default function ProductsWrite() {
         {/* 주소 및 지도 */}
         <div className={styles.addressGroup}>
           <div className={styles.addressInputs}>
-            <InputBoardAddress
-              required
-              onClick={onToggleModal}
-              placeholder="상세주소를 입력해 주세요."
-              register={register}
-              basePath="productAddress"
-            />
+            <div data-testid="address-input-group">
+              <InputBoardAddress
+                required
+                onClick={onToggleModal}
+                placeholder="주소를 입력해 주세요."
+                register={register}
+                basePath="productAddress"
+              />
+            </div>
 
             <div className={`${styles.disabledInput} ${styles.latInput}`}>
               <Inputfield
@@ -308,15 +335,16 @@ export default function ProductsWrite() {
 
         {/* 버튼 그룹 */}
         <div className={styles.buttonGroup}>
-          <button type="button" className={styles.cancelButton} onClick={onClickCancel}>
+          <button type="button" className={styles.cancelButton} onClick={onClickCancel} data-testid="button-cancel">
             취소
           </button>
           <button
             type="submit"
             className={`${styles.submitButton} ${formState.isValid ? styles.enabled : ""}`}
-            disabled={!formState.isValid}
+            disabled={!formState.isValid || submitLoading}
+            data-testid="button-submit"
           >
-            등록하기
+            {submitLoading ? "등록 중..." : "등록하기"}
           </button>
         </div>
       </form>
