@@ -9,7 +9,7 @@ import styles from "./style.module.css";
 
 const defaultConfig: LayoutConfig = {
   navigation: true,
-  banner: true,
+  banner: false,
   hero: undefined,
 };
 
