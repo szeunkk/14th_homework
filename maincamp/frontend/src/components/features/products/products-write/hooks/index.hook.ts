@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { Modal } from "antd";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,9 @@ export default function useProductWriteForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+
+  // 0-3. ref
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 1. useForm 세팅
   // 1-1. useForm 초기값세팅
@@ -127,6 +130,11 @@ export default function useProductWriteForm() {
     setImagePreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // 2-7. 파일 선택 트리거
+  const triggerFileInput = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
   return {
     register,
     handleSubmit,
@@ -142,6 +150,8 @@ export default function useProductWriteForm() {
     imagePreviews,
     handleImageUpload,
     handleImageRemove,
+    fileInputRef,
+    triggerFileInput,
   };
 }
 
