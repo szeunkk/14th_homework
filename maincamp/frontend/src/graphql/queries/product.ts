@@ -20,12 +20,20 @@ export const FETCH_TRAVELPRODUCTS = gql`
       name
       remarks
       tags
+      createdAt
       pickedCount
       price
       seller {
         _id
         name
         picture
+      }
+      travelproductAddress {
+        address
+        addressDetail
+        zipcode
+        lat
+        lng
       }
       images
     }
@@ -39,6 +47,7 @@ export const FETCH_TRAVELPRODUCT = gql`
       name
       remarks
       contents
+      createdAt
       price
       tags
       images

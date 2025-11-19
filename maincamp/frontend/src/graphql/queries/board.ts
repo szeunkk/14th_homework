@@ -29,6 +29,8 @@ export const FETCH_BOARDS = gql`
       title
       createdAt
       deletedAt
+      images
+      likeCount
     }
   }
 `;
