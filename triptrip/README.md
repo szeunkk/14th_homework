@@ -1,70 +1,122 @@
-# Getting Started with Create React App
+# TripTrip - React 프로토타입
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> **여행 게시판** - React 기반 프로토타입 프로젝트
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 📋 프로젝트 개요
 
-### `npm start`
+여행 게시판 기능을 구현한 React 프로토타입 프로젝트  
+Create React App을 기반으로 한 간단한 SPA 애플리케이션
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠 기술 스택
 
-### `npm test`
+### **Core Framework**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```typescript
+- React 19
+- React Router 7.x
+- TypeScript 5.x
+```
 
-### `npm run build`
+### **테스트**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```typescript
+- @testing-library/react 16.x
+- @testing-library/jest-dom 6.x
+- @testing-library/user-event 13.x
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### **빌드 도구**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+- react-scripts 5.x
+```
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🏗 프로젝트 구조
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+src/
+├── App.tsx                 # 루트 컴포넌트
+├── App.css                 # 앱 스타일
+├── index.tsx               # 엔트리 포인트
+├── index.css               # 글로벌 스타일
+├── reportWebVitals.js      # 성능 측정
+│
+└── routes/
+    └── boards/
+        └── new/
+            ├── BoardsNew.tsx       # 게시글 작성
+            ├── BoardsNew.css       # 작성 스타일
+            ├── BoardsList.tsx      # 게시글 목록
+            ├── BoardsDetail.tsx    # 게시글 상세
+            └── BoardsDetail.css    # 상세 스타일
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🚀 시작하기
 
-## Learn More
+### **설치**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+cd triptrip
+npm install
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### **개발 서버 실행**
 
-### Code Splitting
+```bash
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 확인
 
-### Analyzing the Bundle Size
+### **빌드**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+npm run build
+```
 
-### Making a Progressive Web App
+`build` 폴더에 프로덕션 빌드 생성
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### **테스트**
 
-### Advanced Configuration
+```bash
+npm test
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+인터랙티브 테스트 모드 실행
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 📝 주요 기능
 
-### `npm run build` fails to minify
+### ✅ **구현된 기능**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- 게시글 목록 조회
+- 게시글 상세 보기
+- 게시글 작성
+
+### 🔧 **사용된 기술**
+
+- React Router를 통한 페이지 라우팅
+- TypeScript를 통한 타입 안정성
+- CSS를 통한 스타일링
+
+---
+
+## 📂 관련 프로젝트
+
+- **메인 프로젝트**: [maincamp/frontend](../maincamp/frontend) 참고
+- Next.js 기반 풀스택 여행 플랫폼으로 발전된 버전입니다.
+
+---
+
+**프로젝트**: TripTrip Prototype  
+**기술 스택**: React 19, TypeScript, React Router  
+**작성일**: 2024
