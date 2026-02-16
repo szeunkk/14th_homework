@@ -258,7 +258,7 @@
 
 .mapPlaceholder {
   width: 718px;
-  height: 224px;
+  height: 400px;
   background: #f8f9fc;
   border-radius: 7px;
   display: flex;
@@ -267,6 +267,13 @@
   font-size: 14px;
   font-weight: 400;
   color: #23345c;
+  overflow: hidden;
+}
+
+.mapWrapper {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
 }
 
 /* 오른쪽 컬럼 - Sticky */
@@ -356,8 +363,19 @@
   cursor: pointer;
 }
 
-.buyButton:hover {
+.buyButton:hover:not(:disabled) {
   background: #23345c;
+}
+
+.buyButton:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.buyButtonSoldOut {
+  background: #6b7280;
+  cursor: not-allowed;
 }
 
 /* 판매자 및 찜 행 */
@@ -471,4 +489,3 @@
   color: #1c2a4a;
   text-align: center;
 }
-

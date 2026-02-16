@@ -3,15 +3,14 @@
   flex-direction: column;
   width: 100%;
   max-width: 1092px;
-  margin: 0 auto;
+  margin-top: 24px;
   gap: 35px;
-  padding: 20px;
 }
 
 .bestSection {
   display: flex;
   flex-direction: column;
-  gap: 35px;
+  gap: 24px;
 }
 
 .bestHeader {
@@ -32,8 +31,8 @@
 
 .bestTitle {
   font-family: "SUIT Variable", sans-serif;
-  font-weight: 400;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 20px;
   line-height: 21px;
   letter-spacing: -0.15px;
   color: #1c2a4a;
@@ -42,7 +41,7 @@
 
 .bestGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 14px;
 }
 
@@ -52,6 +51,7 @@
   background: #ffffff;
   border-radius: 7px;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .bestImageWrapper {
@@ -168,6 +168,7 @@
   background: #ffffff;
   border-radius: 7px;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .cardImageWrapper {
@@ -247,7 +248,7 @@
   }
 
   .bestGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .cardMasonry {
@@ -256,6 +257,10 @@
 }
 
 @media (max-width: 768px) {
+  .bestGrid {
+    grid-template-columns: 1fr;
+  }
+
   .cardMasonry {
     grid-template-columns: 1fr;
   }

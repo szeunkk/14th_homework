@@ -6,6 +6,34 @@ import styles from "./styles.module.css";
 import useBoards from "./hook.list";
 import useBoardsOfTheBest from "./hook.best";
 
+// 시간을 "N시간 전" 형식으로 변환하는 함수
+const getTimeAgo = (dateString: string | undefined) => {
+  if (!dateString) return "";
+
+  const now = new Date();
+  const past = new Date(dateString);
+  const diffInSeconds = Math.floor((now.getTime() - past.getTime()) / 1000);
+
+  if (diffInSeconds < 60) {
+    return "방금 전";
+  } else if (diffInSeconds < 3600) {
+    const minutes = Math.floor(diffInSeconds / 60);
+    return `${minutes}분 전`;
+  } else if (diffInSeconds < 86400) {
+    const hours = Math.floor(diffInSeconds / 3600);
+    return `${hours}시간 전`;
+  } else if (diffInSeconds < 2592000) {
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days}일 전`;
+  } else if (diffInSeconds < 31536000) {
+    const months = Math.floor(diffInSeconds / 2592000);
+    return `${months}개월 전`;
+  } else {
+    const years = Math.floor(diffInSeconds / 31536000);
+    return `${years}년 전`;
+  }
+};
+
 export default function OOTDList() {
   const { data, hasMore, onNext } = useBoards();
   const { best, onClickBoards } = useBoardsOfTheBest();
@@ -45,32 +73,25 @@ export default function OOTDList() {
     <div className={styles.container}>
       <section className={styles.bestSection}>
         <div className={styles.bestHeader}>
-          <div className={styles.iconWrapper}>
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M9 2L11.09 6.26L16 7.27L12.5 11.14L13.18 16.02L9 13.77L4.82 16.02L5.5 11.14L2 7.27L6.91 6.26L9 2Z"
-                fill="#c6ff3e"
-                stroke="#1c2a4a"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-          <h2 className={styles.bestTitle}>인기 착장</h2>
+          <h2 className={styles.bestTitle}>리핏에서 지금 가장 주목받는 스타일</h2>
         </div>
         <div className={styles.bestGrid}>
           {best.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               className={styles.bestCard}
               data-testid={`best-card-${item._id}`}
+              id={item._id}
               onClick={onClickBoards}
             >
               <div className={styles.bestImageWrapper}>
                 <img
-                  src={`https://storage.googleapis.com/${item.images[0]}`}
-                  alt={item.writer}
+                  src={
+                    !item.images || item.images.length === 0
+                      ? `https://picsum.photos/seed/${item._id}/400/400`
+                      : `https://storage.googleapis.com/${item.images[0]}`
+                  }
+                  alt={item.writer ?? ""}
                   className={styles.bestImage}
                 />
                 <div className={styles.bestGradient}></div>
@@ -106,7 +127,7 @@ export default function OOTDList() {
                     <span className={styles.bestLikesCount}>{item.likeCount}</span>
                   </div>
                 </div>
-                <span className={styles.bestDate}>{item.createdAt}</span>
+                <span className={styles.bestDate}>{getTimeAgo(item.createdAt)}</span>
               </div>
             </div>
           ))}
@@ -114,6 +135,9 @@ export default function OOTDList() {
       </section>
 
       <section className={styles.cardSection}>
+        <div className={styles.bestHeader}>
+          <h2 className={styles.bestTitle}>오늘의 새로운 핏을 만나보세요</h2>
+        </div>
         <InfiniteScroll
           next={onNext}
           hasMore={hasMore}
@@ -124,13 +148,19 @@ export default function OOTDList() {
             {columns.map((column, columnIndex) => (
               <div key={columnIndex} className={styles.cardColumn}>
                 {column.map((item) => (
-                  <div key={item._id} className={styles.card} data-testid={`card-${item._id}`}>
+                  <div
+                    key={item._id}
+                    className={styles.card}
+                    data-testid={`card-${item._id}`}
+                    id={item._id}
+                    onClick={onClickBoards}
+                  >
                     <div className={styles.cardImageWrapper}>
                       <img
                         src={
                           !item.images || item.images.length === 0
-                            ? "/images/img-1.svg"
-                            : `https://storage.googleapis.com/${item.images[0]}`
+                            ? `https://picsum.photos/seed/${item._id}/400/400`
+                            : `https://storage.googleapis.com/${item.images[0].replace(/ /g, "%20")}`
                         }
                         alt={item.writer as string}
                         className={styles.cardImage}
@@ -165,7 +195,7 @@ export default function OOTDList() {
                           <span className={styles.cardLikesCount}>{item.likeCount}</span>
                         </div>
                       </div>
-                      <span className={styles.cardDate}>{item.createdAt}</span>
+                      <span className={styles.cardDate}>{getTimeAgo(item.createdAt)}</span>
                     </div>
                   </div>
                 ))}

@@ -8,6 +8,14 @@ interface Seller {
   picture: string;
 }
 
+interface TravelproductAddress {
+  address?: string | null;
+  addressDetail?: string | null;
+  zipcode?: string | null;
+  lat?: number | null;
+  lng?: number | null;
+}
+
 interface TravelProduct {
   _id: string;
   name: string;
@@ -17,7 +25,7 @@ interface TravelProduct {
   price: number;
   seller: Seller;
   images: string[];
-  travelproductAddress: string[];
+  travelproductAddress?: TravelproductAddress | null;
   createdAt: string;
 }
 

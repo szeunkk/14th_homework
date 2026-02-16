@@ -49,3 +49,6 @@ export default function GoogleMapComponent({ lat, lng }: GoogleMapComponentProps
   return <div ref={mapRef} className={styles.map} />;
 }
 
+
+
+

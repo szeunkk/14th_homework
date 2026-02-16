@@ -6,6 +6,7 @@ import LayoutNavigation from "./navigation";
 import { LayoutConfig } from "./type";
 import Image from "next/image";
 import styles from "./style.module.css";
+import RefitNav from "./refit_nav";
 
 const defaultConfig: LayoutConfig = {
   navigation: true,
@@ -46,7 +47,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {showNavigation && <LayoutNavigation />}
+      {showNavigation && <RefitNav />}
       {showBanner && <LayoutBanner />}
       <div className={hero && styles.heroLayout}>
         {children}

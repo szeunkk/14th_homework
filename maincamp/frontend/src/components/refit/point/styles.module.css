@@ -20,7 +20,7 @@
 }
 
 .title {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 500;
   font-size: 26.25px;
   line-height: 31.5px;
@@ -33,7 +33,7 @@
 }
 
 .description {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 21px;
@@ -73,7 +73,7 @@
 }
 
 .infoCardTitleText {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 14px;
@@ -105,7 +105,7 @@
 }
 
 .infoLabelText {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 400;
   font-size: 12.25px;
   line-height: 17.5px;
@@ -118,7 +118,7 @@
 }
 
 .infoValueText {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 500;
   font-size: 12.25px;
   line-height: 17.5px;
@@ -142,7 +142,7 @@
 }
 
 .totalLabelText {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 500;
   font-size: 14px;
   line-height: 21px;
@@ -155,7 +155,7 @@
 }
 
 .totalValueText {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 700;
   font-size: 14px;
   line-height: 21px;
@@ -177,7 +177,7 @@
 }
 
 .afterChargeLabelText {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 500;
   font-size: 12.25px;
   line-height: 17.5px;
@@ -190,7 +190,7 @@
 }
 
 .afterChargeValueText {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 700;
   font-size: 21px;
   line-height: 28px;
@@ -208,7 +208,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 500;
   font-size: 12.25px;
   line-height: 17.5px;
@@ -239,7 +239,7 @@
 }
 
 .noticeItemText {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 400;
   font-size: 10.5px;
   line-height: 14px;
@@ -270,7 +270,7 @@
 }
 
 .pointLabel {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 400;
   font-size: 12.25px;
   line-height: 17.5px;
@@ -283,7 +283,7 @@
 }
 
 .pointValue {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 700;
   font-size: 26.25px;
   line-height: 31.5px;
@@ -328,7 +328,7 @@
 }
 
 .cardTitleText {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 500;
   font-size: 14px;
   line-height: 14px;
@@ -341,7 +341,7 @@
 }
 
 .cardDescriptionText {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 21px;
@@ -396,6 +396,7 @@
   flex-direction: column;
   gap: 3.5px;
   align-items: center;
+  justify-content: center;
   width: 100%;
 }
 
@@ -406,7 +407,7 @@
 }
 
 .amountText {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 600;
   font-size: 14px;
   line-height: 21px;
@@ -417,12 +418,11 @@
 
 .pointLabel {
   display: flex;
-  justify-content: center;
-  width: 100%;
+  width: auto;
 }
 
 .pointText {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 400;
   font-size: 12.25px;
   line-height: 17.5px;
@@ -444,7 +444,7 @@
 }
 
 .badgeText {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 500;
   font-size: 10.5px;
   line-height: 14px;
@@ -458,11 +458,10 @@
 }
 
 .noticeText {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
   font-weight: 400;
   font-size: 10.5px;
   line-height: 14px;
   letter-spacing: 0.092px;
   color: #23345c;
 }
-

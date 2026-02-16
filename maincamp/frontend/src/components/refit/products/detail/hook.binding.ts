@@ -25,6 +25,7 @@ interface FetchTravelproductData {
     tags?: string[] | null;
     images?: string[] | null;
     pickedCount?: number | null;
+    soldAt?: string | null;
     travelproductAddress?: TravelproductAddress | null;
     seller?: Seller | null;
     createdAt?: string | null;

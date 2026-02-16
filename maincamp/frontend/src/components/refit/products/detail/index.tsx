@@ -1,9 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { Modal } from "antd";
+import dynamic from "next/dynamic";
 import styles from "./styles.module.css";
 import useFetchTravelproduct from "./hook.binding";
+import { useBuyProduct } from "./hook.payments";
+
+// 동적 import로 GoogleMapComponent를 클라이언트 사이드에서만 로드
+const GoogleMapComponent = dynamic(() => import("@/components/commons/google-map"), {
+  ssr: false,
+  loading: () => (
+    <div
+      style={{
+        width: "100%",
+        height: "400px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <p>지도를 불러오는 중입니다...</p>
+    </div>
+  ),
+});
 
 // 가격 포맷 함수
 const formatPrice = (price: number): string => {
@@ -39,12 +60,103 @@ const getTimeAgo = (dateString: string): string => {
 
 export default function ProductDetail() {
   const router = useRouter();
+  const params = useParams();
+  const productId = params.productId as string;
+
   const [selectedImage, setSelectedImage] = useState(0);
+  const [mapCoordinates, setMapCoordinates] = useState<{ lat: number; lng: number } | null>(null);
   const { data, loading, error } = useFetchTravelproduct();
+
+  const address = data?.fetchTravelproduct.travelproductAddress?.address;
+  const lat = data?.fetchTravelproduct.travelproductAddress?.lat;
+  const lng = data?.fetchTravelproduct.travelproductAddress?.lng;
+  const soldAt = data?.fetchTravelproduct.soldAt;
+  const isSoldOut = soldAt !== null && soldAt !== undefined;
 
   const handleBackToList = () => {
     router.back();
   };
+
+  const { buyProduct, loading: buyLoading } = useBuyProduct(
+    () => {
+      Modal.success({
+        title: "구매 완료!",
+        content: "상품을 성공적으로 구매했습니다.",
+        onOk: () => {
+          router.refresh();
+        },
+      });
+    },
+    (message) => {
+      Modal.error({
+        title: "구매 실패",
+        content: message,
+      });
+    }
+  );
+
+  const handleBuyProduct = () => {
+    if (!productId) {
+      Modal.error({
+        title: "오류",
+        content: "상품 정보를 찾을 수 없습니다.",
+      });
+      return;
+    }
+
+    Modal.confirm({
+      title: "상품 구매",
+      content: "이 상품을 구매하시겠습니까?",
+      onOk: async () => {
+        await buyProduct(productId);
+      },
+    });
+  };
+
+  // Kakao API를 사용하여 주소를 좌표로 변환
+  useEffect(() => {
+    const fetchCoordinates = async () => {
+      // lat, lng가 이미 있으면 사용
+      if (lat && lng) {
+        setMapCoordinates({ lat, lng });
+        return;
+      }
+
+      // lat, lng가 없고 주소가 있으면 Kakao API로 변환
+      if (address && !lat && !lng) {
+        try {
+          const response = await fetch(
+            `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(address)}`,
+            {
+              headers: {
+                Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_APP_JS_KEY}`,
+              },
+            }
+          );
+
+          const result = await response.json();
+
+          if (result.documents && result.documents.length > 0) {
+            const { x, y } = result.documents[0];
+            setMapCoordinates({ lat: parseFloat(y), lng: parseFloat(x) });
+          } else {
+            setMapCoordinates(null);
+          }
+        } catch (error) {
+          console.error("좌표 변환 실패:", error);
+          const showErrorModal = () =>
+            Modal.error({
+              title: "좌표 변환에 실패하였습니다.",
+              content: (error as Error)?.message ?? "좌표 변환에 실패하였습니다.",
+            });
+          showErrorModal();
+          setMapCoordinates(null);
+        }
+      }
+    };
+
+    fetchCoordinates();
+  }, [address, lat, lng]);
 
   return (
     <div className={styles.detailPage}>
@@ -157,30 +269,36 @@ export default function ProductDetail() {
           </div>
 
           {/* 사진 미리보기 */}
-          <div className={styles.imagePreview}>
-            <div className={styles.thumbnailList}>
-              {(data?.fetchTravelproduct.images ?? []).map((image, index) => (
-                <button
-                  key={index}
-                  className={`${styles.thumbnail} ${selectedImage === index ? styles.thumbnailActive : ""}`}
-                  onClick={() => setSelectedImage(index)}
-                >
-                  <div
-                    className={styles.thumbnailImage}
-                    style={{ backgroundImage: `url(https://storage.googleapis.com/${image})` }}
-                  />
-                </button>
-              ))}
+          {data?.fetchTravelproduct.images && data.fetchTravelproduct.images.length > 0 && (
+            <div className={styles.imagePreview}>
+              <div className={styles.thumbnailList}>
+                {data.fetchTravelproduct.images.map((image, index) => (
+                  <button
+                    key={index}
+                    className={`${styles.thumbnail} ${selectedImage === index ? styles.thumbnailActive : ""}`}
+                    onClick={() => setSelectedImage(index)}
+                  >
+                    <div
+                      className={styles.thumbnailImage}
+                      style={{
+                        backgroundImage: `url(https://storage.googleapis.com/${image.replace(/ /g, "%20")})`,
+                      }}
+                    />
+                  </button>
+                ))}
+              </div>
+              <div className={styles.mainImage}>
+                <div
+                  className={styles.mainImageContent}
+                  style={{
+                    backgroundImage: `url(https://storage.googleapis.com/${data.fetchTravelproduct.images[
+                      selectedImage
+                    ].replace(/ /g, "%20")})`,
+                  }}
+                />
+              </div>
             </div>
-            <div className={styles.mainImage}>
-              <div
-                className={styles.mainImageContent}
-                style={{
-                  backgroundImage: `url(https://storage.googleapis.com/${data?.fetchTravelproduct.images[selectedImage]})`,
-                }}
-              />
-            </div>
-          </div>
+          )}
 
           {/* 상품 설명 */}
           <div className={styles.section}>
@@ -189,36 +307,54 @@ export default function ProductDetail() {
           </div>
 
           {/* 거래 희망 장소 */}
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>거래 희망 장소</h2>
-            <div className={styles.locationInfo}>
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clipPath="url(#clip0_4_4168)">
-                  <path
-                    d="M14.5834 7.29165C14.5834 10.9324 10.5446 14.724 9.18831 15.8951C9.06196 15.9901 8.90816 16.0415 8.75008 16.0415C8.592 16.0415 8.4382 15.9901 8.31185 15.8951C6.9556 14.724 2.91675 10.9324 2.91675 7.29165C2.91675 5.74455 3.53133 4.26082 4.62529 3.16686C5.71925 2.07289 7.20299 1.45831 8.75008 1.45831C10.2972 1.45831 11.7809 2.07289 12.8749 3.16686C13.9688 4.26082 14.5834 5.74455 14.5834 7.29165Z"
-                    stroke="#23345C"
-                    strokeWidth="1.45833"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M8.75 9.47919C9.95812 9.47919 10.9375 8.49981 10.9375 7.29169C10.9375 6.08356 9.95812 5.10419 8.75 5.10419C7.54188 5.10419 6.5625 6.08356 6.5625 7.29169C6.5625 8.49981 7.54188 9.47919 8.75 9.47919Z"
-                    stroke="#23345C"
-                    strokeWidth="1.45833"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_4_4168">
-                    <rect width="17.5" height="17.5" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
-              <span>{data?.fetchTravelproduct.travelproductAddress?.address}</span>
+          {(address || mapCoordinates) && (
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>거래 희망 장소</h2>
+              <div className={styles.locationInfo}>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clipPath="url(#clip0_4_4168)">
+                    <path
+                      d="M14.5834 7.29165C14.5834 10.9324 10.5446 14.724 9.18831 15.8951C9.06196 15.9901 8.90816 16.0415 8.75008 16.0415C8.592 16.0415 8.4382 15.9901 8.31185 15.8951C6.9556 14.724 2.91675 10.9324 2.91675 7.29165C2.91675 5.74455 3.53133 4.26082 4.62529 3.16686C5.71925 2.07289 7.20299 1.45831 8.75008 1.45831C10.2972 1.45831 11.7809 2.07289 12.8749 3.16686C13.9688 4.26082 14.5834 5.74455 14.5834 7.29165Z"
+                      stroke="#23345C"
+                      strokeWidth="1.45833"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M8.75 9.47919C9.95812 9.47919 10.9375 8.49981 10.9375 7.29169C10.9375 6.08356 9.95812 5.10419 8.75 5.10419C7.54188 5.10419 6.5625 6.08356 6.5625 7.29169C6.5625 8.49981 7.54188 9.47919 8.75 9.47919Z"
+                      stroke="#23345C"
+                      strokeWidth="1.45833"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_4_4168">
+                      <rect width="17.5" height="17.5" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <span>{address}</span>
+              </div>
+              {mapCoordinates ? (
+                <div className={styles.mapPlaceholder}>
+                  <div className={styles.mapWrapper}>
+                    <GoogleMapComponent lat={mapCoordinates.lat} lng={mapCoordinates.lng} />
+                  </div>
+                </div>
+              ) : (
+                <div className={styles.mapPlaceholder}>
+                  <p>좌표 정보를 불러오는 중입니다...</p>
+                </div>
+              )}
             </div>
-            <div className={styles.mapPlaceholder}>지도 영역 (추후 구현 예정)</div>
-          </div>
+          )}
         </div>
 
         {/* Sticky 영역 - 가격, 구매하기, 판매자 정보 */}
@@ -238,7 +374,13 @@ export default function ProductDetail() {
                   <li>• 구매 전 포인트 충전이 필요합니다</li>
                 </ul>
               </div>
-              <button className={styles.buyButton}>구매하기</button>
+              <button
+                className={`${styles.buyButton} ${isSoldOut ? styles.buyButtonSoldOut : ""}`}
+                onClick={handleBuyProduct}
+                disabled={buyLoading || loading || isSoldOut}
+              >
+                {isSoldOut ? "판매완료" : buyLoading ? "구매 중..." : "구매하기"}
+              </button>
             </div>
 
             {/* 판매자 정보 및 찜 영역 */}

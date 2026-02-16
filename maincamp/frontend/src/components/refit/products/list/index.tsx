@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import styles from "./styles.module.css";
 import { useFetchTravelproducts } from "./hook";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useEffect, useState } from "react";
 
 // Mock 데이터 타입
 interface Product {
@@ -18,9 +19,44 @@ interface Product {
   createdAt: string;
 }
 
+// Google Maps 타입 선언
+interface GoogleMapsLatLng {
+  lat(): number;
+  lng(): number;
+}
+
+interface GoogleMapsGeometry {
+  spherical: {
+    computeDistanceBetween(from: GoogleMapsLatLng, to: GoogleMapsLatLng): number;
+  };
+}
+
+interface GoogleMapsConstructor {
+  new (lat: number, lng: number): GoogleMapsLatLng;
+}
+
+interface GoogleMapsAPI {
+  LatLng: GoogleMapsConstructor;
+  geometry: GoogleMapsGeometry;
+}
+
+interface UserLocation {
+  lat: number;
+  lng: number;
+}
+
 // 가격 포맷 함수
 const formatPrice = (price: number): string => {
   return price.toLocaleString("ko-KR") + "원";
+};
+
+// 거리 포맷 함수
+const formatDistance = (meters: number): string => {
+  if (meters < 1000) {
+    return `${Math.round(meters)}m`;
+  } else {
+    return `${(meters / 1000).toFixed(1)}km`;
+  }
 };
 
 // 시간 경과 표시 함수
@@ -52,7 +88,144 @@ const getTimeAgo = (dateString: string): string => {
 
 export default function ProductsList() {
   const router = useRouter();
-  const { data, loading, error, onNext, hasMore } = useFetchTravelproducts();
+  const { data, onNext, hasMore } = useFetchTravelproducts();
+  const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
+  const [isGoogleMapsLoaded, setIsGoogleMapsLoaded] = useState(false);
+  const [addressCoordinates, setAddressCoordinates] = useState<Map<string, { lat: number; lng: number }>>(
+    new Map()
+  );
+
+  // Google Maps API 로드
+  useEffect(() => {
+    const loadGoogleMaps = async () => {
+      if (!(window as any).google?.maps?.geometry) {
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=geometry`;
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+
+        await new Promise<void>((resolve, reject) => {
+          script.onload = () => resolve();
+          script.onerror = () => reject();
+        });
+      }
+      setIsGoogleMapsLoaded(true);
+    };
+
+    loadGoogleMaps().catch((error) => {
+      console.error("Google Maps API 로드 실패:", error);
+    });
+  }, []);
+
+  // 사용자 위치 가져오기
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.error("위치 정보를 가져올 수 없습니다:", error);
+        }
+      );
+    }
+  }, []);
+
+  // Kakao API를 사용하여 주소를 좌표로 변환
+  useEffect(() => {
+    const fetchCoordinatesForProducts = async () => {
+      if (!data?.fetchTravelproducts) return;
+
+      const productsNeedingConversion = data.fetchTravelproducts.filter(
+        (product) =>
+          !product.travelproductAddress?.lat &&
+          !product.travelproductAddress?.lng &&
+          product.travelproductAddress?.address &&
+          !addressCoordinates.has(product._id)
+      );
+
+      if (productsNeedingConversion.length === 0) return;
+
+      const newCoordinates = new Map(addressCoordinates);
+
+      for (const product of productsNeedingConversion) {
+        const address = product.travelproductAddress?.address;
+        if (!address) continue;
+
+        try {
+          const response = await fetch(
+            `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(address)}`,
+            {
+              headers: {
+                Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_APP_JS_KEY}`,
+              },
+            }
+          );
+
+          const result = await response.json();
+
+          if (result.documents && result.documents.length > 0) {
+            const { x, y } = result.documents[0];
+            newCoordinates.set(product._id, {
+              lat: parseFloat(y),
+              lng: parseFloat(x),
+            });
+          }
+        } catch (error) {
+          console.error(`좌표 변환 실패 (Product ID: ${product._id}):`, error);
+        }
+      }
+
+      setAddressCoordinates(newCoordinates);
+    };
+
+    fetchCoordinatesForProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  // 거리 계산 함수
+  const calculateDistance = (
+    productId: string,
+    productLat?: number | null,
+    productLng?: number | null
+  ): string => {
+    const googleMapsAPI = (window as any).google?.maps as GoogleMapsAPI | undefined;
+
+    // 좌표 결정: 원본 좌표가 있으면 사용, 없으면 Kakao API로 변환된 좌표 사용
+    let lat = productLat;
+    let lng = productLng;
+
+    if ((!lat || !lng) && addressCoordinates.has(productId)) {
+      const coords = addressCoordinates.get(productId);
+      lat = coords?.lat;
+      lng = coords?.lng;
+    }
+
+    if (
+      !userLocation ||
+      !lat ||
+      !lng ||
+      !isGoogleMapsLoaded ||
+      !googleMapsAPI?.LatLng ||
+      !googleMapsAPI?.geometry
+    ) {
+      return "장소 조율 필요";
+    }
+
+    try {
+      const userLatLng = new googleMapsAPI.LatLng(userLocation.lat, userLocation.lng);
+      const productLatLng = new googleMapsAPI.LatLng(lat, lng);
+      const distance = googleMapsAPI.geometry.spherical.computeDistanceBetween(userLatLng, productLatLng);
+      return formatDistance(distance);
+    } catch (error) {
+      console.error("거리 계산 실패:", error);
+      return "장소 조율 필요";
+    }
+  };
 
   const handleProductClick = (productId: string) => {
     router.push(`/remarket/${productId}`);
@@ -60,10 +233,7 @@ export default function ProductsList() {
 
   return (
     <div className={styles.productCatalogue}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>전체 상품(12)</h1>
-      </div>
-
+      <div className={styles.title}>리핏 마켓에서 가치 있게 되살리기</div>
       <InfiniteScroll
         next={onNext}
         hasMore={hasMore}
@@ -84,12 +254,12 @@ export default function ProductsList() {
                   <div
                     className={styles.image}
                     style={{
-                      backgroundImage: !product.images[0]
-                        ? "url(images/accommodation_1.png)"
-                        : `url(https://storage.googleapis.com/${product.images[0].replace(/ /g, "%20")})`,
+                      backgroundImage: product.images?.[0]
+                        ? `url(https://storage.googleapis.com/${product.images[0].replace(/ /g, "%20")})`
+                        : "url(images/accommodation_1.png)",
                     }}
                   />
-                  {product.tags[0] && <div className={styles.badge}>{product.tags[0]}</div>}
+                  {product.tags?.[0] && <div className={styles.badge}>{product.tags[0]}</div>}
                   <div className={styles.actions}>
                     <div className={styles.commentButton}>
                       <span className={styles.commentCount}>{product.pickedCount}</span>
@@ -141,7 +311,13 @@ export default function ProductsList() {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      <span>{product.travelproductAddress?.address}</span>
+                      <span>
+                        {calculateDistance(
+                          product._id,
+                          product.travelproductAddress?.lat,
+                          product.travelproductAddress?.lng
+                        )}
+                      </span>
                     </div>
                     <span className={styles.time}>{getTimeAgo(product.createdAt)}</span>
                   </div>

@@ -52,6 +52,7 @@ export const FETCH_TRAVELPRODUCT = gql`
       tags
       images
       pickedCount
+      soldAt
       travelproductAddress {
         address
         addressDetail

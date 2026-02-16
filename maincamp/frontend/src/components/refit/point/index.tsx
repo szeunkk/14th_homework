@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { notification } from "antd";
+import { useQuery } from "@apollo/client";
+import { FETCH_USER_LOGGED_IN } from "@/graphql/queries/login";
 import styles from "./styles.module.css";
+import { usePortonePayment } from "./hook.portone";
 
 const CHARGE_OPTIONS = [
   { amount: "1만원", point: "10,000P", value: 10000 },
@@ -14,10 +18,43 @@ const CHARGE_OPTIONS = [
 
 export default function PointCharge() {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
-  const currentPoint = 15000;
+  const { data } = useQuery(FETCH_USER_LOGGED_IN);
+  const { requestPayment, loading } = usePortonePayment(
+    () => {
+      notification.success({
+        message: "포인트 충전 완료",
+        description: "포인트 충전이 완료되었습니다!",
+        placement: "topRight",
+        duration: 3,
+        style: {
+          padding: "12px 16px",
+          minHeight: "auto",
+        },
+      });
+    },
+    (errorMessage) => {
+      notification.error({
+        message: "포인트 충전 실패",
+        description: errorMessage || "포인트 충전에 실패했습니다. 다시 시도해주세요.",
+        placement: "topRight",
+        duration: 3,
+        style: {
+          padding: "12px 16px",
+          minHeight: "auto",
+        },
+      });
+    }
+  );
+  const currentPoint = data?.fetchUserLoggedIn?.userPoint?.amount || 0;
 
   const handleChargeSelect = (value: number) => {
     setSelectedAmount(value);
+  };
+
+  const handleSubmit = async () => {
+    if (selectedAmount) {
+      await requestPayment(selectedAmount);
+    }
   };
 
   const calculateBonus = (amount: number) => {
@@ -36,9 +73,7 @@ export default function PointCharge() {
           <h1 className={styles.title}>포인트 충전</h1>
         </div>
         <div className={styles.paragraph}>
-          <p className={styles.description}>
-            Re:fit 포인트로 더욱 편리하게 쇼핑하세요
-          </p>
+          <p className={styles.description}>Re:fit 포인트로 더욱 편리하게 쇼핑하세요</p>
         </div>
       </div>
 
@@ -50,9 +85,7 @@ export default function PointCharge() {
                 <p className={styles.pointLabel}>현재 보유 포인트</p>
               </div>
               <div className={styles.pointValueContainer}>
-                <p className={styles.pointValue}>
-                  {currentPoint.toLocaleString()}P
-                </p>
+                <p className={styles.pointValue}>{currentPoint.toLocaleString()}P</p>
               </div>
             </div>
             <div className={styles.iconContainer}>
@@ -89,9 +122,7 @@ export default function PointCharge() {
                 <h2 className={styles.cardTitleText}>충전 금액 선택</h2>
               </div>
               <div className={styles.cardDescription}>
-                <p className={styles.cardDescriptionText}>
-                  원하시는 충전 금액을 선택하세요
-                </p>
+                <p className={styles.cardDescriptionText}>원하시는 충전 금액을 선택하세요</p>
               </div>
             </div>
 
@@ -125,9 +156,7 @@ export default function PointCharge() {
               </div>
 
               <div className={styles.notice}>
-                <p className={styles.noticeText}>
-                  * 10만원 이상 충전 시 5% 보너스 포인트 지급
-                </p>
+                <p className={styles.noticeText}>* 10만원 이상 충전 시 5% 보너스 포인트 지급</p>
               </div>
             </div>
           </div>
@@ -146,11 +175,21 @@ export default function PointCharge() {
                     <p className={styles.infoLabelText}>충전 금액</p>
                   </div>
                   <div className={styles.infoValue}>
-                    <p className={styles.infoValueText}>
-                      {chargeAmount.toLocaleString()}원
-                    </p>
+                    <p className={styles.infoValueText}>{chargeAmount.toLocaleString()}원</p>
                   </div>
                 </div>
+                {bonus > 0 ? (
+                  <div className={styles.infoRow}>
+                    <div className={styles.infoLabel}>
+                      <p className={styles.infoLabelText}>보너스 (5%)</p>
+                    </div>
+                    <div className={styles.infoValue}>
+                      <p className={styles.infoValueText}>{bonus.toLocaleString()}원</p>
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
 
                 <div className={styles.totalRow}>
                   <div className={styles.totalRowInner}>
@@ -158,9 +197,7 @@ export default function PointCharge() {
                       <p className={styles.totalLabelText}>총 지급 포인트</p>
                     </div>
                     <div className={styles.totalValue}>
-                      <p className={styles.totalValueText}>
-                        {totalPoints.toLocaleString()}P
-                      </p>
+                      <p className={styles.totalValueText}>{totalPoints.toLocaleString()}P</p>
                     </div>
                   </div>
                 </div>
@@ -168,14 +205,10 @@ export default function PointCharge() {
 
               <div className={styles.afterChargeBox}>
                 <div className={styles.afterChargeLabel}>
-                  <p className={styles.afterChargeLabelText}>
-                    충전 후 보유 포인트
-                  </p>
+                  <p className={styles.afterChargeLabelText}>충전 후 보유 포인트</p>
                 </div>
                 <div className={styles.afterChargeValue}>
-                  <p className={styles.afterChargeValueText}>
-                    {afterChargePoints.toLocaleString()}P
-                  </p>
+                  <p className={styles.afterChargeValueText}>{afterChargePoints.toLocaleString()}P</p>
                 </div>
               </div>
 
@@ -183,25 +216,20 @@ export default function PointCharge() {
                 className={styles.chargeActionButton}
                 disabled={!selectedAmount}
                 data-testid="charge-action-button"
+                onClick={handleSubmit}
               >
                 충전하기
               </button>
 
               <div className={styles.noticeBox}>
                 <div className={styles.noticeItem}>
-                  <p className={styles.noticeItemText}>
-                    • 충전된 포인트는 즉시 사용 가능합니다
-                  </p>
+                  <p className={styles.noticeItemText}>• 충전된 포인트는 즉시 사용 가능합니다</p>
                 </div>
                 <div className={styles.noticeItem}>
-                  <p className={styles.noticeItemText}>
-                    • 포인트 유효기간은 충전일로부터 5년입니다
-                  </p>
+                  <p className={styles.noticeItemText}>• 포인트 유효기간은 충전일로부터 5년입니다</p>
                 </div>
                 <div className={styles.noticeItem}>
-                  <p className={styles.noticeItemText}>
-                    • 환불은 충전 후 7일 이내 가능합니다
-                  </p>
+                  <p className={styles.noticeItemText}>• 환불은 충전 후 7일 이내 가능합니다</p>
                 </div>
               </div>
             </div>
@@ -211,4 +239,3 @@ export default function PointCharge() {
     </div>
   );
 }
-

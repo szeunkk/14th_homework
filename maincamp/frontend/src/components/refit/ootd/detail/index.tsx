@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./styles.module.css";
+import useBoardsDetail from "./hook.binding";
+import useCommentList from "./hook.comment";
+import useCommentForm from "./hook.comment.write";
 
 interface Comment {
   id: string;
@@ -12,132 +15,72 @@ interface Comment {
   rating: number;
 }
 
-const MOCK_DATA = {
-  images: [
-    "https://picsum.photos/seed/ootd1/654/900",
-    "https://picsum.photos/seed/ootd2/654/900",
-    "https://picsum.photos/seed/ootd3/654/900",
-  ],
-  username: "@페미닌걸",
-  description: "오늘의 데일리룩 공유합니다! 날씨가 좋아서 밖에 나가고 싶네요 ✨",
-  date: "2024.12.15",
-  likes: 178,
-  comments: [
-    {
-      id: "1",
-      username: "@패션러버",
-      content: "스타일링 너무 멋있어요! 상의 정보 알 수 있을까요?",
-      timeAgo: "2시간 전",
-      rating: 4,
-    },
-    {
-      id: "2",
-      username: "@스타일리스트",
-      content: "컬러 조합이 정말 센스있네요 👍",
-      timeAgo: "3시간 전",
-      rating: 3,
-    },
-    {
-      id: "3",
-      username: "@옷장지기",
-      content: "어디서 구매하셨나요? 너무 이쁘네요!",
-      timeAgo: "5시간 전",
-      rating: 4,
-    },
-    {
-      id: "4",
-      username: "@데일리룩",
-      content: "저도 이런 스타일 도전해보고 싶어요",
-      timeAgo: "7시간 전",
-      rating: 5,
-    },
-    {
-      id: "5",
-      username: "@미니멀리스트",
-      content: "심플하면서도 세련된 느낌이 좋아요",
-      timeAgo: "1일 전",
-      rating: 3,
-    },
-  ],
+// 시간을 "N시간 전" 형식으로 변환하는 함수
+const getTimeAgo = (dateString: string | undefined) => {
+  if (!dateString) return "";
+
+  const now = new Date();
+  const past = new Date(dateString);
+  const diffInSeconds = Math.floor((now.getTime() - past.getTime()) / 1000);
+
+  if (diffInSeconds < 60) {
+    return "방금 전";
+  } else if (diffInSeconds < 3600) {
+    const minutes = Math.floor(diffInSeconds / 60);
+    return `${minutes}분 전`;
+  } else if (diffInSeconds < 86400) {
+    const hours = Math.floor(diffInSeconds / 3600);
+    return `${hours}시간 전`;
+  } else if (diffInSeconds < 2592000) {
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days}일 전`;
+  } else if (diffInSeconds < 31536000) {
+    const months = Math.floor(diffInSeconds / 2592000);
+    return `${months}개월 전`;
+  } else {
+    const years = Math.floor(diffInSeconds / 31536000);
+    return `${years}년 전`;
+  }
 };
 
 export default function OOTDDetail() {
   const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    rating: 0,
-    content: "",
-  });
+
+  const { writer, contents, imagesUrl, createdAt, onClickLikeBoard, likeValue } = useBoardsDetail();
+  const { fetchBoardComments, hasMore, onNext } = useCommentList();
+  const {
+    register,
+    handleCommentSubmit,
+    formState,
+    watch,
+    setValue,
+    onClickCommentSubmit,
+    handleModalOpen,
+    handleModalClose,
+    isModalOpen,
+  } = useCommentForm();
+
+  // 이미지 배열 처리: API 데이터가 없으면 기본 이미지 사용
+  const displayImages = imagesUrl && imagesUrl.length > 0 ? imagesUrl : ["/images/accommodation_1.png"];
 
   const handleBackClick = () => {
     router.push("/fitfeed");
   };
 
   const handlePrevImage = () => {
-    setCurrentImageIndex((prev) =>
-      prev === 0 ? MOCK_DATA.images.length - 1 : prev - 1
-    );
+    setCurrentImageIndex((prev) => (prev === 0 ? displayImages.length - 1 : prev - 1));
   };
 
   const handleNextImage = () => {
-    setCurrentImageIndex((prev) =>
-      prev === MOCK_DATA.images.length - 1 ? 0 : prev + 1
-    );
-  };
-
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-    document.body.style.overflow = "hidden";
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-    document.body.style.overflow = "auto";
-    setFormData({ username: "", password: "", rating: 0, content: "" });
-  };
-
-  const handleRatingClick = (rating: number) => {
-    setFormData((prev) => ({ ...prev, rating }));
-  };
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const isFormValid =
-    formData.username.trim() !== "" &&
-    formData.password.trim() !== "" &&
-    formData.rating > 0 &&
-    formData.content.trim() !== "";
-
-  const handleSubmit = () => {
-    if (isFormValid) {
-      console.log("댓글 작성:", formData);
-      handleModalClose();
-    }
+    setCurrentImageIndex((prev) => (prev === displayImages.length - 1 ? 0 : prev + 1));
   };
 
   return (
     <>
       <div className={styles.wrapper}>
-        <button
-          className={styles.backButton}
-          onClick={handleBackClick}
-          data-testid="back-button"
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 18 18"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+        <button className={styles.backButton} onClick={handleBackClick} data-testid="back-button">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M8.74992 13.8542L3.64575 8.75L8.74992 3.64584"
               stroke="#23345C"
@@ -158,18 +101,8 @@ export default function OOTDDetail() {
 
         <div className={styles.container}>
           <div className={styles.mainImageWrapper}>
-            <button
-              className={styles.prevButton}
-              onClick={handlePrevImage}
-              data-testid="prev-button"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+            <button className={styles.prevButton} onClick={handlePrevImage} data-testid="prev-button">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M15 18L9 12L15 6"
                   stroke="white"
@@ -182,23 +115,13 @@ export default function OOTDDetail() {
             <div className={styles.mainImage}>
               <img
                 key={currentImageIndex}
-                src={MOCK_DATA.images[currentImageIndex]}
+                src={displayImages[currentImageIndex]}
                 alt="OOTD 이미지"
                 data-testid="main-image"
               />
             </div>
-            <button
-              className={styles.nextButton}
-              onClick={handleNextImage}
-              data-testid="next-button"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+            <button className={styles.nextButton} onClick={handleNextImage} data-testid="next-button">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M9 18L15 12L9 6"
                   stroke="white"
@@ -209,7 +132,7 @@ export default function OOTDDetail() {
               </svg>
             </button>
             <div className={styles.imageIndicator}>
-              {currentImageIndex + 1} / {MOCK_DATA.images.length}
+              {currentImageIndex + 1} / {displayImages.length}
             </div>
           </div>
 
@@ -228,16 +151,16 @@ export default function OOTDDetail() {
               </div>
               <div className={styles.userInfo}>
                 <div className={styles.userText}>
-                  <p className={styles.username}>{MOCK_DATA.username}</p>
-                  <p className={styles.description}>{MOCK_DATA.description}</p>
+                  <p className={styles.username}>{writer}</p>
+                  <p className={styles.description}>{contents}</p>
                 </div>
-                <p className={styles.date}>{MOCK_DATA.date}</p>
+                <p className={styles.date}>{getTimeAgo(createdAt)}</p>
               </div>
             </div>
 
             <div className={styles.commentsSection}>
-              {MOCK_DATA.comments.map((comment) => (
-                <div key={comment.id} className={styles.commentItem}>
+              {fetchBoardComments.map((comment) => (
+                <div key={comment._id} className={styles.commentItem}>
                   <div className={styles.commentAvatar}>
                     <svg
                       width="14"
@@ -251,19 +174,13 @@ export default function OOTDDetail() {
                   </div>
                   <div className={styles.commentContent}>
                     <div className={styles.commentText}>
-                      <span className={styles.commentUsername}>
-                        {comment.username}
-                      </span>
-                      <span className={styles.commentMessage}>
-                        {comment.content}
-                      </span>
+                      <span className={styles.commentUsername}>@{comment.writer}</span>
+                      <span className={styles.commentMessage}>{comment.contents}</span>
                     </div>
                     <div className={styles.commentMeta}>
-                      <span className={styles.commentTime}>
-                        {comment.timeAgo}
-                      </span>
+                      <span className={styles.commentTime}>{getTimeAgo(comment.createdAt)}</span>
                       <div className={styles.commentRating}>
-                        {[...Array(5)].map((_, index) => (
+                        {Array.from({ length: 5 }).map((_, index) => (
                           <svg
                             key={index}
                             width="11"
@@ -308,7 +225,7 @@ export default function OOTDDetail() {
 
             <div className={styles.actionsSection}>
               <div className={styles.actionButtons}>
-                <button className={styles.actionButton} data-testid="like-button">
+                <button className={styles.actionButton} data-testid="like-button" onClick={onClickLikeBoard}>
                   <svg
                     width="21"
                     height="21"
@@ -354,7 +271,7 @@ export default function OOTDDetail() {
                   </svg>
                 </button>
               </div>
-              <p className={styles.likesCount}>좋아요 {MOCK_DATA.likes}개</p>
+              <p className={styles.likesCount}>좋아요 {likeValue}개</p>
             </div>
           </div>
         </div>
@@ -362,23 +279,18 @@ export default function OOTDDetail() {
 
       {isModalOpen && (
         <div className={styles.modalBackdrop} onClick={handleModalClose}>
-          <div
+          <form
             className={styles.modalContent}
             onClick={(e) => e.stopPropagation()}
             data-testid="comment-modal"
+            onSubmit={handleCommentSubmit(onClickCommentSubmit)}
           >
             <button
               className={styles.closeButton}
               onClick={handleModalClose}
               data-testid="modal-close-button"
             >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M13.5 4.5L4.5 13.5"
                   stroke="#1C2A4A"
@@ -403,11 +315,9 @@ export default function OOTDDetail() {
                   </label>
                   <input
                     type="text"
-                    name="username"
                     placeholder="이름을 입력해 주세요."
-                    value={formData.username}
-                    onChange={handleInputChange}
                     data-testid="username-input"
+                    {...register("writer")}
                   />
                 </div>
                 <div className={styles.formGroup}>
@@ -416,11 +326,9 @@ export default function OOTDDetail() {
                   </label>
                   <input
                     type="password"
-                    name="password"
                     placeholder="비밀번호를 입력해 주세요."
-                    value={formData.password}
-                    onChange={handleInputChange}
                     data-testid="password-input"
+                    {...register("password")}
                   />
                 </div>
               </div>
@@ -430,7 +338,10 @@ export default function OOTDDetail() {
                     key={rating}
                     type="button"
                     className={styles.ratingButton}
-                    onClick={() => handleRatingClick(rating)}
+                    onClick={() => {
+                      console.log(formState.isValid);
+                      setValue("rating", rating);
+                    }}
                     data-testid={`rating-${rating}`}
                   >
                     <svg
@@ -442,7 +353,7 @@ export default function OOTDDetail() {
                     >
                       <path
                         d="M2 8.8352C2.00002 7.65804 2.33759 6.50857 2.96813 5.53862C3.59867 4.56867 4.49251 3.82386 5.5316 3.40256C6.57069 2.98127 7.70614 2.90331 8.78799 3.17898C9.86984 3.45466 10.8472 4.07099 11.591 4.94658C11.6434 5.00584 11.7067 5.05308 11.777 5.08537C11.8474 5.11767 11.9233 5.13433 12 5.13433C12.0767 5.13433 12.1525 5.11767 12.2229 5.08537C12.2932 5.05308 12.3566 5.00584 12.409 4.94658C13.1504 4.0653 14.128 3.44379 15.2116 3.16476C16.2952 2.88574 17.4334 2.96245 18.4748 3.38467C19.5162 3.80689 20.4113 4.5546 21.0411 5.52829C21.6708 6.50198 22.0052 7.65545 21.9999 8.8352C21.9999 11.2576 20.4999 13.0665 18.9999 14.6533L13.508 20.2736C13.3216 20.5 13.0919 20.6818 12.834 20.8071C12.5761 20.9323 12.296 20.9981 12.0123 21C11.7285 21.0019 11.4476 20.9399 11.1883 20.8181C10.9289 20.6963 10.697 20.5176 10.508 20.2937L4.99999 14.6533C3.5 13.0665 2 11.2682 2 8.8352Z"
-                        fill={formData.rating >= rating ? "#23345C" : "none"}
+                        fill={watch("rating") >= rating ? "#23345C" : "none"}
                         stroke="#23345C"
                         strokeWidth="1.5"
                         strokeLinecap="round"
@@ -454,12 +365,10 @@ export default function OOTDDetail() {
               </div>
               <div className={styles.formGroupFull}>
                 <textarea
-                  name="content"
                   placeholder="댓글을 입력해 주세요."
-                  value={formData.content}
-                  onChange={handleInputChange}
                   rows={5}
                   data-testid="content-textarea"
+                  {...register("contents")}
                 />
               </div>
               <div className={styles.modalActions}>
@@ -472,22 +381,18 @@ export default function OOTDDetail() {
                   취소
                 </button>
                 <button
-                  type="button"
-                  className={`${styles.submitButton} ${
-                    isFormValid ? styles.active : ""
-                  }`}
-                  onClick={handleSubmit}
-                  disabled={!isFormValid}
+                  type="submit"
+                  className={`${styles.submitButton} ${formState.isValid ? styles.active : ""}`}
+                  disabled={!formState.isValid}
                   data-testid="submit-button"
                 >
                   등록하기
                 </button>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       )}
     </>
   );
 }
-
