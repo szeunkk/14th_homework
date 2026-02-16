@@ -47,7 +47,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {showNavigation && <RefitNav />}
+      {showNavigation && <LayoutNavigation />}
       {showBanner && <LayoutBanner />}
       <div className={hero && styles.heroLayout}>
         {children}
